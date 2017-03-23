@@ -1,21 +1,27 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package app;
 
 import Animacion.Fade;
 import controlador.ProductosController;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
 /**
  *
- * @author DDD
+ * @author bvsr9
  */
-
 public class Productos extends javax.swing.JFrame {
 
+    /**
+     * Creates new form Principal
+     */
     private ProductosController productosC;
 
     public Productos() {
@@ -62,16 +68,14 @@ public class Productos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnReporte = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
@@ -83,13 +87,13 @@ public class Productos extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(151, 17, 42));
+        jPanel1.setBackground(new java.awt.Color(26, 51, 103));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel3.setBackground(new java.awt.Color(151, 17, 42));
+        jPanel3.setBackground(new java.awt.Color(26, 51, 103));
 
-        jLabel3.setFont(new java.awt.Font("Segoe Print", 0, 48)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Gill Sans Ultra Bold Condensed", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("PRODUCTOS");
 
@@ -98,16 +102,16 @@ public class Productos extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(417, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(337, 337, 337))
+                .addContainerGap(431, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(405, 405, 405))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carrito2small.png"))); // NOI18N
@@ -138,7 +142,7 @@ public class Productos extends javax.swing.JFrame {
         btnSalir1.setBounds(-40, 20, 106, 73);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe Print", 0, 16))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Búsqueda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tempus Sans ITC", 0, 20))); // NOI18N
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -170,14 +174,14 @@ public class Productos extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 0, 17)); // NOI18N
         jLabel2.setText("Buscar por:");
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
-        jComboBox1.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
+        jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
 
-        jTextField1.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -238,35 +242,44 @@ public class Productos extends javax.swing.JFrame {
             }
         });
         jPanel8.add(btnLimpiar);
-        btnLimpiar.setBounds(-100, 10, 210, 109);
+        btnLimpiar.setBounds(-70, 10, 150, 83);
+
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.PNG"))); // NOI18N
+        btnGuardar.setBorderPainted(false);
+        btnGuardar.setContentAreaFilled(false);
+        btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnGuardarMouseExited(evt);
+            }
+        });
+        jPanel8.add(btnGuardar);
+        btnGuardar.setBounds(0, 10, 150, 83);
+
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnModificar.png"))); // NOI18N
+        btnModificar.setBorderPainted(false);
+        btnModificar.setContentAreaFilled(false);
+        btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnModificarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnModificarMouseExited(evt);
+            }
+        });
+        jPanel8.add(btnModificar);
+        btnModificar.setBounds(70, 10, 150, 81);
+
+        btnReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnReporte.png"))); // NOI18N
+        btnReporte.setBorderPainted(false);
+        btnReporte.setContentAreaFilled(false);
+        jPanel8.add(btnReporte);
+        btnReporte.setBounds(470, 10, 150, 80);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(null);
-
-        jLabel5.setFont(new java.awt.Font("MV Boli", 1, 15)); // NOI18N
-        jLabel5.setText("Código:");
-        jPanel5.add(jLabel5);
-        jLabel5.setBounds(30, 110, 70, 23);
-
-        jLabel6.setFont(new java.awt.Font("MV Boli", 1, 15)); // NOI18N
-        jLabel6.setText("Nombre:");
-        jPanel5.add(jLabel6);
-        jLabel6.setBounds(30, 150, 80, 26);
-
-        jLabel7.setFont(new java.awt.Font("MV Boli", 1, 15)); // NOI18N
-        jLabel7.setText("Marca:");
-        jPanel5.add(jLabel7);
-        jLabel7.setBounds(30, 190, 70, 26);
-
-        jLabel8.setFont(new java.awt.Font("MV Boli", 1, 15)); // NOI18N
-        jLabel8.setText("Categoría:");
-        jPanel5.add(jLabel8);
-        jLabel8.setBounds(30, 230, 90, 26);
-
-        jLabel10.setFont(new java.awt.Font("MV Boli", 1, 15)); // NOI18N
-        jLabel10.setText("Precio:");
-        jPanel5.add(jLabel10);
-        jLabel10.setBounds(30, 270, 70, 26);
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/marco.png"))); // NOI18N
         jPanel5.add(jLabel11);
@@ -309,7 +322,7 @@ public class Productos extends javax.swing.JFrame {
         jPanel5.add(txtPrecio);
         txtPrecio.setBounds(130, 270, 170, 20);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/datosProducto.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/datosProducto1.png"))); // NOI18N
         jPanel5.add(jLabel4);
         jLabel4.setBounds(10, 30, 610, 410);
 
@@ -328,14 +341,14 @@ public class Productos extends javax.swing.JFrame {
                         .addComponent(jPanelSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addGap(26, 26, 26)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -346,9 +359,9 @@ public class Productos extends javax.swing.JFrame {
                     .addComponent(jPanelSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -400,11 +413,11 @@ public class Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir1MouseExited
 
     private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
-        Animacion.Animacion.mover_derecha(-100, 0, 3, 2, btnLimpiar);
+        Animacion.Animacion.mover_derecha(-70, 0, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseEntered
 
     private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
-        Animacion.Animacion.mover_izquierda(0, -100, 3, 2, btnLimpiar);
+        Animacion.Animacion.mover_izquierda(0, -70, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseExited
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -413,11 +426,7 @@ public class Productos extends javax.swing.JFrame {
         if (parametro.equals("Todos *")) {
             this.productosC = new ProductosController(this.tblProductos);
         } else {
-            if (parametro.equals("Categoría")) {
-                this.productosC.obtenerProductos("Categoria", valor);
-            } else {
-                this.productosC.obtenerProductos(parametro, valor);
-            }
+            this.productosC.obtenerProductos(parametro, valor);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -431,8 +440,7 @@ public class Productos extends javax.swing.JFrame {
             this.txtMarca.setText(datos[2]);
             this.txtCategoria.setText(datos[3]);
             this.txtPrecio.setText(datos[4]);
-            Image foto = Toolkit.getDefaultToolkit().getImage(datos[5]);
-            this.jLabel12.setIcon(new ImageIcon(foto.getScaledInstance(190, 150, 0)));
+
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
@@ -445,10 +453,31 @@ public class Productos extends javax.swing.JFrame {
         this.jLabel12.setIcon(null);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
+        Animacion.Animacion.mover_derecha(0, 80, 3, 2, btnGuardar);
+    }//GEN-LAST:event_btnGuardarMouseEntered
+
+    private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
+        Animacion.Animacion.mover_izquierda(80, 0, 3, 2, btnGuardar);
+    }//GEN-LAST:event_btnGuardarMouseExited
+
+    private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
+        Animacion.Animacion.mover_derecha(70, 150, 3, 2, btnModificar);
+    }//GEN-LAST:event_btnModificarMouseEntered
+
+    private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
+         Animacion.Animacion.mover_izquierda(150, 70, 3, 2, btnModificar);
+    }//GEN-LAST:event_btnModificarMouseExited
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -456,30 +485,42 @@ public class Productos extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        java.awt.EventQueue.invokeLater(() -> {
-            new Productos().setVisible(true);
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Productos().setVisible(true);
+            }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSalir1;
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

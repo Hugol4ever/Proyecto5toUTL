@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package app;
 
 import Animacion.Fade;
@@ -6,22 +11,28 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 import modelo.DAO.Cliente;
+import modelo.DAO.DetalleVenta;
+import modelo.DAO.Producto;
+import modelo.DAO.Venta;
+import modelo.DTO.DTODetalleVenta;
+import modelo.DTO.DTOVenta;
 
 /**
  *
- * @author DDD
+ * @author bvsr9
  */
+public class Ventas extends javax.swing.JFrame {
 
-public class Venta extends javax.swing.JFrame {
-
+    /**
+     * Creates new form Principal
+     */
     private VentaController ventaC;
-    private Cliente cliente;
 
-    public Venta() throws Exception {
+    public Ventas() throws Exception {
         setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -33,16 +44,6 @@ public class Venta extends javax.swing.JFrame {
         JTableHeader th = tblProductos.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
-    }
-
-    public void insertar(Cliente c) {
-        try {
-            this.ventaC.registrarVenta(cliente, tblProductos);
-            this.ventaC.getMpr().close();
-            this.ventaC = new VentaController(this, tblProductos);
-        } catch (Exception ex) {
-            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -75,21 +76,16 @@ public class Venta extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
-                formWindowClosed(evt);
-            }
-        });
 
-        jPanel1.setBackground(new java.awt.Color(151, 17, 42));
+        jPanel1.setBackground(new java.awt.Color(26, 51, 103));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel3.setBackground(new java.awt.Color(151, 17, 42));
+        jPanel3.setBackground(new java.awt.Color(26, 51, 103));
 
-        jLabel3.setFont(new java.awt.Font("Segoe Print", 0, 48)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Gill Sans Ultra Bold Condensed", 0, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("VENTA");
+        jLabel3.setText("VENTAS");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -97,15 +93,15 @@ public class Venta extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(422, 422, 422))
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(415, 415, 415))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(19, 19, 19)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/venta2small.png"))); // NOI18N
@@ -171,7 +167,7 @@ public class Venta extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
         jLabel4.setText("Total:");
 
-        jTextField2.setFont(new java.awt.Font("Segoe Print", 0, 14)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 39)); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -189,7 +185,7 @@ public class Venta extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 385, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1272, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -198,27 +194,29 @@ public class Venta extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(btnAdd))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(42, 42, 42)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(19, 19, 19)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAdd))))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(33, 33, 33)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(null);
 
-        jPanel6.setBackground(new java.awt.Color(151, 17, 42));
+        jPanel6.setBackground(new java.awt.Color(26, 51, 103));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -339,7 +337,6 @@ public class Venta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-        this.ventaC.getMpr().close();
         Fade.JFrameFadeOut(1f, 0f, 0.1f, 70, this, Fade.DISPOSE);
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
@@ -372,29 +369,55 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        try {
-            this.ventaC.getMpr().close();
-            this.ventaC = new VentaController(this, tblProductos);
-        } catch (Exception ex) {
-            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-        Huella huella = new Huella();
-        huella.setVenta(this);
-        huella.getBtnAgregar().setVisible(false);
-        huella.setVisible(true);
+
     }//GEN-LAST:event_btnComprarActionPerformed
 
-    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        this.ventaC.getMpr().close();
-    }//GEN-LAST:event_formWindowClosed
+    public void registrarVenta(Cliente cliente, JTable tablita) {
+        try {
+            DTODetalleVenta dtoDetalle;
+            DetalleVenta detalle;
+            Producto producto;
+
+            DTOVenta dtoV = new DTOVenta();
+            Venta venta = new Venta();
+            venta.setIdCliente(cliente);
+            venta.setIdVenta(dtoV.insert(venta));
+
+            //Insertar detalle
+            for (int i = 0; i < tablita.getRowCount(); i++) {
+                dtoDetalle = new DTODetalleVenta();
+                detalle = new DetalleVenta();
+                producto = new Producto();
+
+                detalle.setIdVenta(venta);
+                detalle.setIdProducto(producto);//Pendiente
+                detalle.setCantidad(Integer.parseInt(String.valueOf(tablita.getValueAt(i, 2))));
+                detalle.setPrecio(Double.parseDouble(String.valueOf(tablita.getValueAt(i, 3))));
+
+                dtoDetalle.insert(detalle);
+            }
+
+            JOptionPane.showMessageDialog(this, "Registro agregado", "Moviento realizado con exito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Fallo conexión con BD", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -402,14 +425,32 @@ public class Venta extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Venta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        java.awt.EventQueue.invokeLater(() -> {
-            try {
-                new Venta().setVisible(true);
-            } catch (Exception ex) {
-                Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new Ventas().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -438,15 +479,6 @@ public class Venta extends javax.swing.JFrame {
 
     public JTable getTblProductos() {
         return tblProductos;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-        System.out.println(cliente.getUsuario());
-    }
-
-    public JTextField getjTextField2() {
-        return jTextField2;
     }
 
 }
