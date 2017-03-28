@@ -1,2 +1,0 @@
-controlador.VentaController
-controlador.Lectura

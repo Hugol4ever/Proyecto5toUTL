@@ -1,6 +1,6 @@
 package controlador;
 
-import app.Venta;
+import app.Ventas;
 import commons.Globals;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -30,7 +30,7 @@ public class VentaController {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructor">
-    public VentaController(Venta venta, JTable tabla) throws Exception {
+    public VentaController(Ventas venta, JTable tabla) throws Exception {
         this.producto = new DTOproducto();
         String puerto = Globals.COM;
         mpr = new MprManager(puerto, 9600);
