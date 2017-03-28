@@ -18,7 +18,7 @@ public class Huella extends javax.swing.JFrame {
     private Cliente cliente;
     private HuellaController huellaC;
     private Clientes clientes;
-    private Venta venta;
+    private Ventas venta;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -67,7 +67,7 @@ public class Huella extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnVerificar);
-        btnVerificar.setBounds(84, 240, 80, 77);
+        btnVerificar.setBounds(84, 240, 80, 9);
 
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add+.png"))); // NOI18N
         btnAgregar.setBorderPainted(false);
@@ -79,7 +79,7 @@ public class Huella extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnAgregar);
-        btnAgregar.setBounds(80, 240, 92, 77);
+        btnAgregar.setBounds(80, 240, 92, 9);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -100,7 +100,7 @@ public class Huella extends javax.swing.JFrame {
         DTOHuella dto = new DTOHuella(this.huellaC.featuresverificacion, huellaC.getTemplate());
         this.venta.setCliente(dto.huella());
         this.huellaC.getReclutador().clear();
-        this.venta.insertar(cliente);
+        this.venta.registrarVenta(cliente, venta.getTblProductos());
         this.huellaC.stop();
         dispose();
     }//GEN-LAST:event_btnVerificarActionPerformed
@@ -109,7 +109,7 @@ public class Huella extends javax.swing.JFrame {
         this.huellaC.getReclutador().clear();this.huella.setIcon(null);
         this.huellaC.start();
         this.clientes.setTemplate(this.huellaC.getTemplate());
-        this.clientes.setFotoProducto();
+        this.clientes.setCorrecto();
         this.huellaC.stop();
         this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -155,7 +155,7 @@ public class Huella extends javax.swing.JFrame {
         this.clientes = clientes;
     }
 
-    public void setVenta(Venta venta) {
+    public void setVenta(Ventas venta) {
         this.venta = venta;
     }
     

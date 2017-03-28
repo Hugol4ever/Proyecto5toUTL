@@ -32,6 +32,7 @@ public class Ventas extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private VentaController ventaC;
+    private Cliente cliente;
 
     public Ventas() throws Exception {
         setUndecorated(true);
@@ -465,6 +466,11 @@ public class Ventas extends javax.swing.JFrame {
 
     public JTextField getjTextField2() {
         return jTextField2;
+    }
+    
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+        System.out.println(cliente.getUsuario());
     }
 
 }

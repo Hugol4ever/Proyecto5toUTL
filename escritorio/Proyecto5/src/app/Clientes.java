@@ -6,8 +6,15 @@
 package app;
 
 import Animacion.Fade;
+import com.digitalpersona.onetouch.DPFPTemplate;
+import controlador.ClientesController;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
@@ -21,6 +28,10 @@ public class Clientes extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    
+    private DPFPTemplate template;
+    private ClientesController clienteC;
+    
     public Clientes() {
         setUndecorated(true);
         initComponents();
@@ -32,6 +43,11 @@ public class Clientes extends javax.swing.JFrame {
         JTableHeader th = jTable1.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
+    }
+    
+    public void setCorrecto() {
+        Image foto = Toolkit.getDefaultToolkit().getImage(".//src/img/correcto.png");
+        this.labHuella.setIcon(new ImageIcon(foto.getScaledInstance(190, 150, 0)));
     }
 
     /**
@@ -585,4 +601,20 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField txtSaldoDisponible;
     private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables
+
+    public void setTemplate(DPFPTemplate template) {
+        this.template = template;
+    }
+    
+    public JButton getBtnHuella() {
+        return btnHuella;
+    }
+
+    public JLabel getLabHuella() {
+        return labHuella;
+    }
+
+    public void setLabHuella(JLabel labHuella) {
+        this.labHuella = labHuella;
+    }
 }
