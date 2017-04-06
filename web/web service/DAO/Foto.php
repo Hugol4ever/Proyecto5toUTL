@@ -11,25 +11,25 @@ class Foto {
 
 	}
 
-	function __construct($foto) {
-		this->$foto = $foto;
+	function Foto($foto) {
+		this::$foto = $foto;
 	}
 
 	//Métodos constructores
 	public static function getIdFoto() {
-		return this->$idFoto;
+		return this::$idFoto;
 	}
 
 	public static function setIdFoto($idFoto) {
-		this->$idFoto = $idFoto;
+		this::$idFoto = $idFoto;
 	}
 
 	public static function getFoto() {
-		return this->$foto;
+		return this::$foto;
 	}
 
 	public static function setFoto($foto) {
-		this->$foto = $foto;
+		this::$foto = $foto;
 	}
 }
 

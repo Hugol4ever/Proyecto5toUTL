@@ -16,70 +16,70 @@ class Cliente {
 
 	}
 
-	function __construct($nombre, $correo, $telefono, $genero, $limiteSaldo, $saldoDisponible) {
-		this->$nombre = $nombre;
-		this->$correo = $correo;
-		this->$telefono = $telefono;
-		this->$genero = $genero;
-		this->$limiteSaldo = $limiteSaldo;
-		this->$saldoDisponible = $saldoDisponible;
+	function Cliente($nombre, $correo, $telefono, $genero, $limiteSaldo, $saldoDisponible) {
+		this::$nombre = $nombre;
+		this::$correo = $correo;
+		this::$telefono = $telefono;
+		this::$genero = $genero;
+		this::$limiteSaldo = $limiteSaldo;
+		this::$saldoDisponible = $saldoDisponible;
 	}
 
 	//Métodos constructores
 	public static function getIdCliente() {
-		return this->$idCliente;
+		return this::$idCliente;
 	}
 
 	public static function setIdCliente($idCliente) {
-		this->$idCliente = $idCliente;
+		this::$idCliente = $idCliente;
 	}
 
 	public static function getNombre() {
-		return this->$nombre;
+		return this::$nombre;
 	}
 
 	public static function setNombre($nombre) {
-		this->$nombre = $nombre;
+		this::$nombre = $nombre;
 	}
 
 	public static function getCorreo() {
-		return this->$correo;
+		return this::$correo;
 	}
 
 	public static function setCorreo($correo) {
-		this->$correo = $correo;
+		this::$correo = $correo;
 	}
 
 	public static function getTelefono() {
-		return this->$telefono;
+		return this::$telefono;
 	}
 
 	public static function setTelefono($telefono) {
-		this->$telefono = $telefono;
+		this::$telefono = $telefono;
 	}
 
 	public static function getGenero() {
-		return this->$genero;
+		return this::$genero;
 	}
 
 	public static function setGenero($genero) {
-		this->$genero = $genero;
+		this::$genero = $genero;
 	}
 
 	public static function getLimiteSaldo() {
-		return this->$limiteSaldo;
+		return this::$limiteSaldo;
 	}
 
 	public static function setLimiteSaldo($limiteSaldo) {
-		this->$limiteSaldo = $limiteSaldo;
+		this::$limiteSaldo = $limiteSaldo;
 	}
 
 	public static function getSaldoDisponible() {
-		return this->$saldoDisponible;
+		return this::$saldoDisponible;
 	}
 
 	public static function setSaldoDisponible($saldoDisponible) {
-		this->$saldoDisponible = $saldoDisponible;
+		this::$saldoDisponible = $saldoDisponible;
 	}
 
 }

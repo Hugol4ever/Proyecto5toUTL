@@ -3,9 +3,9 @@ package controlador;
 import app.Ventas;
 import commons.Globals;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.DAO.Cliente;
 import modelo.DAO.DetalleVenta;
@@ -38,7 +38,7 @@ public class VentaController {
         if (!mpr.connect()) {
             throw new Exception("No hay Comunicacion camarita");
         }
-        lectura = new Lectura(mpr, venta.getTblProductos(), producto, venta.getjTextField2());
+        lectura = new Lectura(mpr, venta.getTblProductos(), producto, venta.getjLabel2());
         lectura.start();
         this.tabla = tabla;
     }
@@ -93,11 +93,11 @@ class Lectura extends Thread {
     ArrayList<String> lista = new ArrayList<>();
     JTable tabla;
     DTOproducto producto;
-    JTextField totales;
+    JLabel totales;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructor">
-    public Lectura(MprManager mpr, JTable tabla, DTOproducto producto, JTextField total) {
+    public Lectura(MprManager mpr, JTable tabla, DTOproducto producto, JLabel total) {
         fox = mpr;
         datoByte = datoAscii = null;
         this.tabla = tabla;

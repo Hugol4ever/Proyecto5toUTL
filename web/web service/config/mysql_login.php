@@ -1,8 +1,8 @@
 <?php
 
-define("HOSTNAME", "");
-define("DATABASE", "");
-define("USERNAME", "");
-define("PASSWORD", "");
+define("HOSTNAME", "localhost");
+define("DATABASE", "Proyecto5");
+define("USERNAME", "root");
+define("PASSWORD", "root");
 
 ?>

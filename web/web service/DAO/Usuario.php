@@ -14,52 +14,52 @@ class Usuario {
 
 	}
 
-	function __construct($nomUsuario, $contrasenia, $foto, $cliente) {
-		this->$nomUsuario = $nomUsuario;
-		this->$contrasenia = $contrasenia;
-		this->$foto = $foto;
-		this->$cliente = $cliente;
+	function Usuario($nomUsuario, $contrasenia, $foto, $cliente) {
+		this::$nomUsuario = $nomUsuario;
+		this::$contrasenia = $contrasenia;
+		this::$foto = $foto;
+		this::$cliente = $cliente;
 	}
 
 	//Métodos constructores
 	public static function getIdUsuario() {
-		return this->$idUsuario;
+		return this::$idUsuario;
 	}
 
 	public static function setIdUsuario($idUsuario) {
-		this->$idUsuario = $idUsuario;
+		this::$idUsuario = $idUsuario;
 	}
 
 	public static function getNomUsuario() {
-		return this->$nomUsuario;
+		return this::$nomUsuario;
 	}
 
 	public static function setNomUsuario($nomUsuario) {
-		this->$nomUsuario = $nomUsuario;
+		this::$nomUsuario = $nomUsuario;
 	}
 
 	public static function getContrasenia() {
-		return this->$contrasenia;
+		return this::$contrasenia;
 	}
 
 	public static function setContrasenia($contrasenia) {
-		this->$contrasenia = $contrasenia;
+		this::$contrasenia = $contrasenia;
 	}
 
 	public static function getFoto() {
-		return this->$foto;
+		return this::$foto;
 	}
 
 	public static function setFoto($foto) {
-		this->$foto = $foto;
+		this::$foto = $foto;
 	}
 
 	public static function getCliente() {
-		return this->$cliente;
+		return this::$cliente;
 	}
 
 	public static function setCliente($cliente) {
-		this->$cliente = $cliente;
+		this::$cliente = $cliente;
 	}
 
 }

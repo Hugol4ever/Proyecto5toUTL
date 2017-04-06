@@ -18,7 +18,7 @@ public class Huella extends javax.swing.JFrame {
     private Cliente cliente;
     private HuellaController huellaC;
     private Clientes clientes;
-    private Venta venta;
+    private Ventas venta;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -35,6 +35,10 @@ public class Huella extends javax.swing.JFrame {
         this.huellaC.EstadoHuella();
     }
     //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    
+     //</editor-fold>
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -109,7 +113,7 @@ public class Huella extends javax.swing.JFrame {
         this.huellaC.getReclutador().clear();this.huella.setIcon(null);
         this.huellaC.start();
         this.clientes.setTemplate(this.huellaC.getTemplate());
-        this.clientes.setFotoProducto();
+        this.clientes.setCorrecto();
         this.huellaC.stop();
         this.dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -155,7 +159,7 @@ public class Huella extends javax.swing.JFrame {
         this.clientes = clientes;
     }
 
-    public void setVenta(Venta venta) {
+    public void setVenta(Ventas venta) {
         this.venta = venta;
     }
     
