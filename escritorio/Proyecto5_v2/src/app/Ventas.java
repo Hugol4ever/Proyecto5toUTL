@@ -23,6 +23,11 @@ public class Ventas extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     * 
+     * @throws Exception 
+     */
     public Ventas() throws Exception {
         setUndecorated(true);
         initComponents();
@@ -32,12 +37,20 @@ public class Ventas extends javax.swing.JFrame {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     */
     public void encabezado() {
         JTableHeader th = tblProductos.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
     }
     
+    /**
+     * 
+     * 
+     * @param c 
+     */
     public void insertar(Cliente c) {
         try {
             this.ventaC.registrarVenta(cliente, tblProductos);
@@ -377,6 +390,11 @@ public class Ventas extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -423,15 +441,30 @@ public class Ventas extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
+    /**
+     * 
+     * 
+     * @return 
+     */
     public JTable getTblProductos() {
         return tblProductos;
     }
     
+    /**
+     * 
+     * 
+     * @param cliente 
+     */
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
         System.out.println(cliente.getUsuario());
     }
 
+    /**
+     * 
+     * 
+     * @return 
+     */
     public JLabel getjLabel2() {
         return jLabel2;
     }

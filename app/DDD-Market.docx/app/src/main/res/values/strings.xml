@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">DDD-Market</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="Tags">
+        <item>Inicio</item>
+        <item>Perfil</item>
+        <item>Productos</item>
+        <item>Promociones</item>
+        <item>Compras</item>
+        <item>Cerrar Sesion</item>
+    </string-array>
+
+    <string name="txtUsuario">Usuario</string>
+    <string name="txtPassword">Contraseña</string>
+
+    <string name="drawer_open">Abrir navigation drawer</string>
+    <string name="drawer_close">Cerrar navigation drawer</string>
+    <string name="title_activity_login">Login</string>
+</resources>

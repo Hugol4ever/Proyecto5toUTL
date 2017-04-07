@@ -15,6 +15,9 @@ public class Reportes extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     */
     public Reportes() {
         setUndecorated(true);
         initComponents();
@@ -24,6 +27,9 @@ public class Reportes extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     */
     public void encabezado() {
         JTableHeader th = tablaReporte.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
@@ -140,6 +146,11 @@ public class Reportes extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -172,4 +183,5 @@ public class Reportes extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
     
     //</editor-fold>
+    
 }

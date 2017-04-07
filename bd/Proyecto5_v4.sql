@@ -37,7 +37,7 @@ create table Usuario
 (
 	Id_Usuario int auto_increment,
     Nom_Usuario varchar(35),
-    Contraseña varchar(20),
+    Contrasenia varchar(20),
     Id_Huella int,
     Id_Foto int,
     Id_Cliente int,
@@ -120,7 +120,7 @@ create view viewDetaVenta as
 
 -- Vista Clientes -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 create view viewCliente as
-select u.Id_Usuario, c.Nombre, c.Genero, c.Telefono, c.Correo, u.Contraseña, c.N_Tarjeta, c.Limite_Saldo, c.Saldo_Dis
+select u.Id_Usuario, c.Nombre, c.Genero, c.Telefono, c.Correo, u.Contrasenia, c.N_Tarjeta, c.Limite_Saldo, c.Saldo_Dis
 from Usuario u inner join Cliente c on u.Id_Cliente = c.Id_Cliente;
 select * from viewCliente;
 -- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -169,10 +169,10 @@ insert into Huella (Huella) values (var_Huella);
 set var_Id_Huella = last_insert_id();
 
 insert into Cliente (Nombre,Correo,Telefono,Genero,N_Tarjeta, Limite_Saldo, Saldo_Dis) 
-values (var_Nombre,var_Correo,var_Telefono,Genero,var_N_Tarjeta, var_Limite_Saldo, var_Saldo_Dis);
+values (var_Nombre,var_Correo,var_Telefono, var_Genero,var_N_Tarjeta, var_Limite_Saldo, var_Saldo_Dis);
 set var_Id_Cliente = last_insert_id();
 
-insert into Usuario (Nom_Usuario,Contraseña,Id_Huella, Id_Foto, Id_Cliente) 
+insert into Usuario (Nom_Usuario,Contrasenia,Id_Huella, Id_Foto, Id_Cliente) 
 values (var_Nom_Usuario,var_Contraseña,var_Id_Huella, var_Id_Foto, var_Id_Cliente);
 set var_Id_Usuario = last_insert_id();
 
@@ -226,3 +226,19 @@ set var_Id_DetalleVenta=last_insert_id();
 end $$
 Delimiter ;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+call regCliente(@out_idH,
+null,
+@out_idF, 
+null,
+@out_idC, 
+'Hugo', 
+'panchito_rso@hotmail.com', 
+'4773395375', 
+'masculino',
+'1234-5678-9123',
+7000,
+7000,
+@out_idU, 
+'hugol4ever', 
+'laslavanderas12');
+select * from viewCliente;

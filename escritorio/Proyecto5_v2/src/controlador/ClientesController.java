@@ -20,6 +20,11 @@ public class ClientesController {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     * 
+     * @param tabla 
+     */
     public ClientesController(JTable tabla) {
         this.clientes = new DTOCliente();
         this.tabla = tabla;
@@ -29,6 +34,9 @@ public class ClientesController {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     */
     private void obtenerClientes() {
         limpiarTabla();
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
@@ -41,6 +49,9 @@ public class ClientesController {
         this.tabla.setModel(modelo);
     }
     
+    /**
+     * 
+     */
     private void cargarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Id cliente");
@@ -52,6 +63,9 @@ public class ClientesController {
         this.tabla.setModel(modelo);
     }
     
+    /**
+     * 
+     */
     private void limpiarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         this.tabla.setModel(modelo);

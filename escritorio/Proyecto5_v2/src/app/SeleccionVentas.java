@@ -11,6 +11,9 @@ public class SeleccionVentas extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     */
     public SeleccionVentas() {
         setUndecorated(true);
         initComponents();
@@ -110,6 +113,11 @@ public class SeleccionVentas extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -140,4 +148,5 @@ public class SeleccionVentas extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
     
     //</editor-fold>
+    
 }

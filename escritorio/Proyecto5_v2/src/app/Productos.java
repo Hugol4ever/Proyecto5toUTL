@@ -17,6 +17,9 @@ public class Productos extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     */
     public Productos() {
         setUndecorated(true);
         initComponents();
@@ -24,17 +27,17 @@ public class Productos extends javax.swing.JFrame {
         encabezado();
         this.productosC = new ProductosController(this.tblProductos);
     }
-
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     */
     public void encabezado() {
         JTableHeader th = tblProductos.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
     }
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Métodos generales">
-    
     //</editor-fold>
 
     @SuppressWarnings("unchecked")
@@ -386,26 +389,56 @@ public class Productos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
         Fade.JFrameFadeOut(1f, 0f, 0.1f, 70, this, Fade.DISPOSE);
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalir1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir1MouseEntered
         Animacion.Animacion.mover_derecha(-40, 0, 3, 2, btnSalir1);
     }//GEN-LAST:event_btnSalir1MouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalir1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir1MouseExited
         Animacion.Animacion.mover_izquierda(0, -40, 3, 2, btnSalir1);
     }//GEN-LAST:event_btnSalir1MouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
         Animacion.Animacion.mover_derecha(-70, 0, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
         Animacion.Animacion.mover_izquierda(0, -70, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String parametro = this.jComboBox1.getSelectedItem().toString();
         String valor = this.jTextField1.getText();
@@ -416,6 +449,11 @@ public class Productos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
         String valor = this.tblProductos.getValueAt(this.tblProductos.getSelectedRow(), 0).toString();
         if (!valor.isEmpty()) {
@@ -429,6 +467,11 @@ public class Productos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         this.txtCodigo.setText(null);
         this.txtNombre.setText(null);
@@ -438,24 +481,49 @@ public class Productos extends javax.swing.JFrame {
         this.jLabel12.setIcon(null);
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
         Animacion.Animacion.mover_derecha(0, 80, 3, 2, btnGuardar);
     }//GEN-LAST:event_btnGuardarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
         Animacion.Animacion.mover_izquierda(80, 0, 3, 2, btnGuardar);
     }//GEN-LAST:event_btnGuardarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
         Animacion.Animacion.mover_derecha(70, 150, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
          Animacion.Animacion.mover_izquierda(150, 70, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -509,4 +577,5 @@ public class Productos extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
     
     //</editor-fold>
+    
 }

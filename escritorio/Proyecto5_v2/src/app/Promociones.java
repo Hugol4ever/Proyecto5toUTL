@@ -16,6 +16,9 @@ public class Promociones extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     */
     public Promociones() {
         setUndecorated(true);
         initComponents();
@@ -25,6 +28,9 @@ public class Promociones extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     */
     public void encabezado() {
         JTableHeader th = tablaPromociones.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
@@ -377,52 +383,112 @@ public class Promociones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseEntered
         Animacion.Animacion.mover_derecha(-40, 0, 3, 2, btnSalir);
     }//GEN-LAST:event_btnSalirMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseExited
         Animacion.Animacion.mover_izquierda(0, -40, 3, 2, btnSalir);
     }//GEN-LAST:event_btnSalirMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         Fade.JFrameFadeOut(1f, 0f, 0.1f, 70, this, Fade.DISPOSE);
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
         Animacion.Animacion.bajar(-30, 10, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
         Animacion.Animacion.subir(10, -30, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
          Animacion.Animacion.subir(10, -30, 3, 2, btnGuardar);
     }//GEN-LAST:event_btnGuardarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
         Animacion.Animacion.bajar(-30, 10, 3, 2, btnGuardar);
     }//GEN-LAST:event_btnGuardarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
          Animacion.Animacion.subir(10, -30, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
         Animacion.Animacion.bajar(-30, 10, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
          Animacion.Animacion.subir(10, -30, 3, 2, btnCancelar);
     }//GEN-LAST:event_btnCancelarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
         Animacion.Animacion.bajar(-30, 10, 3, 2, btnCancelar);
     }//GEN-LAST:event_btnCancelarMouseEntered
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args parámetro por defecto
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -475,4 +541,5 @@ public class Promociones extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
     
     //</editor-fold>
+    
 }

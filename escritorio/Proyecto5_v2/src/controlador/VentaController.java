@@ -30,6 +30,13 @@ public class VentaController {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     * 
+     * @param venta
+     * @param tabla
+     * @throws Exception 
+     */
     public VentaController(Ventas venta, JTable tabla) throws Exception {
         this.producto = new DTOproducto();
         String puerto = Globals.COM;
@@ -45,10 +52,21 @@ public class VentaController {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     * 
+     * @return 
+     */
     public MprManager getMpr() {
         return mpr;
     }
 
+    /**
+     * 
+     * 
+     * @param cliente
+     * @param tablita 
+     */
     public void registrarVenta(Cliente cliente, JTable tablita) {
         try {
             DTODetalleVenta dtoDetalle;
@@ -82,6 +100,7 @@ public class VentaController {
         }
     }
     //</editor-fold>
+    
 }
 
 class Lectura extends Thread {
@@ -97,6 +116,14 @@ class Lectura extends Thread {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     * 
+     * @param mpr
+     * @param tabla
+     * @param producto
+     * @param total 
+     */
     public Lectura(MprManager mpr, JTable tabla, DTOproducto producto, JLabel total) {
         fox = mpr;
         datoByte = datoAscii = null;
@@ -107,6 +134,9 @@ class Lectura extends Thread {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Método "run"">
+    /**
+     * 
+     */
     @Override
     public void run() {
         configurarTabla();
@@ -121,6 +151,9 @@ class Lectura extends Thread {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     */
     private void leer() {
         try {
             datoByte = fox.readOneTagID(MprCommands.TagProtocol.EPC_C1G2, 1);
@@ -133,10 +166,21 @@ class Lectura extends Thread {
         }
     }
 
+    /**
+     * 
+     * 
+     * @return 
+     */
     public String xxx() {
         return datoAscii;
     }
 
+    /**
+     * 
+     * 
+     * @param dato
+     * @return 
+     */
     private boolean validar(String dato) {
         boolean si = true;
         for (String lista1 : lista) {
@@ -148,6 +192,9 @@ class Lectura extends Thread {
         return si;
     }
 
+    /**
+     * 
+     */
     private void agregar() {
         boolean bandera = true;
         if (!lista.isEmpty()) {
@@ -173,6 +220,9 @@ class Lectura extends Thread {
         }
     }
 
+    /**
+     * 
+     */
     public void configurarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Id");
@@ -183,24 +233,25 @@ class Lectura extends Thread {
         this.tabla.setModel(modelo);
     }
 
+    /**
+     * 
+     * 
+     * @param id 
+     */
     private void agregarTabla(int id) {
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         if (id != 0) {
             modelo.addRow(registro(id));
             this.tabla.setModel(modelo);
         }
-//        this.totales.setText(String.valueOf(total(modelo)));
     }
 
-//    private int total(DefaultTableModel modelo) {
-//        int total = 0;
-//        for (int i = 0; i < modelo.getRowCount(); i++) {
-//            total += Integer.parseInt(modelo.getValueAt(i, 4).toString());
-//        }
-//        System.out.println("Siiii");
-//        return total;
-//    }
-
+    /**
+     * 
+     * 
+     * @param id
+     * @return 
+     */
     private String[] registro(int id) {
         String[] reg = new String[5];
         String[] nombres = this.producto.ListaProductoPorId(id);
@@ -212,6 +263,11 @@ class Lectura extends Thread {
         return reg;
     }
 
+    /**
+     * 
+     * 
+     * @param id 
+     */
     private void modificarTabla(String id) {
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         for (int i = 0; i < tabla.getRowCount(); i++) {
@@ -220,18 +276,28 @@ class Lectura extends Thread {
                 double precio = Double.parseDouble(modelo.getValueAt(i, 3).toString());
                 modelo.setValueAt(cantidad + 1, i, 2);
                 modelo.setValueAt(precio * (cantidad + 1), i, 4);
-//                this.totales.setText(String.valueOf(total(modelo)));
                 break;
             }
         }
-//        this.totales.setText(String.valueOf(total(modelo)));
     }
 
+    /**
+     * 
+     * 
+     * @param id
+     * @return 
+     */
     private String buscar(int id) {
         String[] dato = this.producto.ListaProductoPorId(id);
         return dato[0];
     }
 
+    /**
+     * 
+     * 
+     * @param datoEnBytes
+     * @return 
+     */
     public String convertirBytes(String datoEnBytes) {
         String salida = "";
         String[] datos = datoEnBytes.split("-");
@@ -245,4 +311,5 @@ class Lectura extends Thread {
         return salida;
     }
     //</editor-fold>
+    
 }

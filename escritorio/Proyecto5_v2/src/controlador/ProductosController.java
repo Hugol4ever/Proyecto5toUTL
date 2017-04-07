@@ -19,6 +19,11 @@ public class ProductosController {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     * 
+     * @param tabla 
+     */
     public ProductosController(JTable tabla) {
         this.producto = new DTOproducto();
         this.tabla = tabla;
@@ -28,6 +33,12 @@ public class ProductosController {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * 
+     * 
+     * @param parametro
+     * @param valor 
+     */
     public void obtenerProductos(String parametro, String valor) {
         limpiarTabla();
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
@@ -40,6 +51,9 @@ public class ProductosController {
         this.tabla.setModel(modelo);
     }
     
+    /**
+     * 
+     */
     private void obtenerProductos() {
         limpiarTabla();
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
@@ -52,6 +66,12 @@ public class ProductosController {
         this.tabla.setModel(modelo);
     }
     
+    /**
+     * 
+     * 
+     * @param id
+     * @return 
+     */
     public String[] mostrarFoto(int id) {
         String[] datos = new String[6];
         ArrayList<Producto> lista = this.producto.ListaProducto();
@@ -68,12 +88,18 @@ public class ProductosController {
         return datos;
     }
     
+    /**
+     * 
+     */
     private void limpiarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         this.tabla.setModel(modelo);
         cargarTabla();
     }
     
+    /**
+     * 
+     */
     private void cargarTabla() {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Id producto");

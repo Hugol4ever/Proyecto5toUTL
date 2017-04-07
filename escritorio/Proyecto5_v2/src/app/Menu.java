@@ -14,6 +14,9 @@ public class Menu extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     */
     public Menu() {
         setUndecorated(true);
         initComponents();
@@ -159,39 +162,84 @@ public class Menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnProductosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseEntered
         Animacion.Animacion.subir(270, 130, 4, 2, btnProductos);
     }//GEN-LAST:event_btnProductosMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseExited
         Animacion.Animacion.bajar(130, 270, 4, 2, btnProductos);
     }//GEN-LAST:event_btnProductosMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnVentasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseEntered
         Animacion.Animacion.subir(270, 130, 4, 2, btnVentas);
     }//GEN-LAST:event_btnVentasMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnVentasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseExited
         Animacion.Animacion.bajar(130, 270, 4, 2, btnVentas);
     }//GEN-LAST:event_btnVentasMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnClientesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClientesMouseEntered
         Animacion.Animacion.subir(270, 130, 4, 2, btnClientes);
     }//GEN-LAST:event_btnClientesMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnClientesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClientesMouseExited
         Animacion.Animacion.bajar(130, 270, 4, 2, btnClientes);
     }//GEN-LAST:event_btnClientesMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
       System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         Clientes cli = new Clientes();
         cli.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
         try {
             Ventas v = new Ventas();
@@ -201,6 +249,11 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnVentasActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
         Productos pr = new Productos();
         pr.setVisible(true);
@@ -208,6 +261,11 @@ public class Menu extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -241,4 +299,5 @@ public class Menu extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
     
     //</editor-fold>
+    
 }

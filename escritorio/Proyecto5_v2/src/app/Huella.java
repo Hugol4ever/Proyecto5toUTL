@@ -100,6 +100,11 @@ public class Huella extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnVerificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerificarActionPerformed
         DTOHuella dto = new DTOHuella(this.huellaC.featuresverificacion, huellaC.getTemplate());
         this.venta.setCliente(dto.huella());
@@ -109,6 +114,11 @@ public class Huella extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnVerificarActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         this.huellaC.getReclutador().clear();this.huella.setIcon(null);
         this.huellaC.start();
@@ -120,6 +130,11 @@ public class Huella extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -147,30 +162,65 @@ public class Huella extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
+    /**
+     * 
+     * 
+     * @return 
+     */
     public JLabel getHuella() {
         return huella;
     }
 
+    /**
+     * 
+     * 
+     * @param cliente 
+     */
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
+    /**
+     * 
+     * 
+     * @param clientes 
+     */
     public void setClientes(Clientes clientes) {
         this.clientes = clientes;
     }
 
+    /**
+     * 
+     * 
+     * @param venta 
+     */
     public void setVenta(Ventas venta) {
         this.venta = venta;
     }
     
+    /**
+     * 
+     * 
+     * @return 
+     */
     public DPFPTemplate getTemplate() {
         return this.huellaC.getTemplate();
     }
 
+    /**
+     * 
+     * 
+     * @return 
+     */
     public JButton getBtnAgregar() {
         return btnAgregar;
     }
 
+    /**
+     * 
+     * 
+     * @return 
+     */
     public JButton getBtnVerificar() {
         return btnVerificar;
     }

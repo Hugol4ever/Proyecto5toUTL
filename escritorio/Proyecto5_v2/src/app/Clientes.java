@@ -20,6 +20,9 @@ public class Clientes extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
+    /**
+     * 
+     */
     public Clientes() {
         setUndecorated(true);
         initComponents();
@@ -29,6 +32,9 @@ public class Clientes extends javax.swing.JFrame {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    /**
+     * Método para decorar el encabezado de la tabla
+     */
     public void encabezado() {
         JTableHeader th = jTable1.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
@@ -467,52 +473,112 @@ public class Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
+    /**
+     * Método para salir de la ventana
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
         Fade.JFrameFadeOut(1f, 0f, 0.1f, 70, this, Fade.DISPOSE);
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
+    /**
+     * Método para hacer animación cuando el mouse pase por el botón salir
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalir1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir1MouseEntered
         Animacion.Animacion.mover_derecha(-40, 0, 3, 2, btnSalir1);
     }//GEN-LAST:event_btnSalir1MouseEntered
 
+    /**
+     * Método para hacer animación cuando el mouse salfo del botón salir
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnSalir1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir1MouseExited
         Animacion.Animacion.mover_izquierda(0, -40, 3, 2, btnSalir1);
     }//GEN-LAST:event_btnSalir1MouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
         Animacion.Animacion.mover_derecha(-70, 10, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
         Animacion.Animacion.mover_izquierda(10, -70, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnHuellaMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuellaMouseEntered
         Animacion.Animacion.mover_derecha(-70, 10, 3, 2, btnHuella);
     }//GEN-LAST:event_btnHuellaMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnHuellaMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHuellaMouseExited
         Animacion.Animacion.mover_izquierda(10, -70, 3, 2, btnHuella);
     }//GEN-LAST:event_btnHuellaMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnAgregarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseEntered
         Animacion.Animacion.mover_derecha(-70, 10, 3, 2, btnAgregar);
     }//GEN-LAST:event_btnAgregarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnAgregarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseExited
         Animacion.Animacion.mover_izquierda(10, -70, 3, 2, btnAgregar);
     }//GEN-LAST:event_btnAgregarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
         Animacion.Animacion.mover_derecha(-70, 10, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt parámetro por defecto
+     */
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
         Animacion.Animacion.mover_izquierda(10, -70, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
+    /**
+     * 
+     * 
+     * @param args 
+     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -572,10 +638,18 @@ public class Clientes extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
+    /**
+     * 
+     * 
+     * @param template 
+     */
     public void setTemplate(DPFPTemplate template) {
         this.template = template;
     }
     
+    /**
+     * 
+     */
     public void setCorrecto() {
         Image foto = Toolkit.getDefaultToolkit().getImage(".//src/img/correcto.png");
         this.labHuella.setIcon(new ImageIcon(foto.getScaledInstance(190, 150, 0)));
