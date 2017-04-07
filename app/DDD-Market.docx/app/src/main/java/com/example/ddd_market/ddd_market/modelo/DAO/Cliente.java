@@ -12,6 +12,7 @@ public class Cliente {
     private String telefono;
     private String genero;
     private String ntarjeta;
+    private String contrasenia;
     private double limiteSaldo;
     private double saldoDisponible;
 
@@ -74,6 +75,14 @@ public class Cliente {
 
     public void setNtarjeta(String ntarjeta) {
         this.ntarjeta = ntarjeta;
+    }
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     public double getLimiteSaldo() {

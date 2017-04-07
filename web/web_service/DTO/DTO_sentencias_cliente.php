@@ -6,8 +6,8 @@ class DTO_sentencias_cliente {
 
     }
 
-    public static function getAll() {
-        $consulta = "SELECT * FROM viewCliente";
+    public static function getAll($user, $pass) {
+        $consulta = "SELECT * FROM viewCliente WHERE Correo = '".$user."' AND Contrasenia = '".$pass."'";
         try {
             $comando = Database::getInstance()->getDb()->prepare($consulta);
             $comando->execute();
