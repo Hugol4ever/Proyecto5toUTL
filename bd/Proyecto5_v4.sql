@@ -120,7 +120,7 @@ create view viewDetaVenta as
 
 -- Vista Clientes -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 create view viewCliente as
-select u.Id_Usuario, c.Nombre, c.Genero, c.Telefono, c.Correo, u.Contrasenia, c.N_Tarjeta, c.Limite_Saldo, c.Saldo_Dis
+select c.Id_Cliente, u.Id_Usuario, c.Nombre, c.Genero, c.Telefono, c.Correo, u.Contrasenia, c.N_Tarjeta, c.Limite_Saldo, c.Saldo_Dis
 from Usuario u inner join Cliente c on u.Id_Cliente = c.Id_Cliente;
 select * from viewCliente;
 -- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -184,12 +184,12 @@ Delimiter ;
 -- Registrar producto --------------------------------------------------------------------------------------------------------------------------------------------------------------
 Delimiter $$
 create procedure regProducto (
-out var_Id_Producto int, in var_Nombre varchar(35),in var_Marca varchar(20),
+in var_Id_Producto int, in var_Nombre varchar(35),in var_Marca varchar(20),
 in var_Categoria varchar(20), in var_Existencia int,in var_Precio double(10,2),
 in var_Foto varchar(100))
 begin
-insert into Producto (Nombre, marca, categoria, Existencia, Precio, Foto)
-values (var_Nombre, var_Marca, var_Categoria, var_Existencia, var_Precio, var_Foto);
+insert into Producto (Id_Producto, Nombre, marca, categoria, Existencia, Precio, Foto)
+values (var_Id_Producto, var_Nombre, var_Marca, var_Categoria, var_Existencia, var_Precio, var_Foto);
 set var_Id_Producto = last_insert_id();
 end $$
 Delimiter ;
@@ -242,3 +242,5 @@ null,
 'hugol4ever', 
 'laslavanderas12');
 select * from viewCliente;
+
+call regProducto(123, 'Sopa instantanea Maruchan', 'Maruchan', 'Alimentos', 10, 7.00, './/src/productos/maruchan.jpg');

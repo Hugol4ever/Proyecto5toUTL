@@ -1,5 +1,6 @@
 package com.example.ddd_market.ddd_market;
 
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -9,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -176,6 +178,25 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
             case 4:
                 fragment = new ComprasFragment();
                 transicion = true;
+                break;
+            case 5:
+                AlertDialog.Builder mensaje = new AlertDialog.Builder(this);
+                mensaje.setMessage("¿Desea cerrar sesión?")
+                        .setTitle("DDD")
+                        .setCancelable(false)
+                        .setNeutralButton("Aceptar",
+                                new DialogInterface.OnClickListener(){
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        //cerrar sesion
+                                    }
+                                })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = mensaje.create();
+                alertDialog.show();
                 break;
         }
 

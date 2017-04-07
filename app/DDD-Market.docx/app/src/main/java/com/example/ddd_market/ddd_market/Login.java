@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 
 import org.apache.http.HttpEntity;
@@ -127,6 +128,7 @@ public class Login extends AppCompatActivity {
         } catch (JSONException e) {
             //Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrectos.", Toast.LENGTH_SHORT).show();
         }
+        Handler.cliente = cliente;
         return cliente;
     }
 

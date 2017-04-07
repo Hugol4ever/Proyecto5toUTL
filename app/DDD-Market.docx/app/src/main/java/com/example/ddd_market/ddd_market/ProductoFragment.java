@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 
 import java.util.ArrayList;
@@ -78,10 +79,10 @@ public class ProductoFragment extends Fragment {
     }
 
     public ArrayList obtenerProductos(){
-        ArrayList<Producto> arregloProducto = new ArrayList<>();
-        arregloProducto.add(new Producto("Coca-Cola","Coca","Refrescos",1,15,"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flasche_Coca-Cola_0%2C2_Liter.jpg/220px-Flasche_Coca-Cola_0%2C2_Liter.jpg"));
-        arregloProducto.add(new Producto("Arroz Morelos","Verde Valle","Comida",7, 10,"http://www.laranitadelapaz.com.mx/content/images/thumbs/0002537_arroz-morelos-bolsa-1-kg-carita-tradicional.png"));
-        return arregloProducto;
+        //ArrayList<Producto> arregloProducto = new ArrayList<>();
+        //arregloProducto.add(new Producto("Coca-Cola","Coca","Refrescos",1,15,"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flasche_Coca-Cola_0%2C2_Liter.jpg/220px-Flasche_Coca-Cola_0%2C2_Liter.jpg"));
+        //arregloProducto.add(new Producto("Arroz Morelos","Verde Valle","Comida",7, 10,"http://www.laranitadelapaz.com.mx/content/images/thumbs/0002537_arroz-morelos-bolsa-1-kg-carita-tradicional.png"));
+        return Handler.productos;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -11,7 +11,7 @@ public class Venta {
     private Date fecha;
     private Date hora;
     private Cliente cliente;
-    private  double monto;
+    private double monto;
 
     public Venta() {
     }
