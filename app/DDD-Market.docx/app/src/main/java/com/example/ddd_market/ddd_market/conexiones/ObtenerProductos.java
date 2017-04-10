@@ -1,8 +1,12 @@
 package com.example.ddd_market.ddd_market.conexiones;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 
 import org.apache.http.HttpEntity;
@@ -23,7 +27,7 @@ import java.util.ArrayList;
  * Created by hugo_ on 06/04/2017.
  */
 
-public class ObtenerProductos extends Activity {
+public class ObtenerProductos extends AppCompatActivity {
 
     private ArrayList<Producto> productos;
 
@@ -36,6 +40,11 @@ public class ObtenerProductos extends Activity {
                     @Override
                     public void run() {
                         productos = obtDatosJSON(resultado);
+                        if (productos.isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrectos.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "si", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

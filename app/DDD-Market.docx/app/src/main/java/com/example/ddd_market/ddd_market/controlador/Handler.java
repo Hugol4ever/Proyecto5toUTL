@@ -19,5 +19,6 @@ public class Handler {
     public static Cliente cliente;
     public static ArrayList<Promocion> promociones;
     public static ArrayList<DetalleVenta> detalleVentas;
+    public static boolean conexion;
 
 }

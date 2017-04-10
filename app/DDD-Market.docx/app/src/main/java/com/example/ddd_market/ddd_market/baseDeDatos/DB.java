@@ -20,7 +20,6 @@ public class DB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE usuarios (" +
                 "Id_Cliente integer primary key," +
-                "Id_Usuario integer," +
                 "Nombre text," +
                 "Genero text," +
                 "Telefono text," +
@@ -49,9 +48,9 @@ public class DB extends SQLiteOpenHelper {
                 "Precio double" +
                 ")");
 
-        db.execSQL("");
+        //db.execSQL("");
 
-        db.execSQL("");
+        //db.execSQL("");
     }
 
     @Override
@@ -59,7 +58,6 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("drop table if exists usuarios");
         db.execSQL("CREATE TABLE usuarios (" +
                 "Id_Cliente integer primary key," +
-                "Id_Usuario integer," +
                 "Nombre text," +
                 "Genero text," +
                 "Telefono text," +
@@ -91,9 +89,9 @@ public class DB extends SQLiteOpenHelper {
                 ")");
 
         db.execSQL("drop table if exists ventas");
-        db.execSQL("");
+        //db.execSQL("");
 
         db.execSQL("drop table if exists detalle_venta");
-        db.execSQL("");
+        //db.execSQL("");
     }
 }

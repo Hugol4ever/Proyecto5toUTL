@@ -1,7 +1,10 @@
 package com.example.ddd_market.ddd_market;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -23,6 +26,18 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.ddd_market.ddd_market.baseDeDatos.DB;
+import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.controlador.Handler;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
 import java.util.ArrayList;
 
@@ -42,6 +57,7 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isOnlineNet();
         setContentView(R.layout.activity_main);
 
         itemTitle = activityTitle = getTitle();
@@ -122,30 +138,11 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         return super.onOptionsItemSelected(item);
     }
 
-    ///////////////////////
-    ////////////////////////
-    /////////////////////////
-    ///////////////////////
-    ////////////////////////
-    /////////////////////////
-    ///////////////////////
-    ////////////////////////
-    /////////////////////////
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-    ///////////////////////
-    ////////////////////////
-    /////////////////////////
-    ///////////////////////
-    ////////////////////////
-    /////////////////////////
-    ///////////////////////
-    ////////////////////////
-    /////////////////////////
 
-    /* La escucha del ListView en el Drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -187,7 +184,7 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
                         .setNeutralButton("Aceptar",
                                 new DialogInterface.OnClickListener(){
                                     public void onClick(DialogInterface dialog, int id) {
-                                        //cerrar sesion
+                                        cerrarSesion();
                                     }
                                 })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener(){
@@ -210,6 +207,14 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
 
     }
 
+    private void cerrarSesion() {
+        DB baseDeDatos = new DB(getApplicationContext(), Globals.NOMBRE_DB, null, Globals.VERSION_DB);
+        SQLiteDatabase baseDatos = baseDeDatos.getWritableDatabase();
+        baseDatos.delete("usuarios", "Id_Cliente = " + Handler.cliente.getIdCliente(), null);
+        baseDatos.close();
+        startActivity(new Intent(this, Splash.class));
+    }
+
     /* Método auxiliar para setear el titulo de la action bar */
     @Override
     public void setTitle(CharSequence title) {
@@ -230,4 +235,36 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         // Cambiar las configuraciones del drawer si hubo modificaciones
         drawerToggle.onConfigurationChanged(newConfig);
     }
+
+    public void isOnlineNet() {
+        try {
+            Thread tr = new Thread() {
+                @Override
+                public void run() {
+                    while (true) {
+                        HttpClient client = new DefaultHttpClient();
+                        HttpContext contexto = new BasicHttpContext();
+                        HttpGet httpGet = new HttpGet("http://" + Globals.SERVIDOR + ":80/vistas/getDTOProducto.php");
+                        try {
+                            HttpResponse response = client.execute(httpGet, contexto);
+                            Handler.conexion = true;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Handler.conexion = false;
+                        }
+                        try {
+                            sleep(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            tr.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Handler.conexion = false;
+        }
+    }
+
 }

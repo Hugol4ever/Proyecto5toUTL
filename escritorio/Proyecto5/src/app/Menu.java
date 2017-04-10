@@ -1,8 +1,5 @@
 package app;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author bvsr9
@@ -231,8 +228,7 @@ public class Menu extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        Clientes cli = new Clientes();
-        cli.setVisible(true);
+        new Clientes().setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
@@ -241,12 +237,7 @@ public class Menu extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
-        try {
-            Ventas v = new Ventas();
-            v.setVisible(true);
-        } catch (Exception ex) {
-            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        new SeleccionVentas().setVisible(true);
     }//GEN-LAST:event_btnVentasActionPerformed
 
     /**
@@ -255,8 +246,7 @@ public class Menu extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        Productos pr = new Productos();
-        pr.setVisible(true);
+        new Productos().setVisible(true);
     }//GEN-LAST:event_btnProductosActionPerformed
     //</editor-fold>
     

@@ -1,10 +1,21 @@
 package app;
 
 import Animacion.Fade;
+import commons.Globals;
+import controlador.FotoClienteSocket;
 import controlador.ProductosController;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.table.JTableHeader;
+import modelo.DAO.Producto;
 
 /**
  *
@@ -14,6 +25,9 @@ public class Productos extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Atributos">
     private ProductosController productosC;
+    private String rutaFoto;
+    private String nombreFoto;
+    private FotoClienteSocket fotoS;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -38,6 +52,23 @@ public class Productos extends javax.swing.JFrame {
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
     }
+    
+    /**
+     * 
+     */
+    public void limpiar() {
+        this.txtCodigo.setText(null);
+        this.txtNombre.setText(null);
+        this.txtMarca.setText(null);
+        this.txtCategoria.setText(null);
+        this.txtPrecio.setText(null);
+        this.txtExistencia.setText(null);
+        this.jLabel12.setIcon(null);
+    }
+    
+    public void cargarTabla() {
+        
+    }
     //</editor-fold>
 
     @SuppressWarnings("unchecked")
@@ -56,7 +87,7 @@ public class Productos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jTextField1 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
@@ -71,6 +102,9 @@ public class Productos extends javax.swing.JFrame {
         txtMarca = new javax.swing.JTextField();
         txtCategoria = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
+        btnFoto = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtExistencia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -167,7 +201,7 @@ public class Productos extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
 
         jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
 
@@ -235,6 +269,7 @@ public class Productos extends javax.swing.JFrame {
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.PNG"))); // NOI18N
         btnGuardar.setBorderPainted(false);
         btnGuardar.setContentAreaFilled(false);
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnGuardarMouseEntered(evt);
@@ -243,18 +278,29 @@ public class Productos extends javax.swing.JFrame {
                 btnGuardarMouseExited(evt);
             }
         });
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnGuardar);
         btnGuardar.setBounds(0, 10, 150, 83);
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnModificar.png"))); // NOI18N
         btnModificar.setBorderPainted(false);
         btnModificar.setContentAreaFilled(false);
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnModificarMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnModificarMouseExited(evt);
+            }
+        });
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
             }
         });
         jPanel8.add(btnModificar);
@@ -287,7 +333,7 @@ public class Productos extends javax.swing.JFrame {
         txtNombre.setBorder(null);
         txtNombre.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jPanel5.add(txtNombre);
-        txtNombre.setBounds(130, 150, 170, 20);
+        txtNombre.setBounds(130, 150, 240, 20);
 
         txtMarca.setBackground(new java.awt.Color(251, 245, 135));
         txtMarca.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
@@ -309,6 +355,28 @@ public class Productos extends javax.swing.JFrame {
         txtPrecio.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jPanel5.add(txtPrecio);
         txtPrecio.setBounds(130, 270, 170, 20);
+
+        btnFoto.setText("Seleccionar");
+        btnFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFotoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnFoto);
+        btnFoto.setBounds(450, 340, 100, 23);
+
+        jLabel5.setFont(new java.awt.Font("Tempus Sans ITC", 0, 19)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setText("Existencia:");
+        jPanel5.add(jLabel5);
+        jLabel5.setBounds(30, 320, 84, 20);
+
+        txtExistencia.setBackground(new java.awt.Color(251, 245, 135));
+        txtExistencia.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
+        txtExistencia.setBorder(null);
+        jPanel5.add(txtExistencia);
+        txtExistencia.setBounds(130, 320, 180, 19);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/datosProducto1.png"))); // NOI18N
         jPanel5.add(jLabel4);
@@ -442,10 +510,19 @@ public class Productos extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String parametro = this.jComboBox1.getSelectedItem().toString();
         String valor = this.jTextField1.getText();
-        if (parametro.equals("Todos *")) {
-            this.productosC = new ProductosController(this.tblProductos);
-        } else {
-            this.productosC.obtenerProductos(parametro, valor);
+        switch (parametro) {
+            case "Todos *":
+                this.productosC = new ProductosController(this.tblProductos);
+                break;
+            case "Categoría":
+                this.productosC.obtenerProductos("Categoria", valor);
+                break;
+            case "Código de Producto":
+                this.productosC.obtenerProductos("Id_Producto", valor);
+                break;
+            default:
+                this.productosC.obtenerProductos(parametro, valor);
+                break;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -457,13 +534,30 @@ public class Productos extends javax.swing.JFrame {
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
         String valor = this.tblProductos.getValueAt(this.tblProductos.getSelectedRow(), 0).toString();
         if (!valor.isEmpty()) {
-            int id = Integer.parseInt(valor);
-            String[] datos = this.productosC.mostrarFoto(id);
-            this.txtCodigo.setText(datos[0]);
-            this.txtNombre.setText(datos[1]);
-            this.txtMarca.setText(datos[2]);
-            this.txtCategoria.setText(datos[3]);
-            this.txtPrecio.setText(datos[4]);
+            try {
+                int id = Integer.parseInt(valor);
+                String[] datos = this.productosC.mostrarFoto(id);
+                this.txtCodigo.setText(datos[0]);
+                this.txtNombre.setText(datos[1]);
+                this.txtMarca.setText(datos[2]);
+                this.txtCategoria.setText(datos[3]);
+                this.txtExistencia.setText(datos[4]);
+                this.txtPrecio.setText(datos[5]);
+                URL url = new URL(Globals.SERVIDOR_IMAGENES + datos[6]);
+                Image foto = ImageIO.read(url);
+                this.jLabel12.setIcon(new ImageIcon(foto.getScaledInstance(190, 150, 0)));
+                this.nombreFoto = datos[6];
+            } catch (MalformedURLException ex) {
+                //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+                MensajeError m = new MensajeError();
+                m.setMensaje(ex.getMessage());
+                m.setVisible(true);
+            } catch (IOException ex) {
+                //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+                MensajeError m = new MensajeError();
+                m.setMensaje(ex.getMessage());
+                m.setVisible(true);
+            }
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
@@ -473,12 +567,7 @@ public class Productos extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        this.txtCodigo.setText(null);
-        this.txtNombre.setText(null);
-        this.txtMarca.setText(null);
-        this.txtCategoria.setText(null);
-        this.txtPrecio.setText(null);
-        this.jLabel12.setIcon(null);
+        limpiar();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
@@ -516,6 +605,100 @@ public class Productos extends javax.swing.JFrame {
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
          Animacion.Animacion.mover_izquierda(150, 70, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
+
+    /**
+     * 
+     * 
+     * @param evt 
+     */
+    private void btnFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotoActionPerformed
+        try {
+            JFileChooser chooser = new JFileChooser();
+            chooser.showOpenDialog(this);
+            this.rutaFoto = chooser.getSelectedFile().getAbsolutePath();
+            this.nombreFoto = chooser.getSelectedFile().getName().replace(' ', '_');
+            Image foto = Toolkit.getDefaultToolkit().getImage(this.rutaFoto);
+            this.jLabel12.setIcon(new ImageIcon(foto.getScaledInstance(190, 150, 0)));
+            this.fotoS = new FotoClienteSocket(this.rutaFoto);
+            this.fotoS.start();
+        } catch (IOException ex) {
+            //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+        }
+    }//GEN-LAST:event_btnFotoActionPerformed
+
+    /**
+     * 
+     * 
+     * @param evt 
+     */
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        try {
+            this.fotoS.enviar(this.nombreFoto);
+            this.fotoS.enviarFoto();
+            Producto p = new Producto();
+            p.setIdProducto(Integer.parseInt(this.txtCodigo.getText()));
+            p.setNombre(this.txtNombre.getText());
+            p.setMarca(this.txtMarca.getText());
+            p.setCategoria(this.txtCategoria.getText());
+            p.setPrecio(Double.parseDouble(this.txtPrecio.getText()));
+            p.setExistencia(Integer.parseInt(this.txtExistencia.getText()));
+            p.setFoto(this.nombreFoto);
+            if (this.productosC.registrarProducto(p)) {
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Producto registrado con éxito");
+                mc.setVisible(true);
+                limpiar();
+            } else {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error al registrar producto."
+                        + "\nIntentelo de nuevo.");
+                m.setVisible(true);
+            }
+            this.productosC = new ProductosController(this.tblProductos);
+        } catch (IOException ex) {
+            //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            if (this.fotoS != null && this.fotoS.isAlive()) {
+                this.fotoS.enviar(this.nombreFoto);
+                this.fotoS.enviarFoto();
+            }
+            Producto p = new Producto();
+            p.setIdProducto(Integer.parseInt(this.txtCodigo.getText()));
+            p.setNombre(this.txtNombre.getText());
+            p.setMarca(this.txtMarca.getText());
+            p.setCategoria(this.txtCategoria.getText());
+            p.setPrecio(Double.parseDouble(this.txtPrecio.getText()));
+            p.setExistencia(Integer.parseInt(this.txtExistencia.getText()));
+            p.setFoto(this.nombreFoto);
+            if (this.productosC.modificarProducto(p)) {
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Producto modificado con éxito");
+                mc.setVisible(true);
+                limpiar();
+            } else {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error al modificar el producto."
+                        + "\nIntentelo de nuevo.");
+                m.setVisible(true);
+            }
+            this.productosC = new ProductosController(this.tblProductos);
+        } catch (IOException ex) {
+            //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
@@ -543,6 +726,7 @@ public class Productos extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Atributos auto-generados">
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFoto;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
@@ -556,6 +740,7 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -568,6 +753,7 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtExistencia;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;

@@ -127,7 +127,7 @@ select * from viewCliente;
 
 -- Vista Productos-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 create view viewProducto as
-select Id_Producto, Nombre, Marca, Categoria, Existencia, Precio from Producto;
+select Id_Producto, Nombre, Marca, Categoria, Existencia, Precio, Foto from Producto;
 select * from viewProducto;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -140,8 +140,8 @@ create view viewPromos as
 
 
 -- Vista LineaVenta -------------------------------------------------------------------------------------------------------------------------------------------------------------
-create view viewLineaVenta as
-select p.Id_Producto, p.Nombre, p.Precio;
+-- create view viewLineaVenta as
+-- select p.Id_Producto, p.Nombre, p.Precio;
 -- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -190,7 +190,21 @@ in var_Foto varchar(100))
 begin
 insert into Producto (Id_Producto, Nombre, marca, categoria, Existencia, Precio, Foto)
 values (var_Id_Producto, var_Nombre, var_Marca, var_Categoria, var_Existencia, var_Precio, var_Foto);
-set var_Id_Producto = last_insert_id();
+end $$
+Delimiter ;
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-- Registrar producto --------------------------------------------------------------------------------------------------------------------------------------------------------------
+Delimiter $$
+create procedure modProducto (
+in var_Id_Producto int, in var_Nombre varchar(35),in var_Marca varchar(20),
+in var_Categoria varchar(20), in var_Existencia int,in var_Precio double(10,2),
+in var_Foto varchar(100))
+begin
+update Producto set Nombre = var_Nombre, marca = var_Marca, categoria = var_Categoria, 
+Existencia = var_Existencia, Precio = var_Precio, Foto = var_Foto
+where Id_Producto = var_Id_Producto;
 end $$
 Delimiter ;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -244,3 +258,4 @@ null,
 select * from viewCliente;
 
 call regProducto(123, 'Sopa instantanea Maruchan', 'Maruchan', 'Alimentos', 10, 7.00, './/src/productos/maruchan.jpg');
+select * from viewProducto;

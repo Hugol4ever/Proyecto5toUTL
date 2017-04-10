@@ -28,7 +28,7 @@ public class ConnectionMysql {
      * Constructor por defecto
      */
     public ConnectionMysql() {
-        this("com.mysql.jdbc.Driver", "localhost", 3306, "Final", "root", "root");
+        this("com.mysql.jdbc.Driver", "192.168.1.11", 3306, "Proyecto5", "Proyecto5to", "hugol12");
     }
 
     /**

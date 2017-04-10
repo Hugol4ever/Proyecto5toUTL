@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.conexiones.BackGround;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 
@@ -57,7 +58,6 @@ public class Login extends AppCompatActivity {
     }
 
     public void irPrincipal(View v){
-        //Toast.makeText(Login.this, leer(usuarioV.getText().toString(), passwordV.getText().toString()), Toast.LENGTH_LONG).show();
         Thread tr = new Thread() {
             @Override
             public void run() {
@@ -80,6 +80,8 @@ public class Login extends AppCompatActivity {
 
     private void irPrincipal() {
         startActivity(new Intent(this, Main.class));
+        BackGround ta = new BackGround(getApplicationContext());
+        ta.execute();
     }
 
     public String leer(String usuario, String pass) {

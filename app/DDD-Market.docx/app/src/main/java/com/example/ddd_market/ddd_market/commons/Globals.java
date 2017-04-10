@@ -6,6 +6,8 @@ package com.example.ddd_market.ddd_market.commons;
 
 public class Globals {
 
-    public static String SERVIDOR = "192.168.1.7";
+    public static String SERVIDOR = "192.168.43.52";
     public static int VERSION_DB = 1;
+    public static String NOMBRE_DB = "DDD";
+
 }

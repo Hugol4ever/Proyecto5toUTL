@@ -1,5 +1,8 @@
 package app;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author bvsr9
@@ -32,6 +35,7 @@ public class SeleccionVentas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        btnSalir = new javax.swing.JButton();
         btnVentas = new javax.swing.JButton();
         btnReporte = new javax.swing.JButton();
 
@@ -46,6 +50,16 @@ public class SeleccionVentas extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Menú Ventas");
 
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/exitminimini.png"))); // NOI18N
+        btnSalir.setBorderPainted(false);
+        btnSalir.setContentAreaFilled(false);
+        btnSalir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -53,23 +67,39 @@ public class SeleccionVentas extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(164, 164, 164)
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btnSalir)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         btnVentas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnRealizarVentas.jpg"))); // NOI18N
         btnVentas.setBorderPainted(false);
         btnVentas.setContentAreaFilled(false);
+        btnVentas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVentasActionPerformed(evt);
+            }
+        });
 
         btnReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnReporteVentas.jpg"))); // NOI18N
         btnReporte.setBorderPainted(false);
         btnReporte.setContentAreaFilled(false);
+        btnReporte.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,7 +139,25 @@ public class SeleccionVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
-    
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void btnVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVentasActionPerformed
+        try {
+            new Ventas().setVisible(true);
+            this.dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(SeleccionVentas.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError me = new MensajeError();
+            me.setMensaje(ex.getMessage());
+            me.setVisible(true);
+        }
+    }//GEN-LAST:event_btnVentasActionPerformed
+
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+        new Reportes().setVisible(true);
+    }//GEN-LAST:event_btnReporteActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
@@ -138,6 +186,7 @@ public class SeleccionVentas extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Atributos auto-generados">
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReporte;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnVentas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

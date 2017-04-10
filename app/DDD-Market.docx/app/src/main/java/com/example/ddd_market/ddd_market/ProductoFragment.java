@@ -8,10 +8,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.ddd_market.ddd_market.commons.Globals;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -65,6 +75,7 @@ public class ProductoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -73,8 +84,13 @@ public class ProductoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_producto, container, false);
         listaP =(ListView)view.findViewById(R.id.listaProductos);
-        ArrayList<Producto> arreglo = obtenerProductos(); //Solo es de prueba
-        listaP.setAdapter(new AdapterProducto(ProductoFragment.super.getContext(),arreglo));
+        //ArrayList<Producto> arreglo = obtenerProductos(); //Solo es de prueba
+        //listaP.setAdapter(new AdapterProducto(ProductoFragment.super.getContext(),arreglo));
+        if(Handler.conexion) {
+            Toast.makeText(getContext(), "Si", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "No", Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
@@ -123,4 +139,5 @@ public class ProductoFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }

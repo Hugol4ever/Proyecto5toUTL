@@ -73,7 +73,7 @@ public class ProductosController {
      * @return 
      */
     public String[] mostrarFoto(int id) {
-        String[] datos = new String[6];
+        String[] datos = new String[7];
         ArrayList<Producto> lista = this.producto.ListaProducto();
         for (Producto lista1 : lista) {
             if (lista1.getIdProducto() == id) {
@@ -81,8 +81,9 @@ public class ProductosController {
                 datos[1] = lista1.getNombre();
                 datos[2] = lista1.getMarca();
                 datos[3] = lista1.getCategoria();
-                datos[4] = String.valueOf(lista1.getPrecio());
-                datos[5] = lista1.getFoto();
+                datos[4] = String.valueOf(lista1.getExistencia());
+                datos[5] = String.valueOf(lista1.getPrecio());
+                datos[6] = lista1.getFoto();
             }
         }
         return datos;
@@ -108,6 +109,36 @@ public class ProductosController {
         modelo.addColumn("Categoria");
         modelo.addColumn("Precio");
         this.tabla.setModel(modelo);
+    }
+    
+    /**
+     * 
+     * 
+     * @param producto 
+     * @return  
+     */
+    public boolean registrarProducto(Producto producto) {
+        try {
+            this.producto.insertarProducto(producto);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * 
+     * @param producto
+     * @return 
+     */
+    public boolean modificarProducto(Producto producto) {
+        try {
+            this.producto.modificarProducto(producto);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
     //</editor-fold>
 

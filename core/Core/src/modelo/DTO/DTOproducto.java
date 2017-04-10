@@ -1,5 +1,6 @@
 package modelo.DTO;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -39,7 +40,7 @@ public class DTOproducto {
      */
     public ArrayList<Producto> ListaProducto(String parametro, String valor) {
         ArrayList<Producto> prod = new ArrayList<>();
-        String query = "SELECT * FROM vistProductos where " + parametro + " = '" + valor + "'";
+        String query = "SELECT * FROM viewProducto where " + parametro + " = '" + valor + "'";
         try {
             cn = mysql.abrir();
             st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -67,7 +68,7 @@ public class DTOproducto {
      */
     public ArrayList<Producto> ListaProducto() {
         ArrayList<Producto> prod = new ArrayList<>();
-        String query = "SELECT * FROM vistProductos";
+        String query = "SELECT * FROM viewProducto";
         try {
             cn = mysql.abrir();
             st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -78,6 +79,7 @@ public class DTOproducto {
                 p.setNombre(rs.getString("Nombre"));
                 p.setMarca(rs.getString("Marca"));
                 p.setCategoria(rs.getString("Categoria"));
+                p.setExistencia(rs.getInt("Existencia"));
                 p.setPrecio(rs.getDouble("Precio"));
                 p.setFoto(rs.getString("Foto"));
                 prod.add(p);
@@ -96,7 +98,7 @@ public class DTOproducto {
      */
     public String[] ListaProductoPorId(int id) {
         String[] prod = new String[3];
-        String query = "SELECT Id_Producto, Nombre, Precio FROM vistProductos where Id_Producto = " + id;
+        String query = "SELECT Id_Producto, Nombre, Precio FROM viewProducto where Id_Producto = " + id;
         try {
             cn = mysql.abrir();
             st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -110,6 +112,52 @@ public class DTOproducto {
             System.out.println("Error : " + e);
         }
         return prod;
+    }
+    
+    /**
+     * 
+     * 
+     * @param p 
+     * @throws java.lang.Exception 
+     */
+    public void insertarProducto(Producto p) throws Exception {
+        Connection conn;
+        CallableStatement cstmt;
+        String query = "call regProducto( ?, ?, ?, ?, ?,?,?)";
+        conn = mysql.abrir();
+        cstmt = conn.prepareCall(query);
+        cstmt.setInt(1, p.getIdProducto());
+        cstmt.setString(2, p.getNombre());
+        cstmt.setString(3, p.getMarca());
+        cstmt.setString(4, p.getCategoria());
+        cstmt.setInt(5, p.getExistencia());
+        cstmt.setDouble(6, p.getPrecio());
+        cstmt.setString(7, p.getFoto());
+        cstmt.executeUpdate();
+        mysql.cerrar();
+    }
+    
+    /**
+     * 
+     * 
+     * @param p
+     * @throws Exception 
+     */
+    public void modificarProducto(Producto p) throws Exception {
+        Connection conn;
+        CallableStatement cstmt;
+        String query = "call modProducto( ?, ?, ?, ?, ?,?,?)";
+        conn = mysql.abrir();
+        cstmt = conn.prepareCall(query);
+        cstmt.setInt(1, p.getIdProducto());
+        cstmt.setString(2, p.getNombre());
+        cstmt.setString(3, p.getMarca());
+        cstmt.setString(4, p.getCategoria());
+        cstmt.setInt(5, p.getExistencia());
+        cstmt.setDouble(6, p.getPrecio());
+        cstmt.setString(7, p.getFoto());
+        cstmt.executeUpdate();
+        mysql.cerrar();
     }
     //</editor-fold>
     

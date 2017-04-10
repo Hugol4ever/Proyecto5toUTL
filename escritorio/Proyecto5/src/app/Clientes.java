@@ -359,6 +359,11 @@ public class Clientes extends javax.swing.JFrame {
                 btnHuellaMouseExited(evt);
             }
         });
+        btnHuella.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuellaActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnHuella);
         btnHuella.setBounds(-70, 90, 150, 83);
 
@@ -372,6 +377,11 @@ public class Clientes extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnAgregarMouseExited(evt);
+            }
+        });
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
             }
         });
         jPanel8.add(btnAgregar);
@@ -571,6 +581,14 @@ public class Clientes extends javax.swing.JFrame {
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
         Animacion.Animacion.mover_izquierda(10, -70, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
+
+    private void btnHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuellaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnHuellaActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
