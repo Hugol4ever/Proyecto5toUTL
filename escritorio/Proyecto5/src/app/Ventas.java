@@ -33,6 +33,7 @@ public class Ventas extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         encabezado();
+        this.ventaC = new VentaController(this, this.tblProductos);
     }
     //</editor-fold>
 
@@ -57,7 +58,10 @@ public class Ventas extends javax.swing.JFrame {
             this.ventaC.getMpr().close();
             this.ventaC = new VentaController(this, tblProductos);
         } catch (Exception ex) {
-            Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+            //Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     //</editor-fold>
@@ -348,44 +352,105 @@ public class Ventas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
         Fade.JFrameFadeOut(1f, 0f, 0.1f, 70, this, Fade.DISPOSE);
     }//GEN-LAST:event_btnSalir1ActionPerformed
-
+    
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnSalir1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir1MouseEntered
         Animacion.Animacion.mover_derecha(-40, 0, 3, 2, btnSalir1);
     }//GEN-LAST:event_btnSalir1MouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnSalir1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalir1MouseExited
         Animacion.Animacion.mover_izquierda(0, -40, 3, 2, btnSalir1);
     }//GEN-LAST:event_btnSalir1MouseExited
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
         Animacion.Animacion.subir(0, -40, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnComprarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComprarMouseEntered
         Animacion.Animacion.bajar(-40, 0, 3, 2, btnComprar);
     }//GEN-LAST:event_btnComprarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnComprarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComprarMouseExited
         Animacion.Animacion.subir(0, -40, 3, 2, btnComprar);
     }//GEN-LAST:event_btnComprarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
         Animacion.Animacion.bajar(-40, 0, 3, 2, btnLimpiar);
     }//GEN-LAST:event_btnLimpiarMouseEntered
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
     }//GEN-LAST:event_btnAddActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-
+        try {
+            this.ventaC.getMpr().close();
+            this.ventaC = new VentaController(this, tblProductos);
+        } catch (Exception ex) {
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+            //Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComprarActionPerformed
-
+        Huella huella = new Huella();
+        huella.setVenta(this);
+        huella.getBtnAgregar().setVisible(false);
+        huella.setVisible(true);
     }//GEN-LAST:event_btnComprarActionPerformed
     //</editor-fold>
     

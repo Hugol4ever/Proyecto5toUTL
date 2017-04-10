@@ -2,12 +2,16 @@ package app;
 
 import Animacion.Fade;
 import com.digitalpersona.onetouch.DPFPTemplate;
+import controlador.ClientesController;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.table.JTableHeader;
+import modelo.DAO.Cliente;
+import modelo.DAO.Usuario;
+import modelo.DTO.DTOCliente;
 
 /**
  *
@@ -17,6 +21,7 @@ public class Clientes extends javax.swing.JFrame {
     
     //<editor-fold defaultstate="collapsed" desc="Atributos">
     private DPFPTemplate template;
+    private ClientesController clienteC;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -28,6 +33,7 @@ public class Clientes extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         encabezado();
+        this.clienteC = new ClientesController(jTable1);
     }
     //</editor-fold>
 
@@ -39,6 +45,18 @@ public class Clientes extends javax.swing.JFrame {
         JTableHeader th = jTable1.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
+    }
+    
+    /**
+     * 
+     */
+    private void limpiar() {
+        this.txtNombre.setText(null);
+        this.txtCorreo.setText(null);
+        this.txtTel.setText(null);
+        this.txtContraseña.setText(null);
+        this.txtNTarjeta.setText(null);
+        this.labHuella.setIcon(null);
     }
     //</editor-fold>
 
@@ -257,6 +275,11 @@ public class Clientes extends javax.swing.JFrame {
         ));
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTable1.setGridColor(new java.awt.Color(251, 245, 135));
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnbuscar1.png"))); // NOI18N
@@ -342,6 +365,11 @@ public class Clientes extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnLimpiarMouseExited(evt);
+            }
+        });
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
             }
         });
         jPanel8.add(btnLimpiar);
@@ -582,13 +610,77 @@ public class Clientes extends javax.swing.JFrame {
         Animacion.Animacion.mover_izquierda(10, -70, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnHuellaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuellaActionPerformed
-        // TODO add your handling code here:
+        Huella huella = new Huella();
+        huella.setClientes(this);
+        huella.getBtnVerificar().setVisible(false);
+        huella.setVisible(true);
     }//GEN-LAST:event_btnHuellaActionPerformed
 
+    /**
+     * 
+     * 
+     * @param evt 
+     */
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
+        try {
+            Cliente cliente = new Cliente();
+            cliente.setNombre(this.txtNombre.getText());
+            cliente.setCorreo(this.txtCorreo.getText());
+            cliente.setTelefono(this.txtTel.getText());
+            if (this.jRadioButton3.isSelected()) {
+                cliente.setGenero("Masculino");
+            } else {
+                cliente.setGenero("Femenino");
+            }
+            cliente.setNoTarjeta(this.txtNTarjeta.getText());
+            cliente.setUsuario(new Usuario());
+            cliente.getUsuario().setHuella(new modelo.DAO.Huella());
+            cliente.getUsuario().getHuella().setTemplate(this.template);
+            DTOCliente dto = new DTOCliente();
+            if (dto.registrarCliente(cliente)) {
+                //JOptionPane.showMessageDialog(null, "Se registró se ha agregado con éxito");
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Se registró se ha agregado con éxito");
+                mc.setVisible(true);
+                limpiar();
+            } else {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error");
+                m.setVisible(true);
+                //JOptionPane.showMessageDialog(null, "Ocurrió un error");
+            }
+        } catch (Exception ex) {
+            MensajeError m = new MensajeError();
+                m.setMensaje(ex.getMessage());
+                m.setVisible(true);
+            //Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.clienteC = new ClientesController(jTable1);
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    /**
+     * 
+     * 
+     * @param evt 
+     */
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    /**
+     * 
+     * 
+     * @param evt 
+     */
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+    }//GEN-LAST:event_jTable1MouseClicked
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">

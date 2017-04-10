@@ -157,6 +157,7 @@ public class SeleccionVentas extends javax.swing.JFrame {
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         new Reportes().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnReporteActionPerformed
     //</editor-fold>
     

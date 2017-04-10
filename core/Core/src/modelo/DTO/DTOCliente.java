@@ -93,7 +93,7 @@ public class DTOCliente {
      */
     public ArrayList<Cliente> listaCliente() {
         ArrayList<Cliente> cli = new ArrayList<>();
-        String query = "SELECT * FROM vistaCliente";
+        String query = "SELECT * FROM viewCliente";
         try {
             cn = conexion.abrir();
             st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
