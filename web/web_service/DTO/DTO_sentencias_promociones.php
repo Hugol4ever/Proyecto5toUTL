@@ -1,6 +1,6 @@
 <?php
 
-class DTO_sentencia_promociones {
+class DTO_sentencias_promociones {
     
     function __construct() {
 

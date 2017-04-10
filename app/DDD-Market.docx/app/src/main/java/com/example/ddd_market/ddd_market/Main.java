@@ -31,13 +31,20 @@ import android.widget.Toast;
 import com.example.ddd_market.ddd_market.baseDeDatos.DB;
 import com.example.ddd_market.ddd_market.commons.Globals;
 import com.example.ddd_market.ddd_market.controlador.Handler;
+import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
+import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -98,27 +105,44 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         ) {
             public void onDrawerClosed(View view) {
                 getSupportActionBar().setTitle(itemTitle);
-                /*Usa este método si vas a modificar la action bar
-                con cada fragmento
-                 */
-                //invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(activityTitle);
-
-                /*Usa este método si vas a modificar la action bar
-                con cada fragmento
-                 */
-                //invalidateOptionsMenu();
             }
         };
-        //Seteamos la escucha
         drawerLayout.setDrawerListener(drawerToggle);
 
         if (savedInstanceState == null) {
             selectItem(0);
         }
+        if (Handler.conexion) {
+            Thread tr = new Thread() {
+                @Override
+                public void run() {
+                    final String resultadoP = leerP();
+                    final String resultadoPP = leerPP();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Handler.productos = obtDatosJSONP(resultadoP);
+                            Handler.promociones = obtDatosJSONPP(resultadoPP);
+                        }
+                    });
+                }
+            };
+            tr.start();
+        } else {
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = new Principal();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
+        drawerList.setItemChecked(0, true);
+        setTitle(tagTitles[0]);
     }
 
     @Override
@@ -265,6 +289,98 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
             e.printStackTrace();
             Handler.conexion = false;
         }
+    }
+
+    public String leerP() {
+        HttpClient client = new DefaultHttpClient();
+        HttpContext contexto = new BasicHttpContext();
+        String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOProducto.php";
+        HttpGet httpGet = new HttpGet(ruta);
+        String resultado = null;
+        try{
+            HttpResponse response = client.execute(httpGet, contexto);
+            HttpEntity entity = response.getEntity();
+            resultado = EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+
+    public ArrayList<Producto> obtDatosJSONP(String response) {
+        ArrayList<Producto> listado = new ArrayList<>();
+        try{
+            JSONObject object = new JSONObject(response);
+            JSONArray jsonArray = object.optJSONArray("productos");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listado.add(impP(jsonArray.getJSONObject(i)));
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+        }
+        return listado;
+    }
+
+    public Producto impP(JSONObject objetoJSON) {
+        Producto producto = new Producto();
+        try {
+            producto.setIdProducto(objetoJSON.getInt("Id_Producto"));
+            producto.setNombre(objetoJSON.getString("Nombre"));
+            producto.setMarca(objetoJSON.getString("Marca"));
+            producto.setCategoria(objetoJSON.getString("Categoria"));
+            producto.setExistencia(objetoJSON.getInt("Existencia"));
+            producto.setPrecio(objetoJSON.getDouble("Precio"));
+            producto.setFoto(Globals.SERVIDOR_IMAGENES + objetoJSON.getString("Foto"));
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+        }
+        return producto;
+    }
+
+    public String leerPP() {
+        HttpClient client = new DefaultHttpClient();
+        HttpContext contexto = new BasicHttpContext();
+        String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOPromociones.php";
+        HttpGet httpGet = new HttpGet(ruta);
+        String resultado = null;
+        try{
+            HttpResponse response = client.execute(httpGet, contexto);
+            HttpEntity entity = response.getEntity();
+            resultado = EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+
+    public ArrayList<Promocion> obtDatosJSONPP(String response) {
+        ArrayList<Promocion> listado = new ArrayList<>();
+        try{
+            JSONObject object = new JSONObject(response);
+            JSONArray jsonArray = object.optJSONArray("productos");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listado.add(impPP(jsonArray.getJSONObject(i)));
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+        }
+        return listado;
+    }
+
+    public Promocion impPP(JSONObject objetoJSON) {
+        Promocion promocion = new Promocion();
+        try {
+            /**promocion.setId(objetoJSON.getInt("Id_Promocion"));
+            promocion.setNombre(objetoJSON.getString("Nombre"));
+            promocion.setMarca(objetoJSON.getString("Marca"));
+            promocion.setCategoria(objetoJSON.getString("Categoria"));
+            promocion.setExistencia(objetoJSON.getInt("Existencia"));
+            promocion.setPrecio(objetoJSON.getDouble("Precio"));
+            promocion.setFoto(objetoJSON.getString("Foto"));*/
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+        }
+        return promocion;
     }
 
 }

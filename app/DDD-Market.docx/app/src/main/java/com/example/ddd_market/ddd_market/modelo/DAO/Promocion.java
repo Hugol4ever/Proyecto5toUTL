@@ -24,6 +24,14 @@ public class Promocion {
         this.producto = producto;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public double getPrecioPromo() {
         return precioPromo;
     }

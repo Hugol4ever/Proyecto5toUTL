@@ -41,7 +41,7 @@ public class ObtenerProductos extends AppCompatActivity {
                     public void run() {
                         productos = obtDatosJSON(resultado);
                         if (productos.isEmpty()) {
-                            Toast.makeText(getApplicationContext(), "Usuario/Contraseña incorrectos.", Toast.LENGTH_SHORT).show();
+
                         } else {
                             Toast.makeText(getApplicationContext(), "si", Toast.LENGTH_SHORT).show();
                         }

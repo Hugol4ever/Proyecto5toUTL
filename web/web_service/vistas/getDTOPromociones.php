@@ -2,10 +2,10 @@
 
 require '../config/mysql_login.php';
 require '../config/Database.php';
-require '../DTO/DTO_sentencia_promociones.php';
+require '../DTO/DTO_sentencias_promociones.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $promociones = DTO_sentencia_promociones::getAll();
+    $promociones = DTO_sentencias_promociones::getAll();
     if ($promociones) {
         $datos["estado"] = 1;
         $datos["promociones"] = $promociones;

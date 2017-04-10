@@ -40,5 +40,4 @@ public class RegistrarEnBD {
         baseDatos.insert("usuarios", null, registro);
     }
 
-
 }
