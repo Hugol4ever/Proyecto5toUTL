@@ -7,7 +7,7 @@ class DTO_sentencias_promociones {
     }
 
     public static function getAll() {
-        $consulta = "SELECT * FROM viewPromocion";
+        $consulta = "SELECT * FROM viewPromos";
         try {
             $comando = Database::getInstance()->getDb()->prepare($consulta);
             $comando->execute();

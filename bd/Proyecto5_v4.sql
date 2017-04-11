@@ -213,10 +213,12 @@ Delimiter ;
 -- Registrar promocion ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Delimiter $$
 create procedure regPromocion (
-out var_Id_Promocion int, in var_Precio_Promo double(10,2), int var_Fecha date, in var_Dias_Duracion int, in var_Id_Producto2 int)
+out var_Id_Promocion int, in var_Precio_Promo double(10,2), in var_Fecha date, in var_Dias_Duracion int, in var_Id_Producto2 int)
 begin
-insert into Promociones (Precio_Promo, Fecha,Dias_Duracion, id_Producto2)
+insert into Promocion (Precio_Promo, Fecha,Dias_Duracion, id_Producto2)
 values (var_Precio_Promo, var_Fecha, var_Dias_Duracion, var_id_Producto2); set var_Id_Promocion = last_insert_id();
+end $$
+Delimiter ;
 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -259,3 +261,6 @@ select * from viewCliente;
 
 call regProducto(123, 'Sopa instantanea Maruchan', 'Maruchan', 'Alimentos', 10, 7.00, './/src/productos/maruchan.jpg');
 select * from viewProducto;
+
+call regPromocion(@idPromo, 5, now(), 2, 123);
+select * from viewPromos;

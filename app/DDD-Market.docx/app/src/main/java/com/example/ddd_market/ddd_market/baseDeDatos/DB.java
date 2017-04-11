@@ -42,13 +42,17 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE promociones (" +
                 "Id_Promocio integer primary key," +
                 "Preco_Promo double," +
-                "Fecha text," +
-                "Dias_Duracion int," +
                 "Nombre text," +
+                "Marca text," +
+                "Categoria text" +
                 "Precio double" +
                 ")");
 
-        //db.execSQL("");
+        db.execSQL("CREATE TABLE ventas (" +
+                "Id_Venta integer primary key," +
+                "total double," +
+                "fecha text" +
+                ")");
 
         //db.execSQL("");
     }
@@ -82,14 +86,18 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE promociones (" +
                 "Id_Promocio integer primary key," +
                 "Preco_Promo double," +
-                "Fecha text," +
-                "Dias_Duracion int," +
                 "Nombre text," +
+                "Marca text," +
+                "Categoria text" +
                 "Precio double" +
                 ")");
 
         db.execSQL("drop table if exists ventas");
-        //db.execSQL("");
+        db.execSQL("CREATE TABLE ventas (" +
+                "Id_Venta integer primary key," +
+                "total double," +
+                "fecha text" +
+                ")");
 
         db.execSQL("drop table if exists detalle_venta");
         //db.execSQL("");

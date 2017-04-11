@@ -109,21 +109,6 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         if (savedInstanceState == null) {
             selectItem(0);
         }
-        if (Handler.conexion) {
-            Thread tr = new Thread() {
-                @Override
-                public void run() {
-                    final String resultadoPP = leerPP();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Handler.promociones = obtDatosJSONPP(resultadoPP);
-                        }
-                    });
-                }
-            };
-            tr.start();
-        }
     }
 
     @Override
@@ -248,52 +233,6 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         super.onConfigurationChanged(newConfig);
         // Cambiar las configuraciones del drawer si hubo modificaciones
         drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    public String leerPP() {
-        HttpClient client = new DefaultHttpClient();
-        HttpContext contexto = new BasicHttpContext();
-        String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOPromociones.php";
-        HttpGet httpGet = new HttpGet(ruta);
-        String resultado = null;
-        try{
-            HttpResponse response = client.execute(httpGet, contexto);
-            HttpEntity entity = response.getEntity();
-            resultado = EntityUtils.toString(entity, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultado;
-    }
-
-    public ArrayList<Promocion> obtDatosJSONPP(String response) {
-        ArrayList<Promocion> listado = new ArrayList<>();
-        try{
-            JSONObject object = new JSONObject(response);
-            JSONArray jsonArray = object.optJSONArray("productos");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                listado.add(impPP(jsonArray.getJSONObject(i)));
-            }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
-        }
-        return listado;
-    }
-
-    public Promocion impPP(JSONObject objetoJSON) {
-        Promocion promocion = new Promocion();
-        try {
-            /**promocion.setId(objetoJSON.getInt("Id_Promocion"));
-            promocion.setNombre(objetoJSON.getString("Nombre"));
-            promocion.setMarca(objetoJSON.getString("Marca"));
-            promocion.setCategoria(objetoJSON.getString("Categoria"));
-            promocion.setExistencia(objetoJSON.getInt("Existencia"));
-            promocion.setPrecio(objetoJSON.getDouble("Precio"));
-            promocion.setFoto(objetoJSON.getString("Foto"));*/
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
-        }
-        return promocion;
     }
 
 }
