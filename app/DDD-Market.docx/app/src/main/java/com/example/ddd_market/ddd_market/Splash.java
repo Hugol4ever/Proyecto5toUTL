@@ -19,6 +19,7 @@ import com.example.ddd_market.ddd_market.conexiones.ObtenerProductos;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
+import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
 import com.example.ddd_market.ddd_market.sinConexion.ObtenerProductosSC;
 
 import org.apache.http.HttpEntity;
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Splash extends AppCompatActivity {
 
@@ -144,11 +146,13 @@ public class Splash extends AppCompatActivity {
                 @Override
                 public void run() {
                     final String resultadoP = leerP();
+                    final String resultadoPP = leerPP();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Handler.productos = obtDatosJSONP(resultadoP);
                             ObtenerProductos op = new ObtenerProductos(getApplicationContext());
+                            Handler.promociones = obtDatosJSONPP(resultadoPP);
                         }
                     });
                 }
@@ -200,6 +204,55 @@ public class Splash extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
             }
             return producto;
+        }
+
+        private String leerPP() {
+            HttpClient client = new DefaultHttpClient();
+            HttpContext contexto = new BasicHttpContext();
+            String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOPromociones.php";
+            HttpGet httpGet = new HttpGet(ruta);
+            String resultado = null;
+            try{
+                HttpResponse response = client.execute(httpGet, contexto);
+                HttpEntity entity = response.getEntity();
+                resultado = EntityUtils.toString(entity, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resultado;
+        }
+
+        private ArrayList<Promocion> obtDatosJSONPP(String response) {
+            ArrayList<Promocion> listado = new ArrayList<>();
+            try{
+                JSONObject object = new JSONObject(response);
+                JSONArray jsonArray = object.optJSONArray("promociones");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    listado.add(impPP(jsonArray.getJSONObject(i)));
+                }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+            }
+            return listado;
+        }
+
+        private Promocion impPP(JSONObject objetoJSON) {
+            Promocion promocion = new Promocion();
+            try {
+                promocion.setId(objetoJSON.getInt("Id_Promocion"));
+                promocion.setPrecioPromo(objetoJSON.getDouble("Precio_Promo"));
+                //promocion.setFecha(objetoJSON.getString("Fecha"));
+                promocion.setDiasDuracion(objetoJSON.getInt("Dias_Duracion"));
+                promocion.setProducto(new Producto());
+                promocion.getProducto().setNombre(objetoJSON.getString("Nombre"));
+                promocion.getProducto().setPrecio(objetoJSON.getDouble("Precio"));
+                promocion.getProducto().setMarca(objetoJSON.getString("Marca"));
+                promocion.getProducto().setCategoria(objetoJSON.getString("Categoria"));
+                promocion.getProducto().setFoto(Globals.SERVIDOR_IMAGENES + objetoJSON.getString("Foto"));
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+            }
+            return promocion;
         }
     }
 }

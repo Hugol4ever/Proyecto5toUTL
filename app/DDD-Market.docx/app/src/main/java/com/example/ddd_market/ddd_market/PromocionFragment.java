@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
 
@@ -74,18 +75,9 @@ public class PromocionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_promocion, container, false);
         listaP =(ListView)view.findViewById(R.id.listaPromociones);
-        ArrayList<Promocion> arreglo = obtenerProductos(); //Solo es de prueba
+        ArrayList<Promocion> arreglo = Handler.promociones; //Solo es de prueba
         listaP.setAdapter(new AdapterPromocion(PromocionFragment.super.getContext(),arreglo));
         return view;
-    }
-
-    public ArrayList obtenerProductos(){
-        ArrayList<Promocion> arregloPromocion = new ArrayList<Promocion>();
-        Producto p = new Producto("Coca-Cola","Coca","Refrescos",1,15,"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flasche_Coca-Cola_0%2C2_Liter.jpg/220px-Flasche_Coca-Cola_0%2C2_Liter.jpg");
-        Producto p2 = new Producto("Arroz Morelos","Verde Valle","Comida",7, 10,"http://www.laranitadelapaz.com.mx/content/images/thumbs/0002537_arroz-morelos-bolsa-1-kg-carita-tradicional.png");
-        arregloPromocion.add(new Promocion(5,new Date(),10,p));
-        arregloPromocion.add(new Promocion(2, new Date(),15,p2));
-        return arregloPromocion;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

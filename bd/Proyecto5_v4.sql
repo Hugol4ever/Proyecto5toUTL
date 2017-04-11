@@ -133,7 +133,7 @@ select * from viewProducto;
 
 -- Vista Promociones---------------------------------------------------------------------------------------------------------------------------------------------------------------
 create view viewPromos as
- select pro.Id_Promocion, pro.Precio_Promo, pro.Fecha, pro.Dias_Duracion,p.Nombre,p.Precio from Promocion pro 
+ select pro.Id_Promocion, pro.Precio_Promo, pro.Fecha, pro.Dias_Duracion,p.Nombre,p.Precio, p.Marca, p.Categoria, p.Foto from Promocion pro 
  inner join Producto p on p.Id_Producto = pro.Id_Producto2;
  select * from viewPromos;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
