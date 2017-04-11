@@ -16,11 +16,13 @@ import com.example.ddd_market.ddd_market.baseDeDatos.DB;
 import com.example.ddd_market.ddd_market.commons.Globals;
 import com.example.ddd_market.ddd_market.conexiones.BackGround;
 import com.example.ddd_market.ddd_market.conexiones.ObtenerProductos;
+import com.example.ddd_market.ddd_market.conexiones.ObtenerPromociones;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
 import com.example.ddd_market.ddd_market.sinConexion.ObtenerProductosSC;
+import com.example.ddd_market.ddd_market.sinConexion.ObtenerPromocionesSC;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -116,13 +118,14 @@ public class Splash extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            isOnlineNet();
+            if (Handler.conexion) {
+                llenarHandlerRed();
+            } else {
+                ObtenerProductosSC op = new ObtenerProductosSC(getApplicationContext());
+                ObtenerPromocionesSC opp = new ObtenerPromocionesSC(getApplicationContext());
+            }
             if (comprobarUsuario()) {
-                isOnlineNet();
-                if (Handler.conexion) {
-                    llenarHandlerProductosRed();
-                } else {
-                    ObtenerProductosSC op = new ObtenerProductosSC(getApplicationContext());
-                }
                 irPrincipal();
             } else {
                 irLogin();
@@ -141,7 +144,7 @@ public class Splash extends AppCompatActivity {
             }
         }
 
-        private void llenarHandlerProductosRed() {
+        private void llenarHandlerRed() {
             Thread tr = new Thread() {
                 @Override
                 public void run() {
@@ -153,6 +156,7 @@ public class Splash extends AppCompatActivity {
                             Handler.productos = obtDatosJSONP(resultadoP);
                             ObtenerProductos op = new ObtenerProductos(getApplicationContext());
                             Handler.promociones = obtDatosJSONPP(resultadoPP);
+                            ObtenerPromociones opp = new ObtenerPromociones(getApplicationContext());
                         }
                     });
                 }

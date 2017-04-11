@@ -40,11 +40,11 @@ public class DB extends SQLiteOpenHelper {
                 ")");
 
         db.execSQL("CREATE TABLE promociones (" +
-                "Id_Promocio integer primary key," +
+                "Id_Promocion integer primary key," +
                 "Preco_Promo double," +
                 "Nombre text," +
                 "Marca text," +
-                "Categoria text" +
+                "Categoria text," +
                 "Precio double" +
                 ")");
 
@@ -84,11 +84,11 @@ public class DB extends SQLiteOpenHelper {
 
         db.execSQL("drop table if exists promociones");
         db.execSQL("CREATE TABLE promociones (" +
-                "Id_Promocio integer primary key," +
+                "Id_Promocion integer primary key," +
                 "Preco_Promo double," +
                 "Nombre text," +
                 "Marca text," +
-                "Categoria text" +
+                "Categoria text," +
                 "Precio double" +
                 ")");
 
