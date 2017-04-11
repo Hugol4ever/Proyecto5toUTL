@@ -1,6 +1,5 @@
 package com.example.ddd_market.ddd_market;
 
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -8,31 +7,26 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.baseDeDatos.DB;
 import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.conexiones.ObtenerProductos;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
+import com.example.ddd_market.ddd_market.sinConexion.ObtenerProductosSC;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -64,7 +58,6 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isOnlineNet();
         setContentView(R.layout.activity_main);
 
         itemTitle = activityTitle = getTitle();
@@ -120,20 +113,16 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
             Thread tr = new Thread() {
                 @Override
                 public void run() {
-                    final String resultadoP = leerP();
                     final String resultadoPP = leerPP();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Handler.productos = obtDatosJSONP(resultadoP);
                             Handler.promociones = obtDatosJSONPP(resultadoPP);
                         }
                     });
                 }
             };
             tr.start();
-        } else {
-
         }
     }
 
@@ -143,6 +132,7 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
         drawerList.setItemChecked(0, true);
         setTitle(tagTitles[0]);
+
     }
 
     @Override
@@ -258,83 +248,6 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         super.onConfigurationChanged(newConfig);
         // Cambiar las configuraciones del drawer si hubo modificaciones
         drawerToggle.onConfigurationChanged(newConfig);
-    }
-
-    public void isOnlineNet() {
-        try {
-            Thread tr = new Thread() {
-                @Override
-                public void run() {
-                    while (true) {
-                        HttpClient client = new DefaultHttpClient();
-                        HttpContext contexto = new BasicHttpContext();
-                        HttpGet httpGet = new HttpGet("http://" + Globals.SERVIDOR + ":80/vistas/getDTOProducto.php");
-                        try {
-                            HttpResponse response = client.execute(httpGet, contexto);
-                            Handler.conexion = true;
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Handler.conexion = false;
-                        }
-                        try {
-                            sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            };
-            tr.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Handler.conexion = false;
-        }
-    }
-
-    public String leerP() {
-        HttpClient client = new DefaultHttpClient();
-        HttpContext contexto = new BasicHttpContext();
-        String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOProducto.php";
-        HttpGet httpGet = new HttpGet(ruta);
-        String resultado = null;
-        try{
-            HttpResponse response = client.execute(httpGet, contexto);
-            HttpEntity entity = response.getEntity();
-            resultado = EntityUtils.toString(entity, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return resultado;
-    }
-
-    public ArrayList<Producto> obtDatosJSONP(String response) {
-        ArrayList<Producto> listado = new ArrayList<>();
-        try{
-            JSONObject object = new JSONObject(response);
-            JSONArray jsonArray = object.optJSONArray("productos");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                listado.add(impP(jsonArray.getJSONObject(i)));
-            }
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
-        }
-        return listado;
-    }
-
-    public Producto impP(JSONObject objetoJSON) {
-        Producto producto = new Producto();
-        try {
-            producto.setIdProducto(objetoJSON.getInt("Id_Producto"));
-            producto.setNombre(objetoJSON.getString("Nombre"));
-            producto.setMarca(objetoJSON.getString("Marca"));
-            producto.setCategoria(objetoJSON.getString("Categoria"));
-            producto.setExistencia(objetoJSON.getInt("Existencia"));
-            producto.setPrecio(objetoJSON.getDouble("Precio"));
-            producto.setFoto(Globals.SERVIDOR_IMAGENES + objetoJSON.getString("Foto"));
-        } catch (JSONException e) {
-            Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
-        }
-        return producto;
     }
 
     public String leerPP() {

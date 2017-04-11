@@ -1,11 +1,16 @@
 package com.example.ddd_market.ddd_market.conexiones;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.example.ddd_market.ddd_market.baseDeDatos.DB;
 import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 
@@ -27,76 +32,35 @@ import java.util.ArrayList;
  * Created by hugo_ on 06/04/2017.
  */
 
-public class ObtenerProductos extends AppCompatActivity {
+public class ObtenerProductos {
 
-    private ArrayList<Producto> productos;
+    private DB baseDeDatos;
+    private SQLiteDatabase baseDatos;
+    private Context context;
 
-    public ObtenerProductos() {
-        Thread tr = new Thread() {
-            @Override
-            public void run() {
-                final String resultado = leer();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        productos = obtDatosJSON(resultado);
-                        if (productos.isEmpty()) {
+    public ObtenerProductos(Context context) {
+        this.context = context;
+        this.baseDeDatos = new DB(context, Globals.NOMBRE_DB, null, Globals.VERSION_DB);
+        this.baseDatos = this.baseDeDatos.getWritableDatabase();
+        registrarProductos();
+    }
 
-                        } else {
-                            Toast.makeText(getApplicationContext(), "si", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    private void registrarProductos() {
+        ContentValues registro = new ContentValues();
+        for (Producto p : Handler.productos) {
+            try {
+                registro.put("Id_Producto", p.getIdProducto());
+                registro.put("Nombre", p.getNombre());
+                registro.put("Marca", p.getMarca());
+                registro.put("Categoria", p.getCategoria());
+                registro.put("Existencia", p.getExistencia());
+                registro.put("Precio", p.getPrecio());
+                baseDatos.insert("producto", null, registro);
+            } catch (Exception ex) {
+                Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show();
             }
-        };
-        tr.start();
-    }
-
-    private String leer() {
-        HttpClient client = new DefaultHttpClient();
-        HttpContext contexto = new BasicHttpContext();
-        HttpGet httpGet = new HttpGet("http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOProducto.php");
-        String resultado = null;
-        try{
-            HttpResponse response = client.execute(httpGet, contexto);
-            HttpEntity entity = response.getEntity();
-            resultado = EntityUtils.toString(entity, "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        return resultado;
+        baseDatos.close();
     }
 
-    private ArrayList<Producto> obtDatosJSON(String response) {
-        ArrayList<Producto> listado = new ArrayList<>();
-        try{
-            JSONObject object = new JSONObject(response);
-            JSONArray jsonArray = object.optJSONArray("productos");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                listado.add(imp(jsonArray.getJSONObject(i)));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listado;
-    }
-
-    private Producto imp(JSONObject objetoJSON) {
-        Producto p = new Producto();
-        try {
-            p.setIdProducto(objetoJSON.getInt("Id_Producto"));
-            p.setNombre(objetoJSON.getString("Nombre"));
-            p.setMarca(objetoJSON.getString("Marca"));
-            p.setCategoria(objetoJSON.getString("Categoria"));
-            p.setExistencia(objetoJSON.getInt("Existencia"));
-            p.setPrecio(objetoJSON.getDouble("Precio"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return p;
-    }
-
-    public ArrayList<Producto> getProductos() {
-        return this.productos;
-    }
 }

@@ -1,19 +1,40 @@
 package com.example.ddd_market.ddd_market;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.baseDeDatos.DB;
 import com.example.ddd_market.ddd_market.commons.Globals;
 import com.example.ddd_market.ddd_market.conexiones.BackGround;
+import com.example.ddd_market.ddd_market.conexiones.ObtenerProductos;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
+import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
+import com.example.ddd_market.ddd_market.sinConexion.ObtenerProductosSC;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class Splash extends AppCompatActivity {
 
@@ -54,17 +75,6 @@ public class Splash extends AppCompatActivity {
         c.setSaldoDisponible(fila.getDouble(8));
         Handler.cliente = c;
         baseDatos.close();
-        //cargarHandlerProductos();
-    }
-
-    private void cargarHandlerProductos() {
-        DB db = new DB(getApplicationContext(), Globals.NOMBRE_DB, null, Globals.VERSION_DB);
-        SQLiteDatabase baseDatos = db.getWritableDatabase();
-
-        Cursor fila = baseDatos.rawQuery("select * from usuarios", null);
-        fila.moveToFirst();
-
-        baseDatos.close();
     }
 
     public void irLogin(){
@@ -78,8 +88,23 @@ public class Splash extends AppCompatActivity {
         startActivity(i);
     }
 
-    class miHilo extends Thread{
+    class miHilo extends Thread {
 
+        private void isOnlineNet() {
+            HttpClient client = new DefaultHttpClient();
+            HttpContext contexto = new BasicHttpContext();
+            String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOProducto.php";
+            HttpGet httpGet = new HttpGet(ruta);
+            try {
+                HttpResponse response = client.execute(httpGet, contexto);
+                Handler.conexion = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                Handler.conexion = false;
+            }
+        }
+
+        @Override
         public void run(){
             for(int i =0;i<=7;i++){
                 i++;
@@ -90,6 +115,12 @@ public class Splash extends AppCompatActivity {
                 }
             }
             if (comprobarUsuario()) {
+                isOnlineNet();
+                if (Handler.conexion) {
+                    llenarHandlerProductosRed();
+                } else {
+                    ObtenerProductosSC op = new ObtenerProductosSC(getApplicationContext());
+                }
                 irPrincipal();
             } else {
                 irLogin();
@@ -99,15 +130,76 @@ public class Splash extends AppCompatActivity {
         private boolean comprobarUsuario() {
             DB db = new DB(getApplicationContext(), Globals.NOMBRE_DB, null, Globals.VERSION_DB);
             SQLiteDatabase baseDatos = db.getWritableDatabase();
-
             Cursor fila = baseDatos.rawQuery("select * from usuarios", null);
             fila.moveToFirst();
-
             if (fila.isFirst()) {
                 return true;
             } else {
                 return false;
             }
+        }
+
+        private void llenarHandlerProductosRed() {
+            Thread tr = new Thread() {
+                @Override
+                public void run() {
+                    final String resultadoP = leerP();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Handler.productos = obtDatosJSONP(resultadoP);
+                            ObtenerProductos op = new ObtenerProductos(getApplicationContext());
+                        }
+                    });
+                }
+            };
+            tr.start();
+        }
+
+        private String leerP() {
+            HttpClient client = new DefaultHttpClient();
+            HttpContext contexto = new BasicHttpContext();
+            String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOProducto.php";
+            HttpGet httpGet = new HttpGet(ruta);
+            String resultado = null;
+            try{
+                HttpResponse response = client.execute(httpGet, contexto);
+                HttpEntity entity = response.getEntity();
+                resultado = EntityUtils.toString(entity, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return resultado;
+        }
+
+        private ArrayList<Producto> obtDatosJSONP(String response) {
+            ArrayList<Producto> listado = new ArrayList<>();
+            try{
+                JSONObject object = new JSONObject(response);
+                JSONArray jsonArray = object.optJSONArray("productos");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    listado.add(impP(jsonArray.getJSONObject(i)));
+                }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+            }
+            return listado;
+        }
+
+        private Producto impP(JSONObject objetoJSON) {
+            Producto producto = new Producto();
+            try {
+                producto.setIdProducto(objetoJSON.getInt("Id_Producto"));
+                producto.setNombre(objetoJSON.getString("Nombre"));
+                producto.setMarca(objetoJSON.getString("Marca"));
+                producto.setCategoria(objetoJSON.getString("Categoria"));
+                producto.setExistencia(objetoJSON.getInt("Existencia"));
+                producto.setPrecio(objetoJSON.getDouble("Precio"));
+                producto.setFoto(Globals.SERVIDOR_IMAGENES + objetoJSON.getString("Foto"));
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+            }
+            return producto;
         }
     }
 }

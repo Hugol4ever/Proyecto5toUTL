@@ -38,6 +38,7 @@ public class RegistrarEnBD {
         registro.put("Limite_Saldo", Handler.cliente.getLimiteSaldo());
         registro.put("Saldo_Dis", Handler.cliente.getSaldoDisponible());
         baseDatos.insert("usuarios", null, registro);
+        baseDatos.close();
     }
 
 }
