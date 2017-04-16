@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ddd_market.ddd_market.ComprasFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="76dp"
+            android:layout_marginBottom="15dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="195dp"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Compra #"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvNCompra" />
+
+                <TextView
+                    android:text="Fecha:"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvFechaC" />
+
+                <TextView
+                    android:text="Hora:"
+                    android:textSize="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvHora" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:text="Total"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorPrincipal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv12"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:text="$"
+                    android:textSize="22dp"
+                    android:textColor="@color/precios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTotal"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listaDetalleCompras" />
+    </LinearLayout>
+
+</RelativeLayout>

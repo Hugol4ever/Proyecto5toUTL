@@ -1,9 +1,15 @@
 package app;
 
 import Animacion.Fade;
+import commons.Globals;
+import controlador.PromocionController;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
+import java.util.Date;
 import javax.swing.table.JTableHeader;
+import modelo.DAO.Producto;
+import modelo.DAO.Promocion;
 
 /**
  *
@@ -12,29 +18,46 @@ import javax.swing.table.JTableHeader;
 public class Promociones extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Atributos">
-    
+    private PromocionController promcionesC;
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Constructor">
     /**
-     * 
+     *
      */
     public Promociones() {
         setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
         encabezado();
+        labFormato.setVisible(false);
+        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+        establecerFecha();
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
     /**
-     * 
+     *
      */
     public void encabezado() {
         JTableHeader th = tablaPromociones.getTableHeader();
         th.setFont(new Font("Segoe Print", 1, 14));
         th.setForeground(Color.DARK_GRAY);
+    }
+    
+    public void establecerFecha() {
+        Date fecha = new Date();
+        txtFecha.setText(Globals.formatoFecha.format(fecha));
+    }
+    
+    public void limpiar() {
+        txtCodPromocion.setText("");
+        txtCodProducto.setText("");
+        establecerFecha();
+        txtDias.setText("");
+        txtPrecio.setText("");
+        comboProducto.setSelectedIndex(0);
     }
     //</editor-fold>
 
@@ -52,16 +75,18 @@ public class Promociones extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtValorBusqueda = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPromociones = new javax.swing.JTable();
+        labFormato = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        comboProducto = new javax.swing.JComboBox<>();
         txtCodProducto = new javax.swing.JTextField();
         txtFecha = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
         txtDias = new javax.swing.JTextField();
-        txtCodigo = new javax.swing.JTextField();
+        txtCodPromocion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -134,14 +159,24 @@ public class Promociones extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Numero de Promoción", "Nombre Producto", "Fecha Registro" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Código de Promoción", "Nombre Producto", "Fecha Registro", "Todos *" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
-        jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
+        txtValorBusqueda.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnbuscar1.png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnbuscar1.png"))); // NOI18N
+        btnBuscar.setBorderPainted(false);
+        btnBuscar.setContentAreaFilled(false);
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         tablaPromociones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -154,7 +189,16 @@ public class Promociones extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaPromociones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaPromocionesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaPromociones);
+
+        labFormato.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 12)); // NOI18N
+        labFormato.setForeground(new java.awt.Color(102, 102, 102));
+        labFormato.setText("Formato de fecha:  yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -166,11 +210,15 @@ public class Promociones extends javax.swing.JFrame {
                         .addGap(45, 45, 45)
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, 0, 187, Short.MAX_VALUE)
+                        .addComponent(jComboBox1, 0, 220, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtValorBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(labFormato)))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1)))
@@ -179,15 +227,16 @@ public class Promociones extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(txtValorBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labFormato))
+                    .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1)
                 .addContainerGap())
@@ -196,13 +245,26 @@ public class Promociones extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(null);
 
+        comboProducto.setBackground(new java.awt.Color(251, 245, 135));
+        comboProducto.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
+        comboProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige un producto" }));
+        comboProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboProductoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(comboProducto);
+        comboProducto.setBounds(210, 120, 280, 30);
+
+        txtCodProducto.setEditable(false);
         txtCodProducto.setBackground(new java.awt.Color(251, 245, 135));
         txtCodProducto.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtCodProducto.setBorder(null);
         txtCodProducto.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jPanel5.add(txtCodProducto);
-        txtCodProducto.setBounds(230, 130, 170, 20);
+        txtCodProducto.setBounds(500, 120, 100, 30);
 
+        txtFecha.setEditable(false);
         txtFecha.setBackground(new java.awt.Color(251, 245, 135));
         txtFecha.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtFecha.setBorder(null);
@@ -224,12 +286,13 @@ public class Promociones extends javax.swing.JFrame {
         jPanel5.add(txtDias);
         txtDias.setBounds(230, 370, 170, 20);
 
-        txtCodigo.setBackground(new java.awt.Color(251, 245, 135));
-        txtCodigo.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
-        txtCodigo.setBorder(null);
-        txtCodigo.setDisabledTextColor(new java.awt.Color(51, 51, 51));
-        jPanel5.add(txtCodigo);
-        txtCodigo.setBounds(230, 50, 170, 20);
+        txtCodPromocion.setEditable(false);
+        txtCodPromocion.setBackground(new java.awt.Color(251, 245, 135));
+        txtCodPromocion.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
+        txtCodPromocion.setBorder(null);
+        txtCodPromocion.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jPanel5.add(txtCodPromocion);
+        txtCodPromocion.setBounds(230, 50, 170, 20);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/datosPromo.png"))); // NOI18N
         jPanel5.add(jLabel4);
@@ -265,6 +328,11 @@ public class Promociones extends javax.swing.JFrame {
                 btnLimpiarMouseExited(evt);
             }
         });
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
         jPanel6.add(btnLimpiar);
         btnLimpiar.setBounds(40, -30, 110, 130);
 
@@ -277,6 +345,11 @@ public class Promociones extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnGuardarMouseExited(evt);
+            }
+        });
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
             }
         });
         jPanel6.add(btnGuardar);
@@ -293,6 +366,11 @@ public class Promociones extends javax.swing.JFrame {
                 btnModificarMouseExited(evt);
             }
         });
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
         jPanel6.add(btnModificar);
         btnModificar.setBounds(310, -30, 127, 130);
 
@@ -305,6 +383,11 @@ public class Promociones extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnCancelarMouseExited(evt);
+            }
+        });
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
             }
         });
         jPanel6.add(btnCancelar);
@@ -325,12 +408,10 @@ public class Promociones extends javax.swing.JFrame {
                         .addComponent(jPanelSalir2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -384,8 +465,8 @@ public class Promociones extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Métodos auto-generados">
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnSalirMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseEntered
@@ -393,8 +474,8 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirMouseEntered
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnSalirMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalirMouseExited
@@ -402,8 +483,8 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirMouseExited
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -411,8 +492,8 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnLimpiarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseEntered
@@ -420,8 +501,8 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarMouseEntered
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnLimpiarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimpiarMouseExited
@@ -429,17 +510,17 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarMouseExited
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnGuardarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseExited
-         Animacion.Animacion.subir(10, -30, 3, 2, btnGuardar);
+        Animacion.Animacion.subir(10, -30, 3, 2, btnGuardar);
     }//GEN-LAST:event_btnGuardarMouseExited
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnGuardarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGuardarMouseEntered
@@ -447,17 +528,17 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarMouseEntered
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnModificarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseExited
-         Animacion.Animacion.subir(10, -30, 3, 2, btnModificar);
+        Animacion.Animacion.subir(10, -30, 3, 2, btnModificar);
     }//GEN-LAST:event_btnModificarMouseExited
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnModificarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnModificarMouseEntered
@@ -465,28 +546,141 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarMouseEntered
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
-         Animacion.Animacion.subir(10, -30, 3, 2, btnCancelar);
+        Animacion.Animacion.subir(10, -30, 3, 2, btnCancelar);
     }//GEN-LAST:event_btnCancelarMouseExited
 
     /**
-     * 
-     * 
+     *
+     *
      * @param evt parámetro por defecto
      */
     private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
         Animacion.Animacion.bajar(-30, 10, 3, 2, btnCancelar);
     }//GEN-LAST:event_btnCancelarMouseEntered
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        Promocion promo = new Promocion();
+        promo.setProducto(new Producto());
+        promo.setDiasDuracion(Integer.parseInt(this.txtDias.getText()));
+        promo.setPrecioPromocion(Double.parseDouble(this.txtPrecio.getText()));
+        promo.getProducto().setIdProducto(Integer.parseInt(txtCodProducto.getText()));
+        try {
+            int n = promcionesC.registrarPromo(promo);
+            MensajeConfirmacion mc = new MensajeConfirmacion();
+            mc.setMensaje("Promoción registrada con éxito."
+                    + "\n Con código de promoción: " + n);
+            mc.setVisible(true);
+            limpiar();
+        } catch (Exception e) {
+            MensajeError m = new MensajeError();
+            m.setMensaje("Ocurrió un error al registrar promoción. "
+                    + "\nIntentelo de nuevo");
+            m.setVisible(true);
+        }
+        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void comboProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboProductoActionPerformed
+        int posicion = comboProducto.getSelectedIndex();
+        if (posicion == 0) {
+            txtCodProducto.setText("");
+        } else {
+            txtCodProducto.setText("" + promcionesC.ids[posicion]);
+        }
+    }//GEN-LAST:event_comboProductoActionPerformed
+
+    private void tablaPromocionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPromocionesMouseClicked
+        int n = tablaPromociones.getSelectedRow();
+        txtCodPromocion.setText("" + tablaPromociones.getValueAt(n, 0));
+        txtPrecio.setText("" + tablaPromociones.getValueAt(n, 3));
+        txtDias.setText("" + tablaPromociones.getValueAt(n, 4));
+        txtFecha.setText("" + tablaPromociones.getValueAt(n, 5));
+        comboProducto.setSelectedItem("" + tablaPromociones.getValueAt(n, 1));
+    }//GEN-LAST:event_tablaPromocionesMouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        Promocion promo = new Promocion();
+        promo.setProducto(new Producto());
+        promo.setIdPromocion(Integer.parseInt(this.txtCodPromocion.getText()));
+        promo.setDiasDuracion(Integer.parseInt(this.txtDias.getText()));
+        promo.setPrecioPromocion(Double.parseDouble(this.txtPrecio.getText()));
+        promo.getProducto().setIdProducto(Integer.parseInt(txtCodProducto.getText()));
+        try {
+            promcionesC.modificarPromocion(promo);
+            MensajeConfirmacion mc = new MensajeConfirmacion();
+            mc.setMensaje("Promoción modificada con éxito");
+            mc.setVisible(true);
+            limpiar();
+        } catch (Exception e) {
+            MensajeError m = new MensajeError();
+            m.setMensaje("Ocurrió un error al registrar promoción. "
+                    + "\nIntentelo de nuevo");
+            m.setVisible(true);
+        }
+        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        int id = Integer.parseInt(txtCodPromocion.getText());
+        try {
+            promcionesC.eliminarPromocion(id);
+            MensajeConfirmacion mc = new MensajeConfirmacion();
+            mc.setMensaje("Promoción eliminada con éxito");
+            mc.setVisible(true);
+            limpiar();
+        } catch (Exception e) {
+            MensajeError m = new MensajeError();
+            m.setMensaje("Ocurrió un error al eliminar promoción. "
+                    + "\nIntentelo de nuevo");
+            m.setVisible(true);
+        }
+        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        if (jComboBox1.getSelectedIndex() == 2) {
+            labFormato.setVisible(true);
+        } else {
+            labFormato.setVisible(false);
+        }
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String parametro = jComboBox1.getSelectedItem().toString();
+        String valor = txtValorBusqueda.getText();
+        switch (parametro) {
+            case "Todos *":
+                this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+                break;
+            case "Código de Promoción":
+                this.promcionesC.obtenerPromociones("Id_Promocion", valor);
+                break;
+            case "Nombre Producto":
+                this.promcionesC.obtenerPromociones("Nombre", valor);
+                break;
+            case "Fecha Registro":
+                this.promcionesC.obtenerPromociones("Fecha", valor);
+                break;
+            default:
+                this.promcionesC.obtenerPromociones(parametro, valor);
+                break;
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Método main">
     /**
-     * 
-     * 
+     *
+     *
      * @param args parámetro por defecto
      */
     public static void main(String args[]) {
@@ -508,12 +702,13 @@ public class Promociones extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Atributos auto-generados">
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> comboProducto;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -528,18 +723,17 @@ public class Promociones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanelSalir2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel labFormato;
     private javax.swing.JTable tablaPromociones;
     private javax.swing.JTextField txtCodProducto;
-    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtCodPromocion;
     private javax.swing.JTextField txtDias;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtValorBusqueda;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Métodos Get y Set">
-    
     //</editor-fold>
-    
 }

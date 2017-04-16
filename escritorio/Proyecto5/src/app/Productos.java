@@ -58,7 +58,7 @@ public class Productos extends javax.swing.JFrame {
      */
     public void limpiar() {
         this.txtCodigo.setText(null);
-        this.txtNombre.setText(null);
+        this.txtMarca.setText(null);
         this.txtMarca.setText(null);
         this.txtCategoria.setText(null);
         this.txtPrecio.setText(null);
@@ -87,23 +87,23 @@ public class Productos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnReporte = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        btnFoto = new javax.swing.JButton();
         txtCodigo = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
         txtMarca = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         txtCategoria = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
-        btnFoto = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         txtExistencia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
 
@@ -201,7 +201,7 @@ public class Productos extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
 
         jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
 
@@ -312,6 +312,17 @@ public class Productos extends javax.swing.JFrame {
         jPanel8.add(btnReporte);
         btnReporte.setBounds(470, 10, 150, 80);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/promo1.png"))); // NOI18N
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel8.add(jButton2);
+        jButton2.setBounds(300, 10, 160, 83);
+
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(null);
 
@@ -321,12 +332,38 @@ public class Productos extends javax.swing.JFrame {
         jPanel5.add(jLabel12);
         jLabel12.setBounds(390, 160, 190, 150);
 
+        btnFoto.setFont(new java.awt.Font("Tempus Sans ITC", 0, 14)); // NOI18N
+        btnFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/addPhoto.png"))); // NOI18N
+        btnFoto.setText("<html><p align=center>Añadir<br>Foto</p></html>");
+        btnFoto.setBorderPainted(false);
+        btnFoto.setContentAreaFilled(false);
+        btnFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFotoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnFoto);
+        btnFoto.setBounds(400, 330, 170, 61);
+
         txtCodigo.setBackground(new java.awt.Color(251, 245, 135));
         txtCodigo.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtCodigo.setBorder(null);
         txtCodigo.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
         jPanel5.add(txtCodigo);
-        txtCodigo.setBounds(130, 110, 170, 20);
+        txtCodigo.setBounds(130, 110, 160, 20);
+
+        txtMarca.setBackground(new java.awt.Color(251, 245, 135));
+        txtMarca.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
+        txtMarca.setBorder(null);
+        txtMarca.setDisabledTextColor(new java.awt.Color(51, 51, 51));
+        jPanel5.add(txtMarca);
+        txtMarca.setBounds(140, 190, 170, 20);
 
         txtNombre.setBackground(new java.awt.Color(251, 245, 135));
         txtNombre.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
@@ -335,48 +372,26 @@ public class Productos extends javax.swing.JFrame {
         jPanel5.add(txtNombre);
         txtNombre.setBounds(130, 150, 240, 20);
 
-        txtMarca.setBackground(new java.awt.Color(251, 245, 135));
-        txtMarca.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
-        txtMarca.setBorder(null);
-        txtMarca.setDisabledTextColor(new java.awt.Color(51, 51, 51));
-        jPanel5.add(txtMarca);
-        txtMarca.setBounds(130, 190, 170, 20);
-
         txtCategoria.setBackground(new java.awt.Color(251, 245, 135));
         txtCategoria.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtCategoria.setBorder(null);
         txtCategoria.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jPanel5.add(txtCategoria);
-        txtCategoria.setBounds(130, 230, 170, 20);
+        txtCategoria.setBounds(140, 230, 180, 20);
 
         txtPrecio.setBackground(new java.awt.Color(251, 245, 135));
         txtPrecio.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtPrecio.setBorder(null);
         txtPrecio.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jPanel5.add(txtPrecio);
-        txtPrecio.setBounds(130, 270, 170, 20);
-
-        btnFoto.setText("Seleccionar");
-        btnFoto.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnFoto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFotoActionPerformed(evt);
-            }
-        });
-        jPanel5.add(btnFoto);
-        btnFoto.setBounds(450, 340, 100, 23);
-
-        jLabel5.setFont(new java.awt.Font("Tempus Sans ITC", 0, 19)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel5.setText("Existencia:");
-        jPanel5.add(jLabel5);
-        jLabel5.setBounds(30, 320, 84, 20);
+        txtPrecio.setBounds(140, 270, 170, 20);
 
         txtExistencia.setBackground(new java.awt.Color(251, 245, 135));
         txtExistencia.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtExistencia.setBorder(null);
+        txtExistencia.setDisabledTextColor(new java.awt.Color(51, 51, 51));
         jPanel5.add(txtExistencia);
-        txtExistencia.setBounds(130, 320, 180, 19);
+        txtExistencia.setBounds(140, 320, 170, 20);
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/datosProducto1.png"))); // NOI18N
         jPanel5.add(jLabel4);
@@ -538,7 +553,7 @@ public class Productos extends javax.swing.JFrame {
                 int id = Integer.parseInt(valor);
                 String[] datos = this.productosC.mostrarFoto(id);
                 this.txtCodigo.setText(datos[0]);
-                this.txtNombre.setText(datos[1]);
+                this.txtMarca.setText(datos[1]);
                 this.txtMarca.setText(datos[2]);
                 this.txtCategoria.setText(datos[3]);
                 this.txtExistencia.setText(datos[4]);
@@ -640,7 +655,7 @@ public class Productos extends javax.swing.JFrame {
             this.fotoS.enviarFoto();
             Producto p = new Producto();
             p.setIdProducto(Integer.parseInt(this.txtCodigo.getText()));
-            p.setNombre(this.txtNombre.getText());
+            p.setNombre(this.txtMarca.getText());
             p.setMarca(this.txtMarca.getText());
             p.setCategoria(this.txtCategoria.getText());
             p.setPrecio(Double.parseDouble(this.txtPrecio.getText()));
@@ -674,7 +689,7 @@ public class Productos extends javax.swing.JFrame {
             }
             Producto p = new Producto();
             p.setIdProducto(Integer.parseInt(this.txtCodigo.getText()));
-            p.setNombre(this.txtNombre.getText());
+            p.setNombre(this.txtMarca.getText());
             p.setMarca(this.txtMarca.getText());
             p.setCategoria(this.txtCategoria.getText());
             p.setPrecio(Double.parseDouble(this.txtPrecio.getText()));
@@ -699,6 +714,14 @@ public class Productos extends javax.swing.JFrame {
             m.setVisible(true);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new Promociones().setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
@@ -733,6 +756,7 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSalir1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -740,7 +764,6 @@ public class Productos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
