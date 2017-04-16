@@ -258,7 +258,7 @@ Delimiter ;
  
  -- Registrar Detalle_Venta ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 Delimiter $$
-create procedure regDetVenta (in var_Cantidad int, in var_Precio double(10,2), in var_Id_Producto1 int,in va_Id_Venta1 int, out var_Id_DetalleVenta int)
+create procedure regDetVenta (in var_Cantidad int, in var_Precio double(10,2), in var_Id_Producto1 int,in var_Id_Venta1 int, out var_Id_DetalleVenta int)
 begin
 insert into Detalle_Venta (Cantidad, Precio, Id_Producto1, Id_Venta1) values (var_Cantidad, var_Precio, var_Id_Producto1, var_Id_Venta1);
 set var_Id_DetalleVenta=last_insert_id();
@@ -287,3 +287,9 @@ select * from viewProducto;
 
 call regPromocion(@idPromo, 5, now(), 2, 123);
 select * from viewPromos;
+
+call regVenta(1, @idV);
+select * from viewVenta;
+
+call regDetVenta(2, 10, 123, @idV, @idDV);
+select * from viewDetaVenta;
