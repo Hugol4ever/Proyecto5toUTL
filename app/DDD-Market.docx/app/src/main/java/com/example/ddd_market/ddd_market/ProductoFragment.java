@@ -1,33 +1,20 @@
 package com.example.ddd_market.ddd_market;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.adapters.AdapterProducto;
 import com.example.ddd_market.ddd_market.controlador.Handler;
-import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
-import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ProductoFragment extends Fragment {
@@ -66,12 +53,24 @@ public class ProductoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_producto, container, false);
         listaP =(ListView)view.findViewById(R.id.listaProductos);
-        listaP.setAdapter(new AdapterProducto(ProductoFragment.super.getContext(), obtenerProductos()));
+        if (Handler.productos != null) {
+            listaP.setAdapter(new AdapterProducto(ProductoFragment.super.getContext(), obtenerProductos()));
+            listaP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    irDetalle(position);
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "No hay productos disponibles.", Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 
-    public void iniciarSinInternet() {
-
+    private void irDetalle(int id) {
+        Handler.producto = Handler.productos.get(id);
+        Handler.isProductoPromocion = false;
+        startActivity(new Intent(getContext(), DetalleProducto.class));
     }
 
     public ArrayList obtenerProductos(){

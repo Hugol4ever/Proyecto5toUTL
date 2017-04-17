@@ -1,13 +1,11 @@
 package com.example.ddd_market.ddd_market;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ListView;
 
+import com.example.ddd_market.ddd_market.adapters.AdapterDetalleCompra;
 import com.example.ddd_market.ddd_market.modelo.DAO.DetalleVenta;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Venta;

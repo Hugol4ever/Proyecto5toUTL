@@ -1,18 +1,22 @@
 package com.example.ddd_market.ddd_market;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.ddd_market.ddd_market.adapters.AdapterCompras;
+import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Venta;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -73,18 +77,28 @@ public class ComprasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_compras, container, false);
         listaC =(ListView)view.findViewById(R.id.listaCompras);
-        ArrayList<Venta> arreglo =obtenerCompras(); //Solo es de prueba
-        listaC.setAdapter(new AdapterCompras(ComprasFragment.super.getContext(),arreglo));
+        if (Handler.ventas != null) {
+            ArrayList<Venta> arreglo = Handler.ventas;
+            listaC.setAdapter(new AdapterCompras(ComprasFragment.super.getContext(), arreglo));
+            listaC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (Handler.conexion) {
+                        irDetalle(position);
+                    } else {
+                        Toast.makeText(getContext(), "No puede ver el detalle de sus ventas" +
+                                "\nsi no tiene conexión a Internet.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "No hay ventas disponibles.", Toast.LENGTH_LONG).show();
+        }
         return view;
     }
 
-    public ArrayList obtenerCompras(){
-       ArrayList<Venta> arregloCompras = new ArrayList<>();
-        arregloCompras.add(new Venta(new Date(),new Date(),null,1200));
-        arregloCompras.add(new Venta(new Date(),new Date(),null,1500));
-        arregloCompras.add(new Venta(new Date(),new Date(),null,11100));
-        arregloCompras.add(new Venta(new Date(),new Date(),null,2045));
-        return arregloCompras;
+    private void irDetalle(int id) {
+        startActivity(new Intent(getContext(), DetalleCompra.class));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -4,11 +4,13 @@ require '../config/mysql_login.php';
 require '../config/Database.php';
 require '../DTO/DTO_sentencias_compra.php';
 
+$id = $_GET['id'];
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    $productos = DTO_sentencias_compra::getAll();
+    $productos = DTO_sentencias_compra::getAll($id);
     if ($productos) {
         $datos["estado"] = 1;
-        $datos["productos"] = $productos;
+        $datos["ventas"] = $productos;
         print json_encode($datos);
     } else {
         print json_encode(array(

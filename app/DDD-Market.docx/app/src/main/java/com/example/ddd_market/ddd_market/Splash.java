@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -17,10 +19,13 @@ import com.example.ddd_market.ddd_market.commons.Globals;
 import com.example.ddd_market.ddd_market.conexiones.BackGround;
 import com.example.ddd_market.ddd_market.conexiones.ObtenerProductos;
 import com.example.ddd_market.ddd_market.conexiones.ObtenerPromociones;
+import com.example.ddd_market.ddd_market.conexiones.ObtenerVentas;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
+import com.example.ddd_market.ddd_market.modelo.DAO.Venta;
+import com.example.ddd_market.ddd_market.sinConexion.ObtenerComprasSC;
 import com.example.ddd_market.ddd_market.sinConexion.ObtenerProductosSC;
 import com.example.ddd_market.ddd_market.sinConexion.ObtenerPromocionesSC;
 
@@ -29,6 +34,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
@@ -37,8 +45,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.RunnableFuture;
 
 public class Splash extends AppCompatActivity {
 
@@ -61,7 +71,7 @@ public class Splash extends AppCompatActivity {
         lgSplash.setAnimation(aumentar);
     }
 
-    private void cargarHandlerCliente() {
+    public void cargarHandlerCliente() {
         DB db = new DB(getApplicationContext(), Globals.NOMBRE_DB, null, Globals.VERSION_DB);
         SQLiteDatabase baseDatos = db.getWritableDatabase();
 
@@ -87,7 +97,6 @@ public class Splash extends AppCompatActivity {
     }
 
     public void irPrincipal() {
-        cargarHandlerCliente();
         Intent i = new Intent(this, Main.class);
         startActivity(i);
     }
@@ -95,7 +104,10 @@ public class Splash extends AppCompatActivity {
     class miHilo extends Thread {
 
         private void isOnlineNet() {
-            HttpClient client = new DefaultHttpClient();
+            HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, 1000);
+            HttpConnectionParams.setSoTimeout(httpParams, 1000);
+            HttpClient client = new DefaultHttpClient(httpParams);
             HttpContext contexto = new BasicHttpContext();
             String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOProducto.php";
             HttpGet httpGet = new HttpGet(ruta);
@@ -124,8 +136,13 @@ public class Splash extends AppCompatActivity {
             } else {
                 ObtenerProductosSC op = new ObtenerProductosSC(getApplicationContext());
                 ObtenerPromocionesSC opp = new ObtenerPromocionesSC(getApplicationContext());
+                ObtenerComprasSC oc = new ObtenerComprasSC(getApplicationContext());
             }
             if (comprobarUsuario()) {
+                cargarHandlerCliente();
+                if (Handler.conexion) {
+                    llenarHandlerCompras();
+                }
                 irPrincipal();
             } else {
                 irLogin();
@@ -164,6 +181,18 @@ public class Splash extends AppCompatActivity {
             tr.start();
         }
 
+        private void llenarHandlerCompras() {
+            final String resultadoC = leerC();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Handler.ventas = obtDatosJSONC(resultadoC);
+                    ObtenerVentas ov = new ObtenerVentas(getApplicationContext());
+                }
+            });
+        }
+
+        //<editor-fold defaultstate="collapsed" desc="obtener productos">
         private String leerP() {
             HttpClient client = new DefaultHttpClient();
             HttpContext contexto = new BasicHttpContext();
@@ -209,7 +238,9 @@ public class Splash extends AppCompatActivity {
             }
             return producto;
         }
+        //</editor-fold>
 
+        //<editor-fold defaultstate="collapsed" desc="obtener promociones">
         private String leerPP() {
             HttpClient client = new DefaultHttpClient();
             HttpContext contexto = new BasicHttpContext();
@@ -245,7 +276,6 @@ public class Splash extends AppCompatActivity {
             try {
                 promocion.setId(objetoJSON.getInt("Id_Promocion"));
                 promocion.setPrecioPromo(objetoJSON.getDouble("Precio_Promo"));
-                //promocion.setFecha(objetoJSON.getString("Fecha"));
                 promocion.setDiasDuracion(objetoJSON.getInt("Dias_Duracion"));
                 promocion.setProducto(new Producto());
                 promocion.getProducto().setNombre(objetoJSON.getString("Nombre"));
@@ -258,5 +288,54 @@ public class Splash extends AppCompatActivity {
             }
             return promocion;
         }
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="obtener ventas">
+        private String leerC() {
+            HttpClient client = new DefaultHttpClient();
+            HttpContext contexto = new BasicHttpContext();
+            String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOCompra.php?id=" + Handler.cliente.getIdCliente();
+            HttpGet httpGet = new HttpGet(ruta);
+            String resultado = null;
+            try{
+                HttpResponse response = client.execute(httpGet, contexto);
+                HttpEntity entity = response.getEntity();
+                resultado = EntityUtils.toString(entity, "UTF-8");
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Error con la ruta.", Toast.LENGTH_SHORT).show();
+            }
+            return resultado;
+        }
+
+        private ArrayList<Venta> obtDatosJSONC(String response) {
+            ArrayList<Venta> listado = new ArrayList<>();
+            try{
+                JSONObject object = new JSONObject(response);
+                JSONArray jsonArray = object.optJSONArray("ventas");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    listado.add(impC(jsonArray.getJSONObject(i)));
+                }
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+            }
+            return listado;
+        }
+
+        private Venta impC(JSONObject objetoJSON) {
+            Venta venta = new Venta();
+            try {
+                venta.setIdVenta(objetoJSON.getInt("Id_Venta"));
+                venta.setFecha(Globals.FECHA.parse(objetoJSON.getString("Fecha")));
+                venta.setHora(Globals.HORA.parse(objetoJSON.getString("Hora")));
+                venta.setMonto(objetoJSON.getDouble("total"));
+            } catch (JSONException e) {
+                Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+            } catch (ParseException e) {
+                Toast.makeText(getApplicationContext(), "Error al convertir fecha/hora.", Toast.LENGTH_SHORT).show();
+            }
+            return venta;
+        }
+        //</editor-fold>
+
     }
 }

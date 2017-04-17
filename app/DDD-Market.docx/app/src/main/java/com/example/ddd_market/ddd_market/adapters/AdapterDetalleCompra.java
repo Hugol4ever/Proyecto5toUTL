@@ -1,4 +1,4 @@
-package com.example.ddd_market.ddd_market;
+package com.example.ddd_market.ddd_market.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.ddd_market.ddd_market.R;
 import com.example.ddd_market.ddd_market.modelo.DAO.DetalleVenta;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class AdapterDetalleCompra extends ArrayAdapter<DetalleVenta> {
 
         DetalleVenta item = getItem(position);
         nombre.setText(item.getProducto().getNombre());
-        cantidad.setText(item.getCantidad());
+        cantidad.setText("" + item.getCantidad());
         monto.setText("$"+item.getPrecio());
         subTotal.setText(""+item.getCantidad()*item.getPrecio());
 

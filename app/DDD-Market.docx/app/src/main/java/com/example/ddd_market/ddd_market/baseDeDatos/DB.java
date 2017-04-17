@@ -51,10 +51,9 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE ventas (" +
                 "Id_Venta integer primary key," +
                 "total double," +
-                "fecha text" +
+                "Fecha text," +
+                "Hora text" +
                 ")");
-
-        //db.execSQL("");
     }
 
     @Override
@@ -96,10 +95,8 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE ventas (" +
                 "Id_Venta integer primary key," +
                 "total double," +
-                "fecha text" +
+                "Fecha text," +
+                "Hora text" +
                 ")");
-
-        db.execSQL("drop table if exists detalle_venta");
-        //db.execSQL("");
     }
 }

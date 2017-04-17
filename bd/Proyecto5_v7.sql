@@ -57,6 +57,7 @@ create table Producto
     Existencia int,
 	Precio double(10,2),
     Foto varchar(100),
+    Promocion boolean default false,
     constraint pk_Id_Producto primary key(Id_Producto)
 );
 
@@ -104,18 +105,18 @@ create table Promocion
 -- ---------------------------------------------------------------------
 
 
+-- Vista Detalle Ventas ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+create view viewDetaVenta as
+ select v.Id_Venta, d.Id_DetalleVenta,p.Nombre, d.Cantidad, d.Precio as preciodv, p.Precio, v.Fecha, v.Hora from Detalle_Venta d inner join Producto p on p.Id_Producto = d.Id_Producto1
+ inner join Venta v on v.Id_Venta = d.Id_Venta1;
+ select * from viewDetaVenta;
+-- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Vista Ventas ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 create view viewVenta as
-select Id_Venta, Fecha, Hora from Venta;
+select v.Id_Cliente1, v.Id_Venta, v.Fecha, v.Hora, (select sum(preciodv) from viewDetaVenta where Id_Venta = v.Id_Venta) as total 
+from Venta as v;
  select * from viewVenta;
--- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
--- Vista Detalle Ventas ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-create view viewDetaVenta as
- select d.Id_DetalleVenta,p.Nombre, d.Cantidad, d.Precio as preciodv, p.Precio, v.Fecha, v.Hora from Detalle_Venta d inner join Producto p on p.Id_Producto = d.Id_Producto1
- inner join Venta v on v.Id_Venta = d.Id_Venta1;
- select * from viewDetaVenta;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Vista Clientes -----------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -245,7 +246,10 @@ create procedure regPromocion (
 out var_Id_Promocion int, in var_Precio_Promo double(10,2), in var_Dias_Duracion int, in var_Id_Producto2 int)
 begin
 insert into Promocion (Precio_Promo, Fecha,Dias_Duracion, id_Producto2)
-values (var_Precio_Promo, date_format(now(),'%Y-%m-%d'), var_Dias_Duracion, var_id_Producto2); set var_Id_Promocion = last_insert_id();
+values (var_Precio_Promo, date_format(now(),'%Y-%m-%d'), var_Dias_Duracion, var_id_Producto2);
+set var_Id_Promocion = last_insert_id();
+
+update Producto set Promocion = true where Id_Producto = var_id_Producto2;
 end $$
 Delimiter ;
 -- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -281,6 +285,34 @@ set var_Id_DetalleVenta=last_insert_id();
 end $$
 Delimiter ;
 -- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------
+-- --------------------------- EVENTO ----------------------------------
+-- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------
+/*
+Delimiter //
+CREATE EVENT eventosMysqlTutorial
+    ON SCHEDULE EVERY 1 DAY STARTS NOW()
+	COMMENT 'Se ha rebajado un día a las promociones'
+    DO 
+		Begin
+        
+        update Promocion set Dias_Duracion 
+        
+        end//
+
+delimiter ;
+*/
+-- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------
+-- -------------------------- PRUEBAS ----------------------------------
+-- ---------------------------------------------------------------------
+-- ---------------------------------------------------------------------
+
 call regCliente(@out_idH,
 null,
 @out_idF, 
@@ -300,6 +332,7 @@ select * from viewCliente;
 
 call regProducto(123, 'Sopa instantanea Maruchan', 'Maruchan', 'Alimentos', 10, 7.00, './/src/productos/maruchan.jpg');
 select * from viewProducto;
+select * from Producto;
 
 call regPromocion(@idPromo, 5, now(), 2, 123);
 select * from viewPromos;
@@ -307,5 +340,5 @@ select * from viewPromos;
 call regVenta(1, @idV);
 select * from viewVenta;
 
-call regDetVenta(2, 10, 123, @idV, @idDV);
+call regDetVenta(2, 60, 126, @idV, @idDV);
 select * from viewDetaVenta;

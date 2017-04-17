@@ -1,4 +1,4 @@
-package com.example.ddd_market.ddd_market;
+package com.example.ddd_market.ddd_market.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ddd_market.ddd_market.DownloadImageTask;
+import com.example.ddd_market.ddd_market.R;
 import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 
 import java.io.InputStream;

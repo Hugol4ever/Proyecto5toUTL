@@ -1,20 +1,22 @@
 package com.example.ddd_market.ddd_market;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.ddd_market.ddd_market.adapters.AdapterPromocion;
 import com.example.ddd_market.ddd_market.controlador.Handler;
-import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Promocion;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -75,9 +77,25 @@ public class PromocionFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_promocion, container, false);
         listaP =(ListView)view.findViewById(R.id.listaPromociones);
-        ArrayList<Promocion> arreglo = Handler.promociones; //Solo es de prueba
-        listaP.setAdapter(new AdapterPromocion(PromocionFragment.super.getContext(),arreglo));
+        if (Handler.promociones != null) {
+            ArrayList<Promocion> arreglo = Handler.promociones;
+            listaP.setAdapter(new AdapterPromocion(PromocionFragment.super.getContext(), arreglo));
+            listaP.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    irDetalle(position);
+                }
+            });
+        } else {
+            Toast.makeText(getContext(), "No hay promociones disponibles.", Toast.LENGTH_LONG).show();
+        }
         return view;
+    }
+
+    private void irDetalle(int id) {
+        Handler.producto = Handler.promociones.get(id).getProducto();
+        Handler.isProductoPromocion = true;
+        startActivity(new Intent(getContext(), DetalleProducto.class));
     }
 
     // TODO: Rename method, update argument and hook method into UI event

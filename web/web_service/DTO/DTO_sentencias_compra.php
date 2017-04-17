@@ -7,8 +7,8 @@ class DTO_sentencias_compra {
 
     }
 
-    public static function getAll() {
-        $consulta = "SELECT * FROM viewVenta";
+    public static function getAll($id) {
+        $consulta = "SELECT * FROM viewVenta WHERE Id_Cliente1 = ".$id;
         try {
             $comando = Database::getInstance()->getDb()->prepare($consulta);
             $comando->execute();

@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.commons.Globals;
 import com.example.ddd_market.ddd_market.conexiones.BackGround;
+import com.example.ddd_market.ddd_market.conexiones.ObtenerVentas;
 import com.example.ddd_market.ddd_market.controlador.Handler;
 import com.example.ddd_market.ddd_market.modelo.DAO.Cliente;
+import com.example.ddd_market.ddd_market.modelo.DAO.Venta;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -38,6 +40,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,9 +82,27 @@ public class Login extends AppCompatActivity {
     }
 
     private void irPrincipal() {
+        llenarHandlerCompras();
         startActivity(new Intent(this, Main.class));
         BackGround ta = new BackGround(getApplicationContext());
         ta.execute();
+    }
+
+    private void llenarHandlerCompras() {
+        Thread tr = new Thread() {
+            @Override
+            public void run() {
+                final String resultadoC = leerC();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Handler.ventas = obtDatosJSONC(resultadoC);
+                        ObtenerVentas ov = new ObtenerVentas(getApplicationContext());
+                    }
+                });
+            }
+        };
+        tr.start();
     }
 
     public String leer(String usuario, String pass) {
@@ -133,5 +154,52 @@ public class Login extends AppCompatActivity {
         Handler.cliente = cliente;
         return cliente;
     }
+
+    //<editor-fold defaultstate="collapsed" desc="obtener ventas">
+    private String leerC() {
+        HttpClient client = new DefaultHttpClient();
+        HttpContext contexto = new BasicHttpContext();
+        String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTOCompra.php?id=" + Handler.cliente.getIdCliente();
+        HttpGet httpGet = new HttpGet(ruta);
+        String resultado = null;
+        try{
+            HttpResponse response = client.execute(httpGet, contexto);
+            HttpEntity entity = response.getEntity();
+            resultado = EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error con la ruta. -> " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        return resultado;
+    }
+
+    private ArrayList<Venta> obtDatosJSONC(String response) {
+        ArrayList<Venta> listado = new ArrayList<>();
+        try{
+            JSONObject object = new JSONObject(response);
+            JSONArray jsonArray = object.optJSONArray("ventas");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listado.add(impC(jsonArray.getJSONObject(i)));
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+        }
+        return listado;
+    }
+
+    private Venta impC(JSONObject objetoJSON) {
+        Venta venta = new Venta();
+        try {
+            venta.setIdVenta(objetoJSON.getInt("Id_Venta"));
+            venta.setFecha(Globals.FECHA.parse(objetoJSON.getString("Fecha")));
+            venta.setHora(Globals.HORA.parse(objetoJSON.getString("Hora")));
+            venta.setMonto(objetoJSON.getDouble("total"));
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            Toast.makeText(getApplicationContext(), "Error al convertir fecha/hora.", Toast.LENGTH_SHORT).show();
+        }
+        return venta;
+    }
+    //</editor-fold>
 
 }
