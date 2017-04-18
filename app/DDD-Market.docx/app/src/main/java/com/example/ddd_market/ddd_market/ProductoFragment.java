@@ -70,7 +70,7 @@ public class ProductoFragment extends Fragment {
     private void irDetalle(int id) {
         Handler.producto = Handler.productos.get(id);
         Handler.isProductoPromocion = false;
-        startActivity(new Intent(getContext(), DetalleProducto.class));
+        startActivity(new Intent(getContext(), DetalleDeProducto.class));
     }
 
     public ArrayList obtenerProductos(){

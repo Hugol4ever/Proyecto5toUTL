@@ -19,8 +19,6 @@ public class DetalleCompra extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_compra);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         listaDV = (ListView)findViewById(R.id.listaDetalleCompras);
         listaDV.setAdapter(new AdapterDetalleCompra(this, obtenerDetalle()));

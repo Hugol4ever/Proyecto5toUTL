@@ -15,15 +15,14 @@
 
 
         <LinearLayout
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:gravity="center"
-            android:layout_height="76dp"
-            android:layout_marginBottom="15dp">
+            android:layout_height="76dp">
 
             <LinearLayout
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:orientation="vertical"
                 android:layout_width="195dp"
                 android:gravity="center"
@@ -53,30 +52,40 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@android:color/black"
                 android:gravity="center"
-                android:layout_height="match_parent">
+                android:orientation="vertical">
 
                 <TextView
-                    android:text="Total"
-                    android:textSize="18dp"
-                    android:textColor="@color/colorPrincipal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/tv12"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:text="$"
-                    android:textSize="22dp"
-                    android:textColor="@color/precios"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp" />
+
+                <TextView
                     android:id="@+id/tvTotal"
-                    android:textAlignment="center" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="$"
+                    android:textAlignment="center"
+                    android:textColor="@color/precios"
+                    android:textSize="22dp" />
             </LinearLayout>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@android:color/black"
+            android:orientation="horizontal"
+            android:layout_marginBottom="15dp"></LinearLayout>
 
         <ListView
             android:layout_width="match_parent"
