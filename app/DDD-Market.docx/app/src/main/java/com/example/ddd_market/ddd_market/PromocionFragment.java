@@ -95,7 +95,7 @@ public class PromocionFragment extends Fragment {
     private void irDetalle(int id) {
         Handler.producto = Handler.promociones.get(id).getProducto();
         Handler.isProductoPromocion = true;
-        startActivity(new Intent(getContext(), DetalleProducto.class));
+        startActivity(new Intent(getContext(), DetalleDeProducto.class));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
