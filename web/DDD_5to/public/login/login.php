@@ -26,6 +26,8 @@
 
     <link href="../css/animate.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
+    <link href="../sweetalert-master/dist/sweetalert.css" rel="stylesheet">
+
 
   </head>
   <body  class="gray-bg">
@@ -55,5 +57,7 @@
   	<script src="main.js"></script>
   	<script src="particles.min.js"></script>
   	<script src="particulas.js"></script>
+    <script type="../sweetalert-master/dist/sweetalert.min.js"></script>
+
   </body>
 </html>

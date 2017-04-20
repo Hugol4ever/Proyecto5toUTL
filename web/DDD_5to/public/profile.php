@@ -26,7 +26,7 @@
 
 <body>
 
-   <!-- Menu lateral -->
+  <!-- Menu lateral -->
     <div id="wrapper">
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
@@ -36,48 +36,45 @@
                             <img alt="image" class="img-circle" src="img/profile_small.jpg" />
                              </span>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"> <?=$_SESSION['perfil']?> </strong>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?=$_SESSION['perfil']?></strong>
                              </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                <li><a href="profile.php">Profile</a></li>
+                                <li><a href="<?=Globals::$Pprofile?>">Profile</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<?=Globals::$logout?>">Logout</a></li>
                             </ul>
                         </div>
                         <div class="logo-element">
-                            <?=Globals::$empresa?>
+                            <?=Globals::$empresa;?>
                         </div>
                     </li>
                     <li class="active">
-                        <a href="index.php"><i class="fa fa-th-large"></i> <span class="nav-label">Panel Principal</span></a>
+                        <a href="<?=Globals::$Pindex?>"><i class="fa fa-th-large"></i> <span class="nav-label">Panel Principal</span></a>
                    </li>
                 
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Graficas</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="graph_flot.php">Grafias Simples</a></li>
-                            <li><a href="graph_chartjs.php">Graficas Avanzadas</a></li>
+                            <li><a href="<?=Globals::$PgraficasS?>">Grafias Simples</a></li>
                         </ul>
                     </li>
 
                     <li>
                         <a href="#"><i class="fa fa-picture-o"></i> <span class="nav-label">Productos</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="basic_gallery.php">Nuestros Productos</a></li>
-                            <li><a href="carousel.php">Ofertas y Destacados</a></li>
+                            <li><a href="<?=Globals::$Pproductos?>">Nuestros Productos</a></li>
+                            <li><a href="<?=Globals::$Pofertas?>">Ofertas y Destacados</a></li>
 
                         </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-table"></i> <span class="nav-label">Tables</span><span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a href="table_basic.php">Static Tables</a></li>
-                            <li><a href="table_data_tables.php">Data Tables</a></li>
-                            <li><a href="jq_grid.php">jqGrid</a></li>
+                            <li><a href="<?=Globals::$Ptabla?>">Static Tables</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="mail_compose.php"><i class="fa fa-envelope"></i> <span class="nav-label"> Contactanos </span><span class="label label-warning pull-right">16/24</span></a>
+                        <a href="<?=Globals::$Pcontactanos?>"><i class="fa fa-envelope"></i> <span class="nav-label"> Contactanos </span><a>
                     <li>
 
             </div>
