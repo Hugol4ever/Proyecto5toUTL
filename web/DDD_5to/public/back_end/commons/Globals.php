@@ -20,7 +20,7 @@
 		//SideBar
 
 		//Servidor imágenes
-		public static $serverImagenes = "http://192.168.1.11:8080/FotosWebService5to/";
+		public static $serverImagenes = "http://localhost:8080/FotosWebService5to/";
 
 	}
 

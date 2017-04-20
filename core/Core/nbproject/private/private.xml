@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/bvsr9/Desktop/DDD_Market/Proyecto5toUTL/core/Core/src/modelo/ConnectionMysql.java</file>
             <file>file:/C:/Users/bvsr9/Desktop/DDD_Market/Proyecto5toUTL/core/Core/src/modelo/DTO/DTOproducto.java</file>
+=======
+            <file>file:/C:/Users/hugo_/Desktop/UTL/5to/proyecto/core/Core/src/modelo/ConnectionMysql.java</file>
+>>>>>>> 178bb4ebac9ce32373a4c03e62254236d47320d8
         </group>
     </open-files>
 </project-private>

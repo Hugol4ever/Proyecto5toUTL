@@ -2,7 +2,7 @@
 	$usuario = $_POST['usuario'];
 	$pass = $_POST['pass'];
 
-	$json = $url ='http://192.168.1.7/web_service/vistas/getDTOCliente.php?user='.$usuario.'&password='.$pass;
+	$json = $url ='http://localhost/web_service/vistas/getDTOCliente.php?user='.$usuario.'&password='.$pass;
 	$json = file_get_contents($url);
   	$array = json_decode($json, true);
   	if ($array['estado'] == 1) {
