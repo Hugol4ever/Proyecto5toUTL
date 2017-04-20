@@ -48,7 +48,7 @@ public class AdapterDetalleCompra extends ArrayAdapter<DetalleVenta> {
         nombre.setText(name);
         cantidad.setText("" + item.getCantidad());
         monto.setText("$"+item.getPrecio());
-        subTotal.setText("$"+(item.getCantidad()*item.getPrecio()));
+        subTotal.setText("$"+((double)item.getCantidad()*item.getPrecio()));
 
         return convertView;
     }

@@ -116,6 +116,7 @@ public class ComprasFragment extends Fragment {
 
     private void irDetalle(int id) {
         final int idVenta = Handler.ventas.get(id).getIdVenta();
+        final double monto = Handler.ventas.get(id).getMonto();
         Thread tr = new Thread() {
             @Override
             public void run() {
@@ -124,6 +125,7 @@ public class ComprasFragment extends Fragment {
                     @Override
                     public void run() {
                         Handler.detalleVentas = obtDatosJSONC(resultado);
+                        Handler.detalleVentas.get(0).getVenta().setMonto(monto);
                         startActivity(new Intent(getContext(), DetalleCompra.class));
                     }
                 });

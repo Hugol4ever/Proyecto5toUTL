@@ -35,26 +35,21 @@ public class DetalleCompra extends AppCompatActivity {
     }
 
     public ArrayList obtenerDetalle(){
-        ArrayList<DetalleVenta> detalle = new ArrayList<>();
-        Venta venta = new Venta();
-        venta.setIdVenta(1);
-        venta.setMonto(15623);
-        Producto producto = new Producto();
-        producto.setNombre("Coca Cola");
-        detalle.add(new DetalleVenta(2, 123, producto,venta));
         return Handler.detalleVentas;
     }
 
     private void inicializar() {
         this.noCompra = (TextView)findViewById(R.id.tvNCompra);
-        this.fecha = (TextView)findViewById(R.id.tvFecha);
+        this.fecha = (TextView)findViewById(R.id.tvFechaC);
         this.hora = (TextView)findViewById(R.id.tvHora);
+        this.total = (TextView)findViewById(R.id.tvTotal);
     }
 
     private void cargar() {
         this.noCompra.setText((this.noCompra.getText().toString()) + Handler.detalleVentas.get(0).getVenta().getIdVenta());
-        //this.fecha.setText((this.fecha.getText().toString()) + " " + Globals.FECHA.format(Handler.detalleVentas.get(0).getVenta().getFecha()));
-        //this.hora.setText((this.hora.getText().toString()) + " " + Handler.detalleVentas.get(0).getVenta().getHora());
+        this.fecha.setText((this.fecha.getText().toString()) + " " + Globals.FECHA.format(Handler.detalleVentas.get(0).getVenta().getFecha()));
+        this.hora.setText((this.hora.getText().toString()) + " " + Globals.HORA.format(Handler.detalleVentas.get(0).getVenta().getHora()));
+        this.total.setText(this.total.getText().toString() + Handler.detalleVentas.get(0).getVenta().getMonto());
     }
 
 }
