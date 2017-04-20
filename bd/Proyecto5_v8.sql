@@ -148,6 +148,13 @@ from Promocion pro inner join Producto p on p.Id_Producto = pro.Id_Producto2;
 select * from viewPromosRed;
 -- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+-- Vista Huella cliente-------------------------------------------------------------------------------------------------------------------------------------------------------
+create view viewHuellaCliente as
+select c.Id_Cliente, h.Huella, c.Nombre from Cliente c inner join (Huella h inner join Usuario u on h.Id_Huella = u.Id_Huella) on c.Id_Cliente = u.Id_Cliente;
+select * from viewHuellaCliente;
+-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 -- Vista LineaVenta -------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- create view viewLineaVenta as
 -- select p.Id_Producto, p.Nombre, p.Precio;
@@ -201,13 +208,19 @@ create procedure modCliente (
 out var_Id_Huella int, in var_Huella blob,
 in var_Id_Cliente int, in var_Nombre varchar(35), in var_Telefono varchar(10),
 in var_Genero varchar(10), in var_N_Tarjeta varchar(25), in var_Limite_Saldo double,
-in var_Saldo_Dis double, in var_Id_Usuario varchar(35), in var_Contrasenia varchar(20), in var_Id_Huella blob)
+in var_Saldo_Dis double, in var_Contrasenia varchar(20))
 begin
-insert into Huella (Huella) values (var_Huella);
-set var_Id_Huella = last_insert_id();
 
-update Cliente set Nombre = var_Nombre, Telefono = var_Telefono, Genereo = var_Genero,
-N_Trajeta = var_N_Tarjeta, Limite_Saldo = var_Limite_Saldo, Saldo_Dis = var_Saldo_Dis
+declare var_Id_Usuario int;
+
+select Id_Usuario from viewCliente where Id_Cliente = var_Id_Cliente into var_Id_Usuario;
+
+select Id_Huella from Usuario where Id_Usuario = var_Id_Usuario into var_Id_Huella;
+
+update Huella set Huella = var_Huella where Id_Huella = var_Id_Huella;
+
+update Cliente set Nombre = var_Nombre, Telefono = var_Telefono, Genero = var_Genero,
+N_Tarjeta = var_N_Tarjeta, Limite_Saldo = var_Limite_Saldo, Saldo_Dis = var_Saldo_Dis
 where Id_Cliente = var_Id_Cliente;
 
 update Usuario set Contrasenia = var_Contrasenia, Id_Huella=var_Id_Huella where Id_Usuario = var_Id_Usuario;
@@ -334,12 +347,13 @@ null,
 'hugol4ever', 
 'laslavanderas12');
 select * from viewCliente;
+select * from Huella;
 
 call regProducto(123, 'Sopa instantanea Maruchan', 'Maruchan', 'Alimentos', 10, 7.00, './/src/productos/maruchan.jpg');
 select * from viewProducto;
 select * from Producto;
 
-call regPromocion(@idPromo, 5, now(), 2, 123);
+call regPromocion(@idPromo, 22.5, 2, 123);
 select * from viewPromos;
 
 call regVenta(1, @idV);

@@ -211,6 +211,11 @@ public class Main extends ActionBarActivity implements Principal.OnFragmentInter
         SQLiteDatabase baseDatos = baseDeDatos.getWritableDatabase();
         baseDatos.delete("usuarios", "Id_Cliente = " + Handler.cliente.getIdCliente(), null);
         baseDatos.close();
+
+        DB baseDeDatos2 = new DB(getApplicationContext(), Globals.NOMBRE_DB, null, Globals.VERSION_DB);
+        SQLiteDatabase baseDatos2 = baseDeDatos2.getWritableDatabase();
+        baseDatos2.delete("ventas", "Id_Cliente = " + Handler.cliente.getIdCliente(), null);
+        baseDatos2.close();
         startActivity(new Intent(this, Splash.class));
     }
 

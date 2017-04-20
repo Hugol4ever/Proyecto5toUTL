@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.example.ddd_market.ddd_market.DetalleDeProducto">
 
     <LinearLayout
@@ -25,8 +26,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:padding="10dp"
-            android:layout_height="388dp">
+            android:layout_height="417dp"
+            android:padding="10dp">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -49,37 +50,43 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="194dp"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:layout_width="174dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tvMarcaP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Marca:" />
+                    android:text="Marca:"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvCategoriaP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Categoria:" />
+                    android:text="Categoria:"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/tvExistenciaP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Existencia:" />
+                    android:text="Existencia:"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:background="@android:color/black"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -89,16 +96,16 @@
                     android:text="$"
                     android:textAlignment="center"
                     android:textColor="@color/precios"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="25dp"
                     android:text="$"
                     android:textAlignment="center"
-                    android:textColor="@color/preciosPromocion" />
+                    android:textColor="@color/preciosPromocion"
+                    android:textSize="28dp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

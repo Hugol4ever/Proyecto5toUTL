@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,45 +12,45 @@
         android:padding="10dp">
 
         <TextView
-            android:layout_marginRight="10dp"
-            android:text="Fecha"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrincipal"
+            android:id="@+id/tvFecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvFecha"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:textAlignment="viewEnd" />
+            android:text="Fecha"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/colorPrincipal"
+            android:textSize="18sp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:text="$"
-            android:textSize="17sp"
-            android:textColor="@color/precios"
+            android:id="@+id/tvMonto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvMonto"
+            android:layout_marginLeft="10dp"
             android:layout_weight="0.74"
-            android:textAlignment="textStart" />
+            android:text="$"
+            android:textAlignment="textStart"
+            android:textColor="@color/precios"
+            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
+        android:background="@color/fonditoTrasnparente"
         android:gravity="center"
-        android:background="@color/fonditoTrasnparente">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:text="Más ..."
-            android:textSize="16sp"
-            android:textColor="@color/preciosPromocion"
+            android:id="@+id/tvDetalle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvDetalle"
-            android:layout_weight="0.74" />
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.74"
+            android:text="Más ..."
+            android:textColor="@color/preciosPromocion"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

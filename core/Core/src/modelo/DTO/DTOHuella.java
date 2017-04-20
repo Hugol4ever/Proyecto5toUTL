@@ -62,7 +62,7 @@ public class DTOHuella {
         Cliente cliente = new Cliente();
         try {
             Connection con = this.conexion.abrir();
-            PreparedStatement verificarStmt = con.prepareStatement("Select * from datosCliente");
+            PreparedStatement verificarStmt = con.prepareStatement("SELECT * FROM viewHuellaCliente");
             ResultSet rs = verificarStmt.executeQuery();
             rs.beforeFirst();
             while (rs.next()) {
@@ -78,7 +78,7 @@ public class DTOHuella {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(DTOHuella.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(DTOHuella.class.getName()).log(Level.SEVERE, null, ex);
         }
         return cliente;
     }

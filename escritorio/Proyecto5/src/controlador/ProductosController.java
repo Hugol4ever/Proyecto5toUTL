@@ -1,6 +1,7 @@
 
 package controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +25,7 @@ public class ProductosController {
      * 
      * @param tabla 
      */
-    public ProductosController(JTable tabla) {
+    public ProductosController(JTable tabla) throws SQLException {
         this.producto = new DTOproducto();
         this.tabla = tabla;
         cargarTabla();
@@ -39,7 +40,7 @@ public class ProductosController {
      * @param parametro
      * @param valor 
      */
-    public void obtenerProductos(String parametro, String valor) {
+    public void obtenerProductos(String parametro, String valor) throws SQLException {
         limpiarTabla();
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         ArrayList<Producto> lista = this.producto.ListaProducto(parametro, valor);
@@ -54,7 +55,7 @@ public class ProductosController {
     /**
      * 
      */
-    private void obtenerProductos() {
+    private void obtenerProductos() throws SQLException {
         limpiarTabla();
         DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
         ArrayList<Producto> lista = this.producto.ListaProducto();
@@ -72,7 +73,7 @@ public class ProductosController {
      * @param id
      * @return 
      */
-    public String[] mostrarFoto(int id) {
+    public String[] mostrarFoto(int id) throws SQLException {
         String[] datos = new String[7];
         ArrayList<Producto> lista = this.producto.ListaProducto();
         for (Producto lista1 : lista) {

@@ -94,7 +94,7 @@ public class DTOPromocion {
         Connection conn = null;
         Statement stmt = null;
 
-        String query = "delete from promocion where Id_Promocion = " + id;
+        String query = "delete from Promocion where Id_Promocion = " + id;
 
         try {
             conn = conexion.abrir();

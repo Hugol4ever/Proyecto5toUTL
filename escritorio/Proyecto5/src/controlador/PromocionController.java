@@ -6,6 +6,7 @@
 package controlador;
 
 import commons.Globals;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -27,7 +28,7 @@ public class PromocionController {
     private JComboBox combo;
     public int [] ids;
 
-    public PromocionController(JTable tabla, JComboBox combo) {
+    public PromocionController(JTable tabla, JComboBox combo) throws SQLException {
         this.tabla = tabla;
         this.combo = combo;
         dtoPromocion = new DTOPromocion();
@@ -90,7 +91,7 @@ public class PromocionController {
         this.tabla.setModel(modelo);
     }
 
-    public void listaProductos(){
+    public void listaProductos() throws SQLException{
         DTOproducto dtoProducto = new DTOproducto();
         limpiarCombo();
         DefaultComboBoxModel modelo = (DefaultComboBoxModel)this.combo.getModel();

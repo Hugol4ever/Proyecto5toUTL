@@ -1,5 +1,9 @@
 package app;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author bvsr9
@@ -228,7 +232,11 @@ public class Menu extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-        new Clientes().setVisible(true);
+        try {
+            new Clientes().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnClientesActionPerformed
 
     /**
@@ -246,7 +254,14 @@ public class Menu extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
-        new Productos().setVisible(true);
+        try {
+            new Productos().setVisible(true);
+        } catch (SQLException ex) {
+            //Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+        }
     }//GEN-LAST:event_btnProductosActionPerformed
     //</editor-fold>
     

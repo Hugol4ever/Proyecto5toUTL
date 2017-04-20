@@ -4,61 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.example.ddd_market.ddd_market.ComprasFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="76dp"
             android:gravity="center"
-            android:layout_height="76dp">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                android:orientation="vertical"
                 android:layout_width="195dp"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_height="match_parent">
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
+                    android:id="@+id/tvNCompra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Compra #"
-                    android:textSize="20dp"
                     android:textColor="@color/colorPrincipal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvNCompra" />
+                    android:textSize="20dp" />
 
                 <TextView
+                    android:id="@+id/tvFechaC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Fecha:"
-                    android:textSize="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/tvFechaC" />
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:text="Hora:"
-                    android:textSize="16dp"
+                    android:id="@+id/tvHora"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tvHora" />
+                    android:text="Hora:"
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:background="@android:color/black"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv12"
@@ -83,14 +84,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="5dp"
+            android:layout_marginBottom="15dp"
             android:background="@android:color/black"
-            android:orientation="horizontal"
-            android:layout_marginBottom="15dp"></LinearLayout>
+            android:orientation="horizontal"></LinearLayout>
 
         <ListView
+            android:id="@+id/listaDetalleCompras"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listaDetalleCompras" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </RelativeLayout>

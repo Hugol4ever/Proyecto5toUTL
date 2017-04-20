@@ -14,6 +14,8 @@ public class Cliente {
     private String telefono;
     private String genero;
     private String noTarjeta;
+    private double limiteSaldo;
+    private double saldoDisponible;
     private Usuario usuario;
     //</editor-fold>
 
@@ -32,14 +34,18 @@ public class Cliente {
      * @param telefono
      * @param genero
      * @param nTarjeta
+     * @param limiteSaldo
+     * @param saldoDisponible
      * @param idUsuario
      */
-    public Cliente(String nombre, String correo, String telefono, String genero, String nTarjeta, Usuario idUsuario) {
+    public Cliente(String nombre, String correo, String telefono, String genero, String nTarjeta, double limiteSaldo, double saldoDisponible, Usuario idUsuario) {
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
         this.genero = genero;
         this.noTarjeta = nTarjeta;
+        this.saldoDisponible = saldoDisponible;
+        this.limiteSaldo = limiteSaldo;
         this.usuario = idUsuario;
     }
     //</editor-fold>
@@ -170,6 +176,41 @@ public class Cliente {
     public void setNoTarjeta(String noTarjeta) {
         this.noTarjeta = noTarjeta;
     }
-    //</editor-fold>
+
+    /**
+     * 
+     * 
+     * @return 
+     */
+    public double getLimiteSaldo() {
+        return limiteSaldo;
+    }
+
+    /**
+     * 
+     * 
+     * @param limiteSaldo 
+     */
+    public void setLimiteSaldo(double limiteSaldo) {
+        this.limiteSaldo = limiteSaldo;
+    }
+
+    /**
+     * 
+     * 
+     * @return 
+     */
+    public double getSaldoDisponible() {
+        return saldoDisponible;
+    }
+
+    /**
+     * 
+     * 
+     * @param saldoDisponible 
+     */
+    public void setSaldoDisponible(double saldoDisponible) {
+        this.saldoDisponible = saldoDisponible;
+    }
     
 }

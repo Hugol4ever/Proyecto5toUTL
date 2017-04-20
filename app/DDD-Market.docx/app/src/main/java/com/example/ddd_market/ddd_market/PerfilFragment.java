@@ -26,6 +26,7 @@ public class PerfilFragment extends Fragment {
     private TextView numeroTarjeta;
     private TextView limiteSaldo;
     private TextView saldoDisponible;
+    private TextView usuario;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -62,6 +63,7 @@ public class PerfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+        usuario = (TextView)view.findViewById(R.id.tvNombre);
         nombreCliente = (TextView) view.findViewById(R.id.txtUsuario);
         telefono = (TextView) view.findViewById(R.id.txtTelefono);
         genero = (TextView) view.findViewById(R.id.txtGenero);
@@ -74,7 +76,8 @@ public class PerfilFragment extends Fragment {
     }
 
     private void inicializar() {
-        nombreCliente.setText(Handler.cliente.getNombre());
+        usuario.setText(Handler.cliente.getNombre());
+        nombreCliente.setText(Handler.cliente.getCorreo());
         telefono.setText(Handler.cliente.getTelefono());
         genero.setText(Handler.cliente.getGenero());
         numeroTarjeta.setText(Handler.cliente.getNtarjeta());

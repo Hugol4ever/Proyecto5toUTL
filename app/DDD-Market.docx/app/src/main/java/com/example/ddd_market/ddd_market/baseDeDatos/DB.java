@@ -52,7 +52,8 @@ public class DB extends SQLiteOpenHelper {
                 "Id_Venta integer primary key," +
                 "total double," +
                 "Fecha text," +
-                "Hora text" +
+                "Hora text," +
+                "Id_Cliente integer" +
                 ")");
     }
 
@@ -96,7 +97,8 @@ public class DB extends SQLiteOpenHelper {
                 "Id_Venta integer primary key," +
                 "total double," +
                 "Fecha text," +
-                "Hora text" +
+                "Hora text," +
+                "Id_Cliente integer" +
                 ")");
     }
 }

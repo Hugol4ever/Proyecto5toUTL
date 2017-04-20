@@ -5,8 +5,10 @@ import commons.Globals;
 import controlador.PromocionController;
 import java.awt.Color;
 import java.awt.Font;
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.JTableHeader;
 import modelo.DAO.Producto;
 import modelo.DAO.Promocion;
@@ -25,7 +27,7 @@ public class Promociones extends javax.swing.JFrame {
     /**
      *
      */
-    public Promociones() {
+    public Promociones() throws SQLException {
         setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -74,14 +76,14 @@ public class Promociones extends javax.swing.JFrame {
         btnSalir = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         txtValorBusqueda = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPromociones = new javax.swing.JTable();
         labFormato = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        comboProducto = new javax.swing.JComboBox<>();
+        comboProducto = new javax.swing.JComboBox<String>();
         txtCodProducto = new javax.swing.JTextField();
         txtFecha = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
@@ -159,7 +161,7 @@ public class Promociones extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Código de Promoción", "Nombre Producto", "Fecha Registro", "Todos *" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Código de Promoción", "Nombre Producto", "Fecha Registro", "Todos *" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -247,7 +249,7 @@ public class Promociones extends javax.swing.JFrame {
 
         comboProducto.setBackground(new java.awt.Color(251, 245, 135));
         comboProducto.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
-        comboProducto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elige un producto" }));
+        comboProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Elige un producto" }));
         comboProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboProductoActionPerformed(evt);
@@ -320,6 +322,7 @@ public class Promociones extends javax.swing.JFrame {
         btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnLimpiar.jpg"))); // NOI18N
         btnLimpiar.setBorderPainted(false);
         btnLimpiar.setContentAreaFilled(false);
+        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLimpiar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnLimpiarMouseEntered(evt);
@@ -339,6 +342,7 @@ public class Promociones extends javax.swing.JFrame {
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnGuardar.jpg"))); // NOI18N
         btnGuardar.setBorderPainted(false);
         btnGuardar.setContentAreaFilled(false);
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnGuardarMouseEntered(evt);
@@ -358,6 +362,7 @@ public class Promociones extends javax.swing.JFrame {
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnModificar.jpg"))); // NOI18N
         btnModificar.setBorderPainted(false);
         btnModificar.setContentAreaFilled(false);
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnModificar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnModificarMouseEntered(evt);
@@ -377,6 +382,7 @@ public class Promociones extends javax.swing.JFrame {
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnCancelar.jpg"))); // NOI18N
         btnCancelar.setBorderPainted(false);
         btnCancelar.setContentAreaFilled(false);
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnCancelarMouseEntered(evt);
@@ -564,25 +570,32 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Promocion promo = new Promocion();
-        promo.setProducto(new Producto());
-        promo.setDiasDuracion(Integer.parseInt(this.txtDias.getText()));
-        promo.setPrecioPromocion(Double.parseDouble(this.txtPrecio.getText()));
-        promo.getProducto().setIdProducto(Integer.parseInt(txtCodProducto.getText()));
-        try {
-            int n = promcionesC.registrarPromo(promo);
-            MensajeConfirmacion mc = new MensajeConfirmacion();
-            mc.setMensaje("Promoción registrada con éxito."
-                    + "\n Con código de promoción: " + n);
-            mc.setVisible(true);
-            limpiar();
-        } catch (Exception e) {
+        try {                                           
+            Promocion promo = new Promocion();
+            promo.setProducto(new Producto());
+            promo.setDiasDuracion(Integer.parseInt(this.txtDias.getText()));
+            promo.setPrecioPromocion(Double.parseDouble(this.txtPrecio.getText()));
+            promo.getProducto().setIdProducto(Integer.parseInt(this.txtCodProducto.getText()));
+            try {
+                int n = promcionesC.registrarPromo(promo);
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Promoción registrada con éxito."
+                        + "\n Con código de promoción: " + n);
+                mc.setVisible(true);
+                limpiar();
+            } catch (Exception e) {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error al registrar promoción. "
+                        + "\nIntentelo de nuevo");
+                m.setVisible(true);
+            }
+            this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+        } catch (SQLException ex) {
+            //Logger.getLogger(Promociones.class.getName()).log(Level.SEVERE, null, ex);
             MensajeError m = new MensajeError();
-            m.setMensaje("Ocurrió un error al registrar promoción. "
-                    + "\nIntentelo de nuevo");
+            m.setMensaje(ex.getMessage());
             m.setVisible(true);
         }
-        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void comboProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboProductoActionPerformed
@@ -604,25 +617,32 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaPromocionesMouseClicked
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        Promocion promo = new Promocion();
-        promo.setProducto(new Producto());
-        promo.setIdPromocion(Integer.parseInt(this.txtCodPromocion.getText()));
-        promo.setDiasDuracion(Integer.parseInt(this.txtDias.getText()));
-        promo.setPrecioPromocion(Double.parseDouble(this.txtPrecio.getText()));
-        promo.getProducto().setIdProducto(Integer.parseInt(txtCodProducto.getText()));
-        try {
-            promcionesC.modificarPromocion(promo);
-            MensajeConfirmacion mc = new MensajeConfirmacion();
-            mc.setMensaje("Promoción modificada con éxito");
-            mc.setVisible(true);
-            limpiar();
-        } catch (Exception e) {
+        try {                                             
+            Promocion promo = new Promocion();
+            promo.setProducto(new Producto());
+            promo.setIdPromocion(Integer.parseInt(this.txtCodPromocion.getText()));
+            promo.setDiasDuracion(Integer.parseInt(this.txtDias.getText()));
+            promo.setPrecioPromocion(Double.parseDouble(this.txtPrecio.getText()));
+            promo.getProducto().setIdProducto(Integer.parseInt(txtCodProducto.getText()));
+            try {
+                promcionesC.modificarPromocion(promo);
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Promoción modificada con éxito");
+                mc.setVisible(true);
+                limpiar();
+            } catch (Exception e) {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error al registrar promoción. "
+                        + "\nIntentelo de nuevo");
+                m.setVisible(true);
+            }
+            this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+        } catch (SQLException ex) {
+            //Logger.getLogger(Promociones.class.getName()).log(Level.SEVERE, null, ex);
             MensajeError m = new MensajeError();
-            m.setMensaje("Ocurrió un error al registrar promoción. "
-                    + "\nIntentelo de nuevo");
+            m.setMensaje(ex.getMessage());
             m.setVisible(true);
         }
-        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -630,20 +650,27 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        int id = Integer.parseInt(txtCodPromocion.getText());
-        try {
-            promcionesC.eliminarPromocion(id);
-            MensajeConfirmacion mc = new MensajeConfirmacion();
-            mc.setMensaje("Promoción eliminada con éxito");
-            mc.setVisible(true);
-            limpiar();
-        } catch (Exception e) {
+        try {                                            
+            int id = Integer.parseInt(txtCodPromocion.getText());
+            try {
+                promcionesC.eliminarPromocion(id);
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Promoción eliminada con éxito");
+                mc.setVisible(true);
+                limpiar();
+            } catch (Exception e) {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error al eliminar promoción. "
+                        + "\nIntentelo de nuevo");
+                m.setVisible(true);
+            }
+            this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+        } catch (SQLException ex) {
+            //Logger.getLogger(Promociones.class.getName()).log(Level.SEVERE, null, ex);
             MensajeError m = new MensajeError();
-            m.setMensaje("Ocurrió un error al eliminar promoción. "
-                    + "\nIntentelo de nuevo");
+            m.setMensaje(ex.getMessage());
             m.setVisible(true);
         }
-        this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -655,24 +682,31 @@ public class Promociones extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String parametro = jComboBox1.getSelectedItem().toString();
-        String valor = txtValorBusqueda.getText();
-        switch (parametro) {
-            case "Todos *":
-                this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
-                break;
-            case "Código de Promoción":
-                this.promcionesC.obtenerPromociones("Id_Promocion", valor);
-                break;
-            case "Nombre Producto":
-                this.promcionesC.obtenerPromociones("Nombre", valor);
-                break;
-            case "Fecha Registro":
-                this.promcionesC.obtenerPromociones("Fecha", valor);
-                break;
-            default:
-                this.promcionesC.obtenerPromociones(parametro, valor);
-                break;
+        try {
+            String parametro = jComboBox1.getSelectedItem().toString();
+            String valor = txtValorBusqueda.getText();
+            switch (parametro) {
+                case "Todos *":
+                    this.promcionesC = new PromocionController(this.tablaPromociones, this.comboProducto);
+                    break;
+                case "Código de Promoción":
+                    this.promcionesC.obtenerPromociones("Id_Promocion", valor);
+                    break;
+                case "Nombre Producto":
+                    this.promcionesC.obtenerPromociones("Nombre", valor);
+                    break;
+                case "Fecha Registro":
+                    this.promcionesC.obtenerPromociones("Fecha", valor);
+                    break;
+                default:
+                    this.promcionesC.obtenerPromociones(parametro, valor);
+                    break;
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(Promociones.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
     //</editor-fold>
@@ -695,7 +729,14 @@ public class Promociones extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Promociones.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Promociones().setVisible(true);
+            try {
+                new Promociones().setVisible(true);
+            } catch (SQLException ex) {
+                //Logger.getLogger(Promociones.class.getName()).log(Level.SEVERE, null, ex);
+                MensajeError m = new MensajeError();
+                m.setMensaje(ex.getMessage());
+                m.setVisible(true);
+            }
         });
     }
     //</editor-fold>

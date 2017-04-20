@@ -4,6 +4,7 @@ import Animacion.Fade;
 import controlador.VentaController;
 import java.awt.Color;
 import java.awt.Font;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -359,6 +360,7 @@ public class Ventas extends javax.swing.JFrame {
      */
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
         Fade.JFrameFadeOut(1f, 0f, 0.1f, 70, this, Fade.DISPOSE);
+        this.ventaC.getMpr().close();
     }//GEN-LAST:event_btnSalir1ActionPerformed
     
     /**
@@ -421,7 +423,18 @@ public class Ventas extends javax.swing.JFrame {
      * @param evt 
      */
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
+        String idCapturado = this.jTextField1.getText();
+        if (!idCapturado.isEmpty()) {
+            try {
+                int id = Integer.parseInt(idCapturado);
+                this.ventaC.getProductoPorId(id, this.tblProductos, this.jLabel5);
+            } catch (SQLException ex) {
+                //Logger.getLogger(Ventas.class.getName()).log(Level.SEVERE, null, ex);
+                MensajeError m = new MensajeError();
+                m.setMensaje("No se encontró el producto");
+                m.setVisible(true);
+            }
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     /**
@@ -530,8 +543,8 @@ public class Ventas extends javax.swing.JFrame {
      * 
      * @return 
      */
-    public JLabel getjLabel2() {
-        return jLabel2;
+    public JLabel getjLabel5() {
+        return jLabel5;
     }
     //</editor-fold>
     

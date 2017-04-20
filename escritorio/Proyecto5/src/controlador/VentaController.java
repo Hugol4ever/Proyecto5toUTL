@@ -2,6 +2,7 @@ package controlador;
 
 import app.Ventas;
 import commons.Globals;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -45,7 +46,7 @@ public class VentaController {
         if (!mpr.connect()) {
             throw new Exception("No hay Comunicacion camarita");
         }
-        lectura = new Lectura(mpr, venta.getTblProductos(), producto, venta.getjLabel2());
+        lectura = new Lectura(mpr, venta.getTblProductos(), producto, venta.getjLabel5());
         lectura.start();
         this.tabla = tabla;
     }
@@ -99,6 +100,47 @@ public class VentaController {
 
         }
     }
+    
+    public void getProductoPorId(int id, JTable table, JLabel totales) throws SQLException {
+        String[] array = new DTOproducto().ListaProductoPorId(id);
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        if (modelo.getRowCount() == 0) {
+            String[] arreglo = new String[5];
+            arreglo[0] = array[0];
+            arreglo[1] = array[1];
+            arreglo[2] = "1";
+            arreglo[3] = array[2];
+            arreglo[4] = String.valueOf((Double.parseDouble(arreglo[2])) * (Double.parseDouble(arreglo[3])));
+            modelo.addRow(arreglo);
+        } else {
+            boolean bandera = true;
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                int idTabla = Integer.parseInt(modelo.getValueAt(i, 0).toString());
+                if (idTabla == id) {
+                    int cantidad = Integer.parseInt(modelo.getValueAt(i, 2).toString()) + 1;
+                    double precio = (double) cantidad * Double.parseDouble(modelo.getValueAt(i, 3).toString());
+                    modelo.setValueAt(cantidad, i, 2);
+                    modelo.setValueAt(precio, i, 4);
+                    bandera = false;
+                    break;
+                }
+            }
+            if (bandera) {
+                String[] arreglo = new String[5];
+                arreglo[0] = array[0];
+                arreglo[1] = array[1];
+                arreglo[2] = "1";
+                arreglo[3] = array[2];
+                arreglo[4] = String.valueOf((Double.parseDouble(arreglo[2])) * (Double.parseDouble(arreglo[3])));
+                modelo.addRow(arreglo);
+            }
+        }
+        double total = 0;
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            total += Double.parseDouble(modelo.getValueAt(i, 4).toString());
+        }
+        totales.setText("" + total);
+    }
     //</editor-fold>
     
 }
@@ -109,10 +151,10 @@ class Lectura extends Thread {
     MprManager fox;
     String datoByte;
     String datoAscii;
-    ArrayList<String> lista = new ArrayList<>();
     JTable tabla;
     DTOproducto producto;
     JLabel totales;
+    ArrayList<String> lista;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -125,6 +167,7 @@ class Lectura extends Thread {
      * @param total 
      */
     public Lectura(MprManager mpr, JTable tabla, DTOproducto producto, JLabel total) {
+        this.lista = new ArrayList<>();
         fox = mpr;
         datoByte = datoAscii = null;
         this.tabla = tabla;
@@ -161,63 +204,72 @@ class Lectura extends Thread {
             datoAscii = datoAscii.trim();
             System.out.println("Dato en Bytes: " + datoByte);
             System.out.println("Dato leido: " + datoAscii);
-            agregar();
+            getProductoPorId(Integer.parseInt(datoAscii), tabla);
         } catch (Exception e) {
+            System.out.println("Error -> " + e);
         }
     }
-
+    
     /**
      * 
      * 
-     * @return 
+     * @param id
+     * @param table
+     * @throws SQLException 
      */
-    public String xxx() {
-        return datoAscii;
-    }
-
-    /**
-     * 
-     * 
-     * @param dato
-     * @return 
-     */
-    private boolean validar(String dato) {
-        boolean si = true;
-        for (String lista1 : lista) {
-            if (lista1.equals(dato)) {
-                si = false;
-                break;
-            }
-        }
-        return si;
-    }
-
-    /**
-     * 
-     */
-    private void agregar() {
-        boolean bandera = true;
-        if (!lista.isEmpty()) {
-            for (String lista1 : lista) {
-                if ((lista1.indexOf(datoAscii.substring(0, 3)) == 0) && (validar(datoAscii))) {
-                    String descripcion = buscar(Integer.parseInt(datoAscii.substring(0, 3)));
-                    modificarTabla(descripcion);
+    private void getProductoPorId(int id, JTable table) throws SQLException {
+        String[] array = new DTOproducto().ListaProductoPorId(Integer.parseInt(String.valueOf(id).substring(0, 3)));
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        if (modelo.getRowCount() == 0) {
+            String[] arreglo = new String[5];
+            arreglo[0] = array[0];
+            arreglo[1] = array[1];
+            arreglo[2] = "1";
+            arreglo[3] = array[2];
+            arreglo[4] = String.valueOf((Double.parseDouble(arreglo[2])) * (Double.parseDouble(arreglo[3])));
+            this.lista.add(String.valueOf(id));
+            modelo.addRow(arreglo);
+        } else {
+            boolean bandera = true;
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                int idTabla = Integer.parseInt(this.lista.get(i).substring(0, 3));
+                if ((idTabla == Integer.parseInt(String.valueOf(id).substring(0, 3))) && verificar(id)) {
+                    int cantidad = Integer.parseInt(modelo.getValueAt(i, 2).toString()) + 1;
+                    double precio = (double) cantidad * Double.parseDouble(modelo.getValueAt(i, 3).toString());
+                    modelo.setValueAt(cantidad, i, 2);
+                    modelo.setValueAt(precio, i, 4);
                     bandera = false;
-                    lista.add(datoAscii);
-                    break;
-                } else if (lista1.equals(datoAscii)) {
-                    bandera = false;
+                    this.lista.add(String.valueOf(id));
                     break;
                 }
             }
-            if (bandera) {
-                lista.add(datoAscii);
-                agregarTabla(Integer.parseInt(datoAscii.substring(0, 3)));
+            if (bandera && verificar(id)) {
+                String[] arreglo = new String[5];
+                arreglo[0] = array[0];
+                arreglo[1] = array[1];
+                arreglo[2] = "1";
+                arreglo[3] = array[2];
+                arreglo[4] = String.valueOf((Double.parseDouble(arreglo[2])) * (Double.parseDouble(arreglo[3])));
+                this.lista.add(String.valueOf(id));
+                modelo.addRow(arreglo);
             }
-        } else {
-            lista.add(datoAscii);
-            agregarTabla(Integer.parseInt(datoAscii.substring(0, 3)));
         }
+        double total = 0;
+        for (int i = 0; i < modelo.getRowCount(); i++) {
+            total += Double.parseDouble(modelo.getValueAt(i, 4).toString());
+        }
+        this.totales.setText("" + total);
+    }
+    
+    /**
+     * 
+     * 
+     * @param id
+     * @return 
+     */
+    private boolean verificar(int id) {
+        String idV = String.valueOf(id);
+        return lista.stream().noneMatch((lista1) -> (lista1.equals(idV)));
     }
 
     /**
@@ -231,65 +283,6 @@ class Lectura extends Thread {
         modelo.addColumn("Precio");
         modelo.addColumn("Total");
         this.tabla.setModel(modelo);
-    }
-
-    /**
-     * 
-     * 
-     * @param id 
-     */
-    private void agregarTabla(int id) {
-        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
-        if (id != 0) {
-            modelo.addRow(registro(id));
-            this.tabla.setModel(modelo);
-        }
-    }
-
-    /**
-     * 
-     * 
-     * @param id
-     * @return 
-     */
-    private String[] registro(int id) {
-        String[] reg = new String[5];
-        String[] nombres = this.producto.ListaProductoPorId(id);
-        reg[0] = nombres[0];
-        reg[1] = nombres[1];
-        reg[2] = "1";
-        reg[3] = nombres[2];
-        reg[4] = String.valueOf(Integer.parseInt(reg[2]) * Double.parseDouble(nombres[2]));
-        return reg;
-    }
-
-    /**
-     * 
-     * 
-     * @param id 
-     */
-    private void modificarTabla(String id) {
-        DefaultTableModel modelo = (DefaultTableModel) this.tabla.getModel();
-        for (int i = 0; i < tabla.getRowCount(); i++) {
-            if (id.equals(modelo.getValueAt(i, 0).toString())) {
-                int cantidad = Integer.parseInt(modelo.getValueAt(i, 2).toString());
-                double precio = Double.parseDouble(modelo.getValueAt(i, 3).toString());
-                modelo.setValueAt(cantidad + 1, i, 2);
-                modelo.setValueAt(precio * (cantidad + 1), i, 4);
-                break;
-            }
-        }
-    }
-
-    /**
-     * 
-     * 
-     * @param id
-     * @return 
-     */
-    private String buscar(int id) {
-        String[] dato = this.producto.ListaProductoPorId(id);
-        return dato[0];
     }
 
     /**

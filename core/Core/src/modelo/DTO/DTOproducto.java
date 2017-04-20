@@ -3,6 +3,7 @@ package modelo.DTO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import modelo.ConnectionMysql;
@@ -37,8 +38,9 @@ public class DTOproducto {
      * @param parametro
      * @param valor
      * @return ArrayList de productos
+     * @throws java.sql.SQLException
      */
-    public ArrayList<Producto> ListaProducto(String parametro, String valor) {
+    public ArrayList<Producto> ListaProducto(String parametro, String valor) throws SQLException {
         ArrayList<Producto> prod = new ArrayList<>();
         String query = "SELECT * FROM viewProducto where " + parametro + " = '" + valor + "'";
         try {
@@ -58,6 +60,9 @@ public class DTOproducto {
         } catch (Exception e) {
             System.out.println("Error : " + e);
         }
+         finally {
+            rs.close();
+        }
         return prod;
     }
 
@@ -65,8 +70,9 @@ public class DTOproducto {
      * Método para obtener la lista de productos sin filtros
      * 
      * @return ArrayList de producto
+     * @throws java.sql.SQLException
      */
-    public ArrayList<Producto> ListaProducto() {
+    public ArrayList<Producto> ListaProducto() throws SQLException {
         ArrayList<Producto> prod = new ArrayList<>();
         String query = "SELECT * FROM viewProducto";
         try {
@@ -86,6 +92,8 @@ public class DTOproducto {
             }
         } catch (Exception e) {
             System.out.println("Error : " + e);
+        } finally {
+            rs.close();
         }
         return prod;
     }
@@ -95,23 +103,62 @@ public class DTOproducto {
      * 
      * @param id
      * @return arreglo con los datos del producto
+     * @throws java.sql.SQLException
      */
-    public String[] ListaProductoPorId(int id) {
+    public String[] ListaProductoPorId(int id) throws SQLException {
         String[] prod = new String[3];
         String query = "SELECT Id_Producto, Nombre, Precio FROM viewProducto where Id_Producto = " + id;
         try {
             cn = mysql.abrir();
             st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             rs = st.executeQuery(query);
-            while (rs.next()) {
-                prod[0] = String.valueOf(rs.getInt("Id_Producto"));
-                prod[1] = rs.getString("Nombre");
-                prod[2] = String.valueOf(rs.getDouble("Precio"));
+            rs.first();
+            prod[0] = String.valueOf(rs.getInt("Id_Producto"));
+            prod[1] = rs.getString("Nombre");
+            prod[2] = String.valueOf(rs.getDouble("Precio"));
+            if (isProductoPromocion(id)) {
+                prod[2] = String.valueOf(PrecioPromocionPorId(prod[1]));
             }
         } catch (Exception e) {
             System.out.println("Error : " + e);
+        } finally {
+            rs.close();
         }
         return prod;
+    }
+    
+    private double PrecioPromocionPorId(String nombre) throws SQLException {
+        String query = "SELECT Precio_Promo FROM viewPromos WHERE Nombre = '" + nombre + "'";
+        double precio = 0;
+        try {
+            cn = mysql.abrir();
+            st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = st.executeQuery(query);
+            rs.first();
+            precio = rs.getDouble("Precio_Promo");
+        } catch (Exception e) {
+            System.out.println("Error : " + e);
+        } finally {
+            rs.close();
+        }
+        return precio;
+    }
+    
+    private boolean isProductoPromocion(int id) throws SQLException {
+        String query = "SELECT Promocion FROM Producto where Id_Producto = " + id;
+        boolean promocion = false;
+        try {
+            cn = mysql.abrir();
+            st = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = st.executeQuery(query);
+            rs.first();
+            promocion = rs.getBoolean("Promocion");
+        } catch (Exception ex) {
+            System.out.println("Error : " + ex);
+        } finally {
+            rs.close();
+        }
+        return promocion;
     }
     
     /**

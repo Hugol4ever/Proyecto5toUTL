@@ -32,16 +32,23 @@ public class AdapterDetalleCompra extends ArrayAdapter<DetalleVenta> {
             convertView = inflater.inflate(R.layout.list_det_compras, null);
         }
 
-        TextView subTotal =(TextView) convertView.findViewById(R.id.tvN);
+        TextView subTotal =(TextView) convertView.findViewById(R.id.tvSubTotal);
         TextView nombre =(TextView) convertView.findViewById(R.id.tvNomProducto);
         TextView cantidad =(TextView) convertView.findViewById(R.id.tvCantidad);
         TextView monto = (TextView)convertView.findViewById(R.id.tvCosto);
+        TextView n = (TextView)convertView.findViewById(R.id.tvN);
 
         DetalleVenta item = getItem(position);
-        nombre.setText(item.getProducto().getNombre());
+        n.setText(""+(position+1));
+        String name = item.getProducto().getNombre();
+        if(name.length()>12){
+            String subText=name.substring(0,10);
+            name = subText+"...";
+        }
+        nombre.setText(name);
         cantidad.setText("" + item.getCantidad());
         monto.setText("$"+item.getPrecio());
-        subTotal.setText(""+item.getCantidad()*item.getPrecio());
+        subTotal.setText("$"+(item.getCantidad()*item.getPrecio()));
 
         return convertView;
     }

@@ -1,5 +1,6 @@
 package com.example.ddd_market.ddd_market;
 
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,7 @@ public class DetalleDeProducto extends AppCompatActivity {
         if(Handler.isProductoPromocion) {
             this.existencia.setVisibility(View.INVISIBLE);
             this.precioPromo.setVisibility(View.VISIBLE);
+            precio.setPaintFlags(precio.getPaintFlags()| Paint.STRIKE_THRU_TEXT_FLAG);
             for (Promocion p : Handler.promociones) {
                 if (p.getProducto().getIdProducto() == Handler.producto.getIdProducto()) {
                     this.precioPromo.setText("" + p.getPrecioPromo());
@@ -57,6 +59,6 @@ public class DetalleDeProducto extends AppCompatActivity {
         this.categoria = (TextView)findViewById(R.id.tvCategoriaP);
         this.existencia = (TextView)findViewById(R.id.tvExistenciaP);
         this.precio = (TextView)findViewById(R.id.tvPrecio);
-        this.precioPromo = (TextView)findViewById(R.id.tvPromocion);
+        this.precioPromo = (TextView)findViewById(R.id.textView2);
     }
 }

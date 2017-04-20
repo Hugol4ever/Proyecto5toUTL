@@ -120,7 +120,8 @@ public class Huella extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        this.huellaC.getReclutador().clear();this.huella.setIcon(null);
+        this.huellaC.getReclutador().clear();
+        this.huella.setIcon(null);
         this.huellaC.start();
         this.clientes.setTemplate(this.huellaC.getTemplate());
         this.clientes.setCorrecto();

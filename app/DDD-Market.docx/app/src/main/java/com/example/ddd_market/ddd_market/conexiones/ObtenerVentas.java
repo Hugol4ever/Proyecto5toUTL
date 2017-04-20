@@ -37,6 +37,7 @@ public class ObtenerVentas {
                 registro.put("Fecha", Globals.FECHA.format(v.getFecha()));
                 registro.put("Hora", Globals.HORA.format(v.getHora()));
                 registro.put("total", v.getMonto());
+                registro.put("Id_Cliente", Handler.cliente.getIdCliente());
                 baseDatos.insert("ventas", null, registro);
             } catch (Exception ex) {
                 Toast.makeText(context, ex.toString(), Toast.LENGTH_SHORT).show();

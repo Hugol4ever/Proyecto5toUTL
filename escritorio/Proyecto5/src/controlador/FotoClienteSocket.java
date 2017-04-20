@@ -1,6 +1,7 @@
 package controlador;
 
 import app.Productos;
+import commons.Globals;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -76,7 +77,7 @@ public class FotoClienteSocket extends Thread {
 
     //<editor-fold defaultstate="collapsed" desc="Constructor">
        public FotoClienteSocket(String rutaFoto) throws IOException {
-           cliente = new Socket("192.168.1.11", 5432);
+           cliente = new Socket(Globals.SERVER, 5432);
            this.rutaFoto = rutaFoto;
        }
     //</editor-fold>

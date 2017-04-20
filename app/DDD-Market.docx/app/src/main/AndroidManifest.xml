@@ -26,12 +26,7 @@
             android:name=".DetalleCompra"
             android:label="@string/title_activity_detalle_compra"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".DetalleProducto"
-            android:label="@string/title_activity_detalle_producto"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".DetalleDeProducto" />
-        <activity android:name=".DetallePromocion"></activity>
     </application>
 
 </manifest>

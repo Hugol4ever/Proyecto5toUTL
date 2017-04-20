@@ -13,9 +13,26 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ddd_market.ddd_market.adapters.AdapterCompras;
+import com.example.ddd_market.ddd_market.commons.Globals;
+import com.example.ddd_market.ddd_market.conexiones.ObtenerVentas;
 import com.example.ddd_market.ddd_market.controlador.Handler;
+import com.example.ddd_market.ddd_market.modelo.DAO.DetalleVenta;
+import com.example.ddd_market.ddd_market.modelo.DAO.Producto;
 import com.example.ddd_market.ddd_market.modelo.DAO.Venta;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 
 
@@ -98,7 +115,21 @@ public class ComprasFragment extends Fragment {
     }
 
     private void irDetalle(int id) {
-        startActivity(new Intent(getContext(), DetalleCompra.class));
+        final int idVenta = Handler.ventas.get(id).getIdVenta();
+        Thread tr = new Thread() {
+            @Override
+            public void run() {
+                final String resultado = leer(idVenta);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Handler.detalleVentas = obtDatosJSONC(resultado);
+                        startActivity(new Intent(getContext(), DetalleCompra.class));
+                    }
+                });
+            }
+        };
+        tr.start();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -125,18 +156,59 @@ public class ComprasFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private String leer(int id) {
+        HttpClient client = new DefaultHttpClient();
+        HttpContext contexto = new BasicHttpContext();
+        String ruta = "http://" + Globals.SERVIDOR + ":80/web_service/vistas/getDTODetalleCompra.php?id=" + id;
+        HttpGet httpGet = new HttpGet(ruta);
+        String resultado = null;
+        try{
+            HttpResponse response = client.execute(httpGet, contexto);
+            HttpEntity entity = response.getEntity();
+            resultado = EntityUtils.toString(entity, "UTF-8");
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error con la ruta. -> " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
+        return resultado;
+    }
+
+    private ArrayList<DetalleVenta> obtDatosJSONC(String response) {
+        ArrayList<DetalleVenta> listado = new ArrayList<>();
+        try{
+            JSONObject object = new JSONObject(response);
+            JSONArray jsonArray = object.optJSONArray("detalleCompra");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                listado.add(imp(jsonArray.getJSONObject(i)));
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error al leer JSON.", Toast.LENGTH_SHORT).show();
+        }
+        return listado;
+    }
+
+    private DetalleVenta imp(JSONObject objetoJSON) {
+        DetalleVenta detalleVenta = new DetalleVenta();
+        try {
+            detalleVenta.setVenta(new Venta());
+            detalleVenta.getVenta().setIdVenta(objetoJSON.getInt("Id_Venta"));
+            detalleVenta.setProducto(new Producto());
+            detalleVenta.getProducto().setNombre(objetoJSON.getString("Nombre"));
+            detalleVenta.setCantidad(objetoJSON.getInt("Cantidad"));
+            detalleVenta.setPrecio(objetoJSON.getDouble("preciodv"));
+            detalleVenta.getProducto().setPrecio(objetoJSON.getDouble("Precio"));
+            detalleVenta.getVenta().setFecha(Globals.FECHA.parse(objetoJSON.getString("Fecha")));
+            detalleVenta.getVenta().setHora(Globals.HORA.parse(objetoJSON.getString("Hora")));
+        } catch (JSONException e) {
+            Toast.makeText(getContext(), "Error al leer el objeto.", Toast.LENGTH_SHORT).show();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return detalleVenta;
+    }
+
 }

@@ -11,6 +11,9 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -34,7 +37,7 @@ public class Productos extends javax.swing.JFrame {
     /**
      * 
      */
-    public Productos() {
+    public Productos() throws SQLException {
         setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -58,7 +61,7 @@ public class Productos extends javax.swing.JFrame {
      */
     public void limpiar() {
         this.txtCodigo.setText(null);
-        this.txtMarca.setText(null);
+        this.txtNombre.setText(null);
         this.txtMarca.setText(null);
         this.txtCategoria.setText(null);
         this.txtPrecio.setText(null);
@@ -87,7 +90,7 @@ public class Productos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jTextField1 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
@@ -201,7 +204,7 @@ public class Productos extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
 
         jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
 
@@ -309,12 +312,14 @@ public class Productos extends javax.swing.JFrame {
         btnReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/btnReporte.png"))); // NOI18N
         btnReporte.setBorderPainted(false);
         btnReporte.setContentAreaFilled(false);
+        btnReporte.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel8.add(btnReporte);
         btnReporte.setBounds(470, 10, 150, 80);
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/promo1.png"))); // NOI18N
         jButton2.setBorderPainted(false);
         jButton2.setContentAreaFilled(false);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -523,21 +528,28 @@ public class Productos extends javax.swing.JFrame {
      * @param evt parámetro por defecto
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String parametro = this.jComboBox1.getSelectedItem().toString();
-        String valor = this.jTextField1.getText();
-        switch (parametro) {
-            case "Todos *":
-                this.productosC = new ProductosController(this.tblProductos);
-                break;
-            case "Categoría":
-                this.productosC.obtenerProductos("Categoria", valor);
-                break;
-            case "Código de Producto":
-                this.productosC.obtenerProductos("Id_Producto", valor);
-                break;
-            default:
-                this.productosC.obtenerProductos(parametro, valor);
-                break;
+        try {
+            String parametro = this.jComboBox1.getSelectedItem().toString();
+            String valor = this.jTextField1.getText();
+            switch (parametro) {
+                case "Todos *":
+                    this.productosC = new ProductosController(this.tblProductos);
+                    break;
+                case "Categoría":
+                    this.productosC.obtenerProductos("Categoria", valor);
+                    break;
+                case "Código de Producto":
+                    this.productosC.obtenerProductos("Id_Producto", valor);
+                    break;
+                default:
+                    this.productosC.obtenerProductos(parametro, valor);
+                    break;
+            }
+        } catch (SQLException ex) {
+            //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -553,7 +565,7 @@ public class Productos extends javax.swing.JFrame {
                 int id = Integer.parseInt(valor);
                 String[] datos = this.productosC.mostrarFoto(id);
                 this.txtCodigo.setText(datos[0]);
-                this.txtMarca.setText(datos[1]);
+                this.txtNombre.setText(datos[1]);
                 this.txtMarca.setText(datos[2]);
                 this.txtCategoria.setText(datos[3]);
                 this.txtExistencia.setText(datos[4]);
@@ -567,7 +579,7 @@ public class Productos extends javax.swing.JFrame {
                 MensajeError m = new MensajeError();
                 m.setMensaje(ex.getMessage());
                 m.setVisible(true);
-            } catch (IOException ex) {
+            } catch (IOException | SQLException ex) {
                 //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
                 MensajeError m = new MensajeError();
                 m.setMensaje(ex.getMessage());
@@ -655,7 +667,7 @@ public class Productos extends javax.swing.JFrame {
             this.fotoS.enviarFoto();
             Producto p = new Producto();
             p.setIdProducto(Integer.parseInt(this.txtCodigo.getText()));
-            p.setNombre(this.txtMarca.getText());
+            p.setNombre(this.txtNombre.getText());
             p.setMarca(this.txtMarca.getText());
             p.setCategoria(this.txtCategoria.getText());
             p.setPrecio(Double.parseDouble(this.txtPrecio.getText()));
@@ -673,7 +685,7 @@ public class Productos extends javax.swing.JFrame {
                 m.setVisible(true);
             }
             this.productosC = new ProductosController(this.tblProductos);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
             MensajeError m = new MensajeError();
             m.setMensaje(ex.getMessage());
@@ -689,7 +701,7 @@ public class Productos extends javax.swing.JFrame {
             }
             Producto p = new Producto();
             p.setIdProducto(Integer.parseInt(this.txtCodigo.getText()));
-            p.setNombre(this.txtMarca.getText());
+            p.setNombre(this.txtNombre.getText());
             p.setMarca(this.txtMarca.getText());
             p.setCategoria(this.txtCategoria.getText());
             p.setPrecio(Double.parseDouble(this.txtPrecio.getText()));
@@ -707,7 +719,7 @@ public class Productos extends javax.swing.JFrame {
                 m.setVisible(true);
             }
             this.productosC = new ProductosController(this.tblProductos);
-        } catch (IOException ex) {
+        } catch (IOException | SQLException ex) {
             //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
             MensajeError m = new MensajeError();
             m.setMensaje(ex.getMessage());
@@ -716,7 +728,14 @@ public class Productos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new Promociones().setVisible(true);
+        try {
+            new Promociones().setVisible(true);
+        } catch (SQLException ex) {
+            //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
@@ -742,7 +761,14 @@ public class Productos extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Productos().setVisible(true);
+            try {
+                new Productos().setVisible(true);
+            } catch (SQLException ex) {
+                //Logger.getLogger(Productos.class.getName()).log(Level.SEVERE, null, ex);
+                MensajeError m = new MensajeError();
+                m.setMensaje(ex.getMessage());
+                m.setVisible(true);
+            }
         });
     }
     //</editor-fold>

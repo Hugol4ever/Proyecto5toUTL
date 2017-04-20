@@ -7,6 +7,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.table.JTableHeader;
 import modelo.DAO.Cliente;
@@ -22,13 +25,14 @@ public class Clientes extends javax.swing.JFrame {
     //<editor-fold defaultstate="collapsed" desc="Atributos">
     private DPFPTemplate template;
     private ClientesController clienteC;
+    private int idCliente;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
     /**
      * 
      */
-    public Clientes() {
+    public Clientes() throws SQLException {
         setUndecorated(true);
         initComponents();
         this.setExtendedState(MAXIMIZED_BOTH);
@@ -55,7 +59,7 @@ public class Clientes extends javax.swing.JFrame {
         this.txtCorreo.setText(null);
         this.txtTel.setText(null);
         this.txtContraseña.setText(null);
-        this.txtNTarjeta.setText(null);
+        this.txtSaldoDisp.setText(null);
         this.labHuella.setIcon(null);
     }
     //</editor-fold>
@@ -73,13 +77,13 @@ public class Clientes extends javax.swing.JFrame {
         jPanelSalir = new javax.swing.JPanel();
         btnSalir1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        txtNTarjeta = new javax.swing.JTextField();
+        txtSaldoDisp = new javax.swing.JTextField();
         txtTel = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtContraseña = new javax.swing.JPasswordField();
+        txtNoTarjeta = new javax.swing.JTextField();
         txtLimiteSaldo = new javax.swing.JTextField();
-        txtSaldoDisponible = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
@@ -91,7 +95,7 @@ public class Clientes extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jTextField1 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -161,12 +165,12 @@ public class Clientes extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(null);
 
-        txtNTarjeta.setBackground(new java.awt.Color(251, 245, 135));
-        txtNTarjeta.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
-        txtNTarjeta.setBorder(null);
-        txtNTarjeta.setSelectionColor(new java.awt.Color(251, 245, 134));
-        jPanel5.add(txtNTarjeta);
-        txtNTarjeta.setBounds(220, 400, 180, 30);
+        txtSaldoDisp.setBackground(new java.awt.Color(251, 245, 135));
+        txtSaldoDisp.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
+        txtSaldoDisp.setBorder(null);
+        txtSaldoDisp.setSelectionColor(new java.awt.Color(251, 245, 134));
+        jPanel5.add(txtSaldoDisp);
+        txtSaldoDisp.setBounds(220, 400, 180, 30);
 
         txtTel.setBackground(new java.awt.Color(251, 245, 135));
         txtTel.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
@@ -196,19 +200,19 @@ public class Clientes extends javax.swing.JFrame {
         jPanel5.add(txtContraseña);
         txtContraseña.setBounds(180, 280, 220, 30);
 
+        txtNoTarjeta.setBackground(new java.awt.Color(251, 245, 135));
+        txtNoTarjeta.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
+        txtNoTarjeta.setBorder(null);
+        txtNoTarjeta.setSelectionColor(new java.awt.Color(251, 245, 134));
+        jPanel5.add(txtNoTarjeta);
+        txtNoTarjeta.setBounds(180, 320, 220, 30);
+
         txtLimiteSaldo.setBackground(new java.awt.Color(251, 245, 135));
         txtLimiteSaldo.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
         txtLimiteSaldo.setBorder(null);
         txtLimiteSaldo.setSelectionColor(new java.awt.Color(251, 245, 134));
         jPanel5.add(txtLimiteSaldo);
-        txtLimiteSaldo.setBounds(180, 320, 220, 30);
-
-        txtSaldoDisponible.setBackground(new java.awt.Color(251, 245, 135));
-        txtSaldoDisponible.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 15)); // NOI18N
-        txtSaldoDisponible.setBorder(null);
-        txtSaldoDisponible.setSelectionColor(new java.awt.Color(251, 245, 134));
-        jPanel5.add(txtSaldoDisponible);
-        txtSaldoDisponible.setBounds(220, 360, 180, 30);
+        txtLimiteSaldo.setBounds(220, 360, 180, 30);
 
         jPanel7.setBackground(new java.awt.Color(251, 245, 135));
 
@@ -292,7 +296,7 @@ public class Clientes extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Usuario", "Todos" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Usuario", "Todos" }));
         jComboBox1.setBorder(null);
 
         jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
@@ -432,6 +436,11 @@ public class Clientes extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 btnModificarMouseExited(evt);
+            }
+        });
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
             }
         });
         jPanel8.add(btnModificar);
@@ -638,13 +647,16 @@ public class Clientes extends javax.swing.JFrame {
             } else {
                 cliente.setGenero("Femenino");
             }
-            cliente.setNoTarjeta(this.txtNTarjeta.getText());
+            cliente.setNoTarjeta(this.txtNoTarjeta.getText());
+            cliente.setLimiteSaldo(Double.parseDouble(this.txtLimiteSaldo.getText()));
+            cliente.setSaldoDisponible(Double.parseDouble(this.txtSaldoDisp.getText()));
             cliente.setUsuario(new Usuario());
             cliente.getUsuario().setHuella(new modelo.DAO.Huella());
             cliente.getUsuario().getHuella().setTemplate(this.template);
+            cliente.getUsuario().setNombreUsuario(cliente.getCorreo());
+            cliente.getUsuario().setContrasenia(new String(this.txtContraseña.getPassword()));
             DTOCliente dto = new DTOCliente();
             if (dto.registrarCliente(cliente)) {
-                //JOptionPane.showMessageDialog(null, "Se registró se ha agregado con éxito");
                 MensajeConfirmacion mc = new MensajeConfirmacion();
                 mc.setMensaje("Se registró se ha agregado con éxito");
                 mc.setVisible(true);
@@ -653,15 +665,18 @@ public class Clientes extends javax.swing.JFrame {
                 MensajeError m = new MensajeError();
                 m.setMensaje("Ocurrió un error");
                 m.setVisible(true);
-                //JOptionPane.showMessageDialog(null, "Ocurrió un error");
             }
         } catch (Exception ex) {
             MensajeError m = new MensajeError();
-                m.setMensaje(ex.getMessage());
-                m.setVisible(true);
-            //Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.clienteC = new ClientesController(jTable1);
+        try {
+            this.clienteC = new ClientesController(jTable1);
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
@@ -679,8 +694,70 @@ public class Clientes extends javax.swing.JFrame {
      * @param evt 
      */
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
+        String valor = this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 0).toString();
+        this.idCliente = Integer.parseInt(valor);
+        if (!valor.isEmpty()) {
+            this.txtNombre.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 1).toString());
+            switch (this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 2).toString().toLowerCase()) {
+                case "masculino":
+                    this.jRadioButton3.setSelected(true);
+                    break;
+                case "femenino":
+                    this.jRadioButton4.setSelected(true);
+                    break;
+            }
+            this.txtTel.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 3).toString());
+            this.txtCorreo.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 4).toString());
+            this.txtContraseña.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 5).toString());
+            this.txtNoTarjeta.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 6).toString());
+            this.txtLimiteSaldo.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 7).toString());
+            this.txtSaldoDisp.setText(this.jTable1.getValueAt(this.jTable1.getSelectedRow(), 8).toString());
+        }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        try {
+            Cliente cliente = new Cliente();
+            cliente.setIdCliente(this.idCliente);
+            cliente.setNombre(this.txtNombre.getText());
+            cliente.setCorreo(this.txtCorreo.getText());
+            cliente.setTelefono(this.txtTel.getText());
+            if (this.jRadioButton3.isSelected()) {
+                cliente.setGenero("Masculino");
+            } else {
+                cliente.setGenero("Femenino");
+            }
+            cliente.setNoTarjeta(this.txtNoTarjeta.getText());
+            cliente.setLimiteSaldo(Double.parseDouble(this.txtLimiteSaldo.getText()));
+            cliente.setSaldoDisponible(Double.parseDouble(this.txtSaldoDisp.getText()));
+            cliente.setUsuario(new Usuario());
+            cliente.getUsuario().setHuella(new modelo.DAO.Huella());
+            cliente.getUsuario().getHuella().setTemplate(this.template);
+            cliente.getUsuario().setNombreUsuario(cliente.getCorreo());
+            cliente.getUsuario().setContrasenia(new String(this.txtContraseña.getPassword()));
+            DTOCliente dto = new DTOCliente();
+            if (dto.modificarCliente(cliente)) {
+                MensajeConfirmacion mc = new MensajeConfirmacion();
+                mc.setMensaje("Se registró se ha agregado con éxito");
+                mc.setVisible(true);
+                limpiar();
+            } else {
+                MensajeError m = new MensajeError();
+                m.setMensaje("Ocurrió un error");
+                m.setVisible(true);
+            }
+        } catch (Exception ex) {
+            MensajeError m = new MensajeError();
+            m.setMensaje(ex.getMessage());
+            m.setVisible(true);
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.clienteC = new ClientesController(jTable1);
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">
@@ -701,7 +778,11 @@ public class Clientes extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Clientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         java.awt.EventQueue.invokeLater(() -> {
-            new Clientes().setVisible(true);
+            try {
+                new Clientes().setVisible(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
     }
     //</editor-fold>
@@ -740,9 +821,9 @@ public class Clientes extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtLimiteSaldo;
-    private javax.swing.JTextField txtNTarjeta;
+    private javax.swing.JTextField txtNoTarjeta;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtSaldoDisponible;
+    private javax.swing.JTextField txtSaldoDisp;
     private javax.swing.JTextField txtTel;
     // End of variables declaration//GEN-END:variables
     //</editor-fold>
