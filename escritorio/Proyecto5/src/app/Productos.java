@@ -750,7 +750,7 @@ public class Productos extends javax.swing.JFrame {
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
          try {
             Reportes r =new Reportes();
-            r.setTitulo("VENTAS");
+            r.setTitulo("PRODUCTOS");
             r.setData(productosC.obtenerDatos());
             r.setColumnames(productosC.obtenerTitulos());
             r.configurartabla();

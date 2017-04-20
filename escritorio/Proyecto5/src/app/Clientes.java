@@ -772,7 +772,7 @@ public class Clientes extends javax.swing.JFrame {
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
         try {
             Reportes r =new Reportes();
-            r.setTitulo("VENTAS");
+            r.setTitulo("CLIENTES");
             r.setData(clienteC.obtenerDatos());
             r.setColumnames(clienteC.obtenerTitulos());
             r.configurartabla();
