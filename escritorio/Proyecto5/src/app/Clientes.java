@@ -60,6 +60,8 @@ public class Clientes extends javax.swing.JFrame {
         this.txtTel.setText(null);
         this.txtContraseña.setText(null);
         this.txtSaldoDisp.setText(null);
+        this.txtLimiteSaldo.setText(null);
+        this.txtNoTarjeta.setText(null);
         this.labHuella.setIcon(null);
     }
     //</editor-fold>
