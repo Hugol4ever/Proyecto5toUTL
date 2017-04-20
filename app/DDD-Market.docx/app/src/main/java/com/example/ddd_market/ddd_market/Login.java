@@ -60,6 +60,14 @@ public class Login extends AppCompatActivity {
 
     }
 
+    public void irAyuda(View v){
+        Intent aa = new Intent(this, IntroActivity.class);
+        startActivity(aa);
+    }
+
+    @Override
+    public void onBackPressed() {}
+
     public void irPrincipal(View v){
         Thread tr = new Thread() {
             @Override

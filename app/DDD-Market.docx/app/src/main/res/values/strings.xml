@@ -21,4 +21,9 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_detalle_compra">DetalleCompra</string>
     <string name="title_activity_detalle_producto">DetalleProducto</string>
+
+    <string name="next">Siguiente</string>
+    <string name="skip">Saltar</string>
+    <string name="start">Finalizar</string>
+    <string name="title_activity_mapa">Map</string>
 </resources>

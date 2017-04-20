@@ -8,4 +8,15 @@
     <color name="preciosPromocion">#ef072e</color>
     <color name="black_transparente">#3a000000</color>
     <color name="fonditoTrasnparente">#2c1a3366</color>
+
+    <color name="bg_screen1">#00adf1</color>
+    <color name="bg_screen2">#ef018d</color>
+    <color name="bg_screen3">#7ec344</color>
+
+    <!-- dots active colors -->
+    <color name="dot_active">#000000</color>
+
+
+    <!-- dots inactive colors -->
+    <color name="dot_inactive">#cccccc</color>
 </resources>

@@ -98,6 +98,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:onClick="irAyuda"
                 android:background="@color/black_transparente"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
