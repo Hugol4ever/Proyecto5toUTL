@@ -14,6 +14,7 @@ public class Venta {
     private Date fecha;
     private Date hora;
     private Cliente cliente;
+    private Double total;
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructores">
@@ -111,4 +112,12 @@ public class Venta {
     }
     //</editor-fold>
 
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+   
 }

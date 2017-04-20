@@ -2,7 +2,15 @@ package modelo.DTO;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import modelo.ConnectionMysql;
+import modelo.DAO.Cliente;
+import modelo.DAO.Producto;
+import modelo.DAO.Promocion;
 import modelo.DAO.Venta;
 
 /**
@@ -14,6 +22,8 @@ public class DTOVenta {
 
     //<editor-fold defaultstate="collapsed" desc="Atributos">
     private ConnectionMysql conexion;
+    private DateFormat fechaSQL = new SimpleDateFormat("yyyy-MM-dd");
+    private DateFormat horaSQL = new SimpleDateFormat("HH:mm:ss");
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -67,6 +77,36 @@ public class DTOVenta {
             throw e;
         }
         return id;
+    }
+    
+    public ArrayList<Venta> getAll() {
+        ArrayList<Venta> lista = new ArrayList<>();
+
+        Connection conn;
+        Statement stmt;
+        ResultSet rs;
+
+        String query = "select * from viewVenta";
+        try {
+            conn = conexion.abrir();
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                Venta ven = new Venta();
+                Cliente c = new Cliente();
+                c.setIdCliente(rs.getInt("Id_Cliente1"));
+                ven.setCliente(c);
+                ven.setIdVenta(rs.getInt("Id_Venta"));
+                ven.setFecha(fechaSQL.parse(rs.getString("Fecha")));
+                ven.setHora(horaSQL.parse(rs.getString("Hora")));
+                ven.setTotal(rs.getDouble("total"));
+                lista.add(ven);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return lista;
     }
     //</editor-fold>
 

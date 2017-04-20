@@ -51,6 +51,23 @@ public class ClientesController {
         this.tabla.setModel(modelo);
     }
     
+    public Object[][] obtenerDatos() throws SQLException {
+        ArrayList<Cliente> cli = this.clientes.listaCliente();
+        Object[][] chido = new Object[cli.size()][9];
+        for (int i = 0; i < cli.size(); i++) {
+            Object [] chidito={cli.get(i).getIdCliente(), cli.get(i).getNombre(), cli.get(i).getGenero(),
+                                cli.get(i).getTelefono(), cli.get(i).getCorreo(), cli.get(i).getUsuario().getContrasenia(),
+                                cli.get(i).getNoTarjeta(),  cli.get(i).getLimiteSaldo(), cli.get(i).getSaldoDisponible()};
+            chido[i]=chidito;
+        }
+        return chido;
+    }
+    
+    public Object[] obtenerTitulos(){
+        Object [] xx = {"Id cliente","Nombre","Genero","Teléfono","Correo","Contraseña","Número de cuenta","Limite de saldo"};
+        return xx;
+    }
+    
     /**
      * 
      */

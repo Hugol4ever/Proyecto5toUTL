@@ -67,6 +67,22 @@ public class ProductosController {
         this.tabla.setModel(modelo);
     }
     
+    public Object[][]obtenerDatos() throws SQLException{
+        ArrayList<Producto> lista = this.producto.ListaProducto();
+        Object[][]chido = new Object[lista.size()][5];
+        for (int i = 0; i < lista.size(); i++) {
+            Object[] array = {lista.get(i).getIdProducto(), lista.get(i).getNombre(), lista.get(i).getMarca(),
+                                lista.get(i).getCategoria(), lista.get(i).getPrecio()};
+            chido[i]=array;
+        }
+        return chido;
+    }
+    
+    public Object[]obtenerTitulos(){
+        Object[] xx={"Id producto","Nombre","Marca","Categoria","Precio"};
+        return xx;
+    }
+    
     /**
      * 
      * 

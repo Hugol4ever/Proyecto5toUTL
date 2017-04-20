@@ -90,7 +90,7 @@ public class Productos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<String>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         btnLimpiar = new javax.swing.JButton();
@@ -204,7 +204,7 @@ public class Productos extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(51, 153, 255));
         jComboBox1.setFont(new java.awt.Font("Tempus Sans ITC", 0, 16)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "Marca", "Categoría", "Código de Producto", "Todos *" }));
 
         jTextField1.setFont(new java.awt.Font("MingLiU_HKSCS-ExtB", 0, 16)); // NOI18N
 
@@ -313,6 +313,11 @@ public class Productos extends javax.swing.JFrame {
         btnReporte.setBorderPainted(false);
         btnReporte.setContentAreaFilled(false);
         btnReporte.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteActionPerformed(evt);
+            }
+        });
         jPanel8.add(btnReporte);
         btnReporte.setBounds(470, 10, 150, 80);
 
@@ -741,6 +746,19 @@ public class Productos extends javax.swing.JFrame {
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+         try {
+            Reportes r =new Reportes();
+            r.setTitulo("VENTAS");
+            r.setData(productosC.obtenerDatos());
+            r.setColumnames(productosC.obtenerTitulos());
+            r.configurartabla();
+            r.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Clientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnReporteActionPerformed
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Método main">

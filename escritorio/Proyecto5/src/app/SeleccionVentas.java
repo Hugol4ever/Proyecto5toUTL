@@ -1,7 +1,11 @@
 package app;
 
+import commons.Globals;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.DAO.Venta;
+import modelo.DTO.DTOVenta;
 
 /**
  *
@@ -10,7 +14,7 @@ import java.util.logging.Logger;
 public class SeleccionVentas extends javax.swing.JFrame {
 
     //<editor-fold defaultstate="collapsed" desc="Atributos">
-    
+    DTOVenta dto = new DTOVenta();
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
@@ -25,7 +29,20 @@ public class SeleccionVentas extends javax.swing.JFrame {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Métodos generales">
+    public Object[] obtenerTitulos(){
+        String [] titulo = {"IdVenta", "IdCliente", "Fecha", "Hora", "Total"};
+        return titulo;
+    }
     
+    public Object[][] obtenerDatos(){
+        ArrayList<Venta> lista = this.dto.getAll();
+        Object [][] array = new Object[lista.size()][5];
+        for (int i = 0; i < lista.size(); i++) {
+            Object [] arrayIn = {lista.get(i).getIdVenta(), lista.get(i).getCliente().getIdCliente(), Globals.formatoFecha.format(lista.get(i).getFecha()), Globals.formatoHora.format(lista.get(i).getHora()), lista.get(i).getTotal() };
+            array[i] = arrayIn;
+        }
+        return array;
+    }
     //</editor-fold>
 
     @SuppressWarnings("unchecked")
@@ -156,7 +173,13 @@ public class SeleccionVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVentasActionPerformed
 
     private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-        new Reportes().setVisible(true);
+        Reportes r =new Reportes();
+        r.setTitulo("VENTAS");
+        r.setData(obtenerDatos());
+        r.setColumnames(obtenerTitulos());
+        r.configurartabla();
+        r.setVisible(true);
+        r.setIsReporte(true);
         this.dispose();
     }//GEN-LAST:event_btnReporteActionPerformed
     //</editor-fold>
